@@ -1,111 +1,743 @@
 {
-    "documents": [
-        "pdf_merge",
-        "pdf_split",
-        "pdf_rotate",
-        "pdf_reorder_pages",
-        "pdf_add_text_watermark",
-        "pdf_add_image_watermark",
-        "pdf_remove_metadata",
-        "pdf_page_counter",
-        "pdf_basic_text_extract",
-        "pdf_page_size_info"
-    ],
-    "images": [
-        "image_format_convert",
-        "image_compress",
-        "image_resize",
-        "image_crop",
-        "image_rotate",
-        "image_flip",
-        "image_change_dpi",
-        "image_strip_exif",
-        "image_blur",
-        "image_pixelate",
-        "image_add_text_overlay",
-        "image_add_image_overlay",
-        "image_add_border_padding",
-        "image_aspect_ratio_crop",
-        "image_color_picker",
-        "image_dominant_color"
-    ],
-    "audio": [
-        "audio_trim",
-        "audio_merge",
-        "audio_volume_boost",
-        "audio_fade_in_out",
-        "audio_speed_change",
-        "audio_reverse",
-        "audio_normalize",
-        "audio_stereo_to_mono",
-        "audio_silence_detector"
-    ],
-    "video": [
-        "video_trim_preview",
-        "video_duration_checker",
-        "video_metadata_viewer",
-        "video_thumbnail_generator",
-        "video_frame_capture",
-        "video_aspect_ratio_crop_preview",
-        "video_poster_generator",
-        "video_loop_preview",
-        "video_mute_preview"
-    ],
-    "text": [
-        "word_counter",
-        "character_counter",
-        "reading_time_estimator",
-        "text_case_converter",
-        "text_deduplicator",
-        "text_find_replace",
-        "emoji_remover",
-        "accent_remover",
-        "text_sorter",
-        "line_shuffler",
-        "whitespace_cleaner",
-        "line_ending_converter"
-    ],
-    "developer": [
-        "json_formatter",
-        "json_minifier",
-        "json_to_csv",
-        "csv_to_json",
-        "yaml_to_json",
-        "xml_formatter",
-        "url_encoder_decoder",
-        "base64_encoder_decoder",
-        "jwt_decoder",
-        "markdown_previewer",
-        "html_prettifier",
-        "uuid_generator",
-        "password_generator",
-        "hash_generator_sha256",
-        "hmac_generator",
-        "lorem_ipsum_generator",
-        "slug_generator",
-        "regex_tester",
-        "cron_expression_builder",
-        "timestamp_converter"
-    ],
-    "privacy_file": [
-        "file_checksum_generator",
-        "file_size_comparator",
-        "filename_sanitizer",
-        "batch_file_rename",
-        "file_type_detector",
-        "text_file_diff",
-        "zip_viewer_readonly"
-    ],
-    "design": [
-        "css_minifier",
-        "css_gradient_generator",
-        "box_shadow_generator",
-        "border_radius_generator",
-        "glassmorphism_generator",
-        "color_contrast_checker",
-        "color_format_converter",
-        "css_clamp_calculator",
-        "tailwind_class_builder",
-        "svg_basic_optimizer"
-    ]
+    "documents": {
+        "word_to_pdf": {
+            "priority": 1,
+            "status": "NOT STARTED",
+            "description": "Convert Word document (DOCX) to PDF format - Client-side",
+            "clientSide": true,
+            "dependencies": ["mammoth", "jspdf", "html2canvas"],
+            "input": {
+                "type": "buffer",
+                "format": "docx",
+                "required": ["buffer"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "pdf",
+                "mimeType": "application/pdf"
+            },
+            "notes": "Limited formatting preservation. Converts DOCX to HTML via Mammoth, then renders to PDF via jsPDF"
+        },
+        "pdf_to_word": {
+            "priority": 2,
+            "status": "NOT STARTED",
+            "description": "Extract text from PDF to create a basic Word document - Client-side",
+            "clientSide": true,
+            "dependencies": ["pdf-lib", "docx"],
+            "input": {
+                "type": "buffer",
+                "format": "pdf",
+                "required": ["buffer"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "docx",
+                "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            },
+            "notes": "Text extraction only, no formatting preservation. Creates new DOCX with extracted text"
+        },
+        "pdf_merge": {
+            "priority": 3,
+            "status": "NOT STARTED",
+            "description": "Merge multiple PDF documents into a single PDF",
+            "clientSide": true,
+            "dependencies": ["pdf-lib"],
+            "input": {
+                "type": "buffer[]",
+                "format": "pdf",
+                "required": ["buffers"],
+                "minItems": 2
+            },
+            "output": {
+                "type": "buffer",
+                "format": "pdf",
+                "mimeType": "application/pdf"
+            },
+            "notes": "Maintains order of input files. Uses pdf-lib for browser-based merging"
+        },
+        "pdf_split": {
+            "priority": 4,
+            "status": "NOT STARTED",
+            "description": "Split PDF document into individual pages or ranges",
+            "clientSide": true,
+            "dependencies": ["pdf-lib"],
+            "input": {
+                "type": "buffer",
+                "format": "pdf",
+                "required": ["buffer"],
+                "optional": ["pages"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "pdf",
+                "mimeType": "application/pdf"
+            },
+            "notes": "Can extract specific pages or all pages as separate files. Returns single page PDF"
+        },
+        "pdf_add_text_watermark": {
+            "priority": 5,
+            "status": "NOT STARTED",
+            "description": "Add text watermark to PDF document",
+            "clientSide": true,
+            "dependencies": ["pdf-lib"],
+            "input": {
+                "type": "buffer",
+                "format": "pdf",
+                "required": ["buffer", "text"],
+                "optional": ["fontSize", "opacity", "rotation", "color", "position"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "pdf",
+                "mimeType": "application/pdf"
+            },
+            "notes": "Customizable text, font, color, opacity, and position using pdf-lib"
+        },
+        "pdf_add_image_watermark": {
+            "priority": 6,
+            "status": "NOT STARTED",
+            "description": "Add image watermark to PDF document",
+            "clientSide": true,
+            "dependencies": ["pdf-lib"],
+            "input": {
+                "type": "buffer",
+                "format": "pdf",
+                "required": ["buffer", "watermarkBuffer"],
+                "optional": ["opacity", "rotation", "scale", "position"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "pdf",
+                "mimeType": "application/pdf"
+            },
+            "notes": "Supports PNG, JPEG, WebP watermarks. Embeds image into PDF pages"
+        },
+        "pdf_remove_metadata": {
+            "priority": 7,
+            "status": "NOT STARTED",
+            "description": "Remove metadata from PDF document",
+            "clientSide": true,
+            "dependencies": ["pdf-lib"],
+            "input": {
+                "type": "buffer",
+                "format": "pdf",
+                "required": ["buffer"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "pdf",
+                "mimeType": "application/pdf"
+            },
+            "notes": "Removes author, title, subject, keywords, creator, producer, creation date, modification date"
+        },
+        "pdf_compress": {
+            "priority": 8,
+            "status": "NOT STARTED",
+            "description": "Compress PDF document to reduce file size",
+            "clientSide": true,
+            "dependencies": ["pdf-lib"],
+            "input": {
+                "type": "buffer",
+                "format": "pdf",
+                "required": ["buffer"],
+                "optional": ["quality", "compressImages"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "pdf",
+                "mimeType": "application/pdf"
+            },
+            "notes": "Basic compression. Removes unused objects and streams. Image compression limited in browser"
+        }
+    },
+    "images": {
+        "image_format_convert": {
+            "priority": 1,
+            "status": "NOT STARTED",
+            "description": "Convert image between different formats using Canvas API",
+            "clientSide": true,
+            "dependencies": ["native-canvas"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer", "format"],
+                "optional": ["quality"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "jpeg|png|webp",
+                "mimeType": "image/jpeg|image/png|image/webp"
+            },
+            "notes": "Browser Canvas API. Supports JPEG, PNG, WebP. AVIF/TIFF require libraries like image-conversion"
+        },
+        "image_compress": {
+            "priority": 2,
+            "status": "NOT STARTED",
+            "description": "Compress image to reduce file size",
+            "clientSide": true,
+            "dependencies": ["browser-image-compression"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer"],
+                "optional": ["quality", "format", "maxSizeMB", "maxWidthOrHeight"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "original",
+                "mimeType": "image/jpeg|image/png|image/webp"
+            },
+            "notes": "Uses browser-image-compression library. Reduces quality while maintaining reasonable visual fidelity"
+        },
+        "image_resize": {
+            "priority": 3,
+            "status": "NOT STARTED",
+            "description": "Resize image to specified dimensions",
+            "clientSide": true,
+            "dependencies": ["native-canvas", "pica"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer", "width", "height"],
+                "optional": ["maintainAspectRatio", "fit", "background"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "original",
+                "mimeType": "image/jpeg|image/png|image/webp"
+            },
+            "notes": "Uses Canvas API with Pica for quality resize. fit: cover, contain, fill, inside, outside"
+        },
+        "image_crop": {
+            "priority": 4,
+            "status": "NOT STARTED",
+            "description": "Crop image to specified region",
+            "clientSide": true,
+            "dependencies": ["native-canvas"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer", "left", "top", "width", "height"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "original",
+                "mimeType": "image/jpeg|image/png|image/webp"
+            },
+            "notes": "Coordinates are in pixels from top-left corner. Uses Canvas API"
+        },
+        "image_rotate": {
+            "priority": 5,
+            "status": "NOT STARTED",
+            "description": "Rotate image by specified angle",
+            "clientSide": true,
+            "dependencies": ["native-canvas"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer", "angle"],
+                "optional": ["background", "expand"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "original",
+                "mimeType": "image/jpeg|image/png|image/webp"
+            },
+            "notes": "Angle in degrees, positive is clockwise. Uses Canvas API"
+        },
+        "image_flip": {
+            "priority": 6,
+            "status": "NOT STARTED",
+            "description": "Flip image horizontally or vertically",
+            "clientSide": true,
+            "dependencies": ["native-canvas"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer"],
+                "optional": ["direction"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "original",
+                "mimeType": "image/jpeg|image/png|image/webp"
+            },
+            "notes": "direction: 'horizontal' | 'vertical' | 'both'. Uses Canvas API"
+        },
+        "image_strip_exif": {
+            "priority": 7,
+            "status": "NOT STARTED",
+            "description": "Remove EXIF metadata from image",
+            "clientSide": true,
+            "dependencies": ["piexifjs"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "original",
+                "mimeType": "image/jpeg|image/png|image/webp"
+            },
+            "notes": "Removes EXIF data from JPEG. PNG/WebP re-encoding naturally strips metadata"
+        },
+        "image_dominant_color": {
+            "priority": 8,
+            "status": "NOT STARTED",
+            "description": "Extract dominant color from image",
+            "clientSide": true,
+            "dependencies": ["node-vibrant"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer"],
+                "optional": ["colorCount", "quality"]
+            },
+            "output": {
+                "type": "object",
+                "format": "hex|rgb",
+                "mimeType": null
+            },
+            "notes": "Returns hex color code and palette. Uses node-vibrant which works in browser"
+        }
+    },
+    "audio": {
+        "audio_trim": {
+            "priority": 1,
+            "status": "NOT STARTED",
+            "description": "Trim audio to specified start and end times - Client-side",
+            "clientSide": true,
+            "dependencies": ["native-web-audio-api"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer", "startTime", "endTime"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "wav",
+                "mimeType": "audio/wav"
+            },
+            "notes": "Uses Web Audio API. Limited to WAV output in browser. Time in seconds."
+        },
+        "audio_merge": {
+            "priority": 2,
+            "status": "NOT STARTED",
+            "description": "Merge multiple audio files into one - Client-side",
+            "clientSide": true,
+            "dependencies": ["native-web-audio-api"],
+            "input": {
+                "type": "buffer[]",
+                "format": "any",
+                "required": ["buffers"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "wav",
+                "mimeType": "audio/wav"
+            },
+            "notes": "Uses Web Audio API to concatenate audio buffers. WAV output only."
+        },
+        "audio_format_convert": {
+            "priority": 3,
+            "status": "NOT STARTED",
+            "description": "Convert audio between different formats - Client-side",
+            "clientSide": true,
+            "dependencies": ["audiobuffer-to-wav"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer", "format"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "wav",
+                "mimeType": "audio/wav"
+            },
+            "notes": "Browser limitations: Input decoded to AudioBuffer, output WAV only. MP3/AAC need encoder libraries."
+        },
+        "audio_volume_boost": {
+            "priority": 4,
+            "status": "NOT STARTED",
+            "description": "Adjust audio volume",
+            "clientSide": true,
+            "dependencies": ["native-web-audio-api"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer"],
+                "optional": ["volume", "volumeDb"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "wav",
+                "mimeType": "audio/wav"
+            },
+            "notes": "volume: 0-10 multiplier. Uses Web Audio API GainNode."
+        },
+        "audio_fade_in_out": {
+            "priority": 5,
+            "status": "NOT STARTED",
+            "description": "Add fade in and/or fade out effects to audio",
+            "clientSide": true,
+            "dependencies": ["native-web-audio-api"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer"],
+                "optional": ["fadeInDuration", "fadeOutDuration"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "wav",
+                "mimeType": "audio/wav"
+            },
+            "notes": "Duration in seconds. Uses Web Audio API gain automation."
+        },
+        "audio_speed_change": {
+            "priority": 6,
+            "status": "NOT STARTED",
+            "description": "Change audio playback speed - Client-side",
+            "clientSide": true,
+            "dependencies": ["native-web-audio-api"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer", "speed"],
+                "optional": ["preservePitch"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "wav",
+                "mimeType": "audio/wav"
+            },
+            "notes": "speed: 0.25-4.0 multiplier. Uses playbackRate. preservePitch changes duration only."
+        },
+        "audio_reverse": {
+            "priority": 7,
+            "status": "NOT STARTED",
+            "description": "Reverse audio playback - Client-side",
+            "clientSide": true,
+            "dependencies": ["native-web-audio-api"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "wav",
+                "mimeType": "audio/wav"
+            },
+            "notes": "Reverses audio buffer. Uses Web Audio API."
+        },
+        "audio_normalize": {
+            "priority": 8,
+            "status": "NOT STARTED",
+            "description": "Normalize audio levels - Client-side",
+            "clientSide": true,
+            "dependencies": ["native-web-audio-api"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer"],
+                "optional": ["targetPeak"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "wav",
+                "mimeType": "audio/wav"
+            },
+            "notes": "Normalizes to target peak (default 0.95). Basic normalization using Web Audio API."
+        }
+    },
+    "video": {
+        "video_trim": {
+            "priority": 1,
+            "status": "NOT STARTED",
+            "description": "Trim video to specified start and end times - Client-side",
+            "clientSide": true,
+            "dependencies": ["ffmpeg.wasm"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer", "startTime", "endTime"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "mp4",
+                "mimeType": "video/mp4"
+            },
+            "notes": "Uses ffmpeg.wasm (~25MB download). Heavy but powerful. Supports all formats ffmpeg does."
+        },
+        "video_format_convert": {
+            "priority": 2,
+            "status": "NOT STARTED",
+            "description": "Convert video between different formats - Client-side",
+            "clientSide": true,
+            "dependencies": ["ffmpeg.wasm"],
+            "input": {
+                "type": "buffer",
+                "format": "any",
+                "required": ["buffer", "format"],
+                "optional": ["bitrate", "resolution"]
+            },
+            "output": {
+                "type": "buffer",
+                "format": "mp4|webm",
+                "mimeType": "video/mp4|video/webm"
+            },
+            "notes": "Uses ffmpeg.wasm. Heavy (~25MB) but full FFmpeg capabilities. MP4 (H.264) and WebM (VP9) work best."
+        }
+    },
+    "developer": {
+        "url_encoder_decoder": {
+            "priority": 1,
+            "status": "NOT STARTED",
+            "description": "Encode or decode URL strings",
+            "clientSide": true,
+            "dependencies": ["native"],
+            "input": {
+                "type": "string",
+                "format": "string",
+                "required": ["text"],
+                "optional": ["mode"]
+            },
+            "output": {
+                "type": "string",
+                "format": "string",
+                "mimeType": null
+            },
+            "notes": "mode: 'encode' | 'decode'. Native JS encodeURIComponent/decodeURIComponent"
+        },
+        "base64_encoder_decoder": {
+            "priority": 2,
+            "status": "NOT STARTED",
+            "description": "Encode or decode base64 strings",
+            "clientSide": true,
+            "dependencies": ["native"],
+            "input": {
+                "type": "string|buffer",
+                "format": "string|buffer",
+                "required": ["data"],
+                "optional": ["mode"]
+            },
+            "output": {
+                "type": "string",
+                "format": "string",
+                "mimeType": null
+            },
+            "notes": "mode: 'encode' | 'decode'. Native btoa/atob with ArrayBuffer support"
+        },
+        "uuid_generator": {
+            "priority": 3,
+            "status": "NOT STARTED",
+            "description": "Generate UUID (v4) strings",
+            "clientSide": true,
+            "dependencies": ["uuid"],
+            "input": {
+                "type": "object",
+                "format": "object",
+                "required": [],
+                "optional": ["version"]
+            },
+            "output": {
+                "type": "string",
+                "format": "string",
+                "mimeType": null
+            },
+            "notes": "version: 4 (v1/v5 need namespace, requires crypto.randomUUID())"
+        },
+        "slug_generator": {
+            "priority": 4,
+            "status": "NOT STARTED",
+            "description": "Generate URL-friendly slugs from text",
+            "clientSide": true,
+            "dependencies": ["native"],
+            "input": {
+                "type": "string",
+                "format": "string",
+                "required": ["text"],
+                "optional": ["lowercase", "strict", "replacement"]
+            },
+            "output": {
+                "type": "string",
+                "format": "string",
+                "mimeType": null
+            },
+            "notes": "Converts to lowercase, removes special chars. Native JS regex."
+        },
+        "lorem_ipsum_generator": {
+            "priority": 5,
+            "status": "NOT STARTED",
+            "description": "Generate lorem ipsum dummy text",
+            "clientSide": true,
+            "dependencies": ["native"],
+            "input": {
+                "type": "object",
+                "format": "object",
+                "required": [],
+                "optional": ["count", "units", "startWithLorem"]
+            },
+            "output": {
+                "type": "string",
+                "format": "string",
+                "mimeType": null
+            },
+            "notes": "units: 'words' | 'sentences' | 'paragraphs'. Native JS string manipulation."
+        },
+        "json_to_csv": {
+            "priority": 6,
+            "status": "NOT STARTED",
+            "description": "Convert JSON data to CSV format",
+            "clientSide": true,
+            "dependencies": ["native"],
+            "input": {
+                "type": "object[]",
+                "format": "json",
+                "required": ["data"],
+                "optional": ["delimiter", "headers"]
+            },
+            "output": {
+                "type": "string",
+                "format": "csv",
+                "mimeType": null
+            },
+            "notes": "Auto-detects headers from object keys. Native JS string manipulation."
+        },
+        "csv_to_json": {
+            "priority": 7,
+            "status": "NOT STARTED",
+            "description": "Convert CSV data to JSON format",
+            "clientSide": true,
+            "dependencies": ["native"],
+            "input": {
+                "type": "string",
+                "format": "csv",
+                "required": ["data"],
+                "optional": ["delimiter", "header", "parseNumbers"]
+            },
+            "output": {
+                "type": "object[]",
+                "format": "json",
+                "mimeType": null
+            },
+            "notes": "First row as header by default. Native JS string splitting."
+        },
+        "yaml_to_json": {
+            "priority": 8,
+            "status": "NOT STARTED",
+            "description": "Convert YAML data to JSON format",
+            "clientSide": true,
+            "dependencies": ["js-yaml"],
+            "input": {
+                "type": "string",
+                "format": "yaml",
+                "required": ["data"],
+                "optional": ["safeLoad"]
+            },
+            "output": {
+                "type": "object",
+                "format": "json",
+                "mimeType": null
+            },
+            "notes": "js-yaml works in browser. Safe load by default."
+        },
+        "hash_generator_sha256": {
+            "priority": 9,
+            "status": "NOT STARTED",
+            "description": "Generate SHA256 hash from string or buffer",
+            "clientSide": true,
+            "dependencies": ["native-subtlecrypto"],
+            "input": {
+                "type": "string|buffer",
+                "format": "string|buffer",
+                "required": ["data"],
+                "optional": ["encoding"]
+            },
+            "output": {
+                "type": "string",
+                "format": "hex",
+                "mimeType": null
+            },
+            "notes": "Uses SubtleCrypto API. Native browser crypto.subtle.digest."
+        },
+        "regex_tester": {
+            "priority": 10,
+            "status": "NOT STARTED",
+            "description": "Test regex patterns against input strings",
+            "clientSide": true,
+            "dependencies": ["native"],
+            "input": {
+                "type": "object",
+                "format": "object",
+                "required": ["pattern", "flags", "testString"],
+                "optional": ["replaceString"]
+            },
+            "output": {
+                "type": "object",
+                "format": "result",
+                "mimeType": null
+            },
+            "notes": "Returns matches, groups, and match positions. Native RegExp."
+        },
+        "cron_expression_builder": {
+            "priority": 11,
+            "status": "NOT STARTED",
+            "description": "Build and validate cron expressions",
+            "clientSide": true,
+            "dependencies": ["cron-parser"],
+            "input": {
+                "type": "object",
+                "format": "object",
+                "required": ["expression"],
+                "optional": ["interval"]
+            },
+            "output": {
+                "type": "object",
+                "format": "schedule",
+                "mimeType": null
+            },
+            "notes": "cron-parser works in browser. Returns next execution times."
+        },
+        "jwt_decoder": {
+            "priority": 12,
+            "status": "NOT STARTED",
+            "description": "Decode JWT tokens (payload only, no verify)",
+            "clientSide": true,
+            "dependencies": ["native"],
+            "input": {
+                "type": "string",
+                "format": "jwt",
+                "required": ["token"],
+                "optional": ["complete"]
+            },
+            "output": {
+                "type": "object",
+                "format": "payload",
+                "mimeType": null
+            },
+            "notes": "Base64 decode payload. No signature verification. Native JS atob."
+        },
+        "markdown_previewer": {
+            "priority": 13,
+            "status": "NOT STARTED",
+            "description": "Convert Markdown to HTML",
+            "clientSide": true,
+            "dependencies": ["marked"],
+            "input": {
+                "type": "string",
+                "format": "markdown",
+                "required": ["markdown"],
+                "optional": ["options"]
+            },
+            "output": {
+                "type": "string",
+                "format": "html",
+                "mimeType": null
+            },
+            "notes": "marked works in browser. Supports GitHub Flavored Markdown."
+        }
+    }
 }

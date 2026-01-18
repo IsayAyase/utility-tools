@@ -1,3 +1,9 @@
+import LayoutWrapper from "@/components/LayoutWrapper";
+
 export default function Home() {
-  return <div></div>;
+  return (
+    <LayoutWrapper>
+      <div>Hello</div>
+    </LayoutWrapper>
+  );
 }
