@@ -2,7 +2,7 @@
     "documents": {
         "word_to_pdf": {
             "priority": 1,
-            "status": "NOT STARTED",
+            "status": "DONE",
             "description": "Convert Word document (DOCX) to PDF format - Client-side",
             "clientSide": true,
             "dependencies": ["mammoth", "jspdf", "html2canvas"],
@@ -20,7 +20,7 @@
         },
         "pdf_to_word": {
             "priority": 2,
-            "status": "NOT STARTED",
+            "status": "ON_HOLD",
             "description": "Extract text from PDF to create a basic Word document - Client-side",
             "clientSide": true,
             "dependencies": ["pdf-lib", "docx"],
@@ -38,7 +38,7 @@
         },
         "pdf_merge": {
             "priority": 3,
-            "status": "NOT STARTED",
+            "status": "DONE",
             "description": "Merge multiple PDF documents into a single PDF",
             "clientSide": true,
             "dependencies": ["pdf-lib"],
@@ -57,7 +57,7 @@
         },
         "pdf_split": {
             "priority": 4,
-            "status": "NOT STARTED",
+            "status": "DONE",
             "description": "Split PDF document into individual pages or ranges",
             "clientSide": true,
             "dependencies": ["pdf-lib"],
@@ -76,7 +76,7 @@
         },
         "pdf_add_text_watermark": {
             "priority": 5,
-            "status": "NOT STARTED",
+            "status": "DONE",
             "description": "Add text watermark to PDF document",
             "clientSide": true,
             "dependencies": ["pdf-lib"],
@@ -95,7 +95,7 @@
         },
         "pdf_add_image_watermark": {
             "priority": 6,
-            "status": "NOT STARTED",
+            "status": "DONE",
             "description": "Add image watermark to PDF document",
             "clientSide": true,
             "dependencies": ["pdf-lib"],
@@ -112,10 +112,10 @@
             },
             "notes": "Supports PNG, JPEG, WebP watermarks. Embeds image into PDF pages"
         },
-        "pdf_remove_metadata": {
+        "pdf_metadata_updater": {
             "priority": 7,
-            "status": "NOT STARTED",
-            "description": "Remove metadata from PDF document",
+            "status": "TESTING_LEFT",
+            "description": "Updates metadata of a PDF document",
             "clientSide": true,
             "dependencies": ["pdf-lib"],
             "input": {
@@ -132,7 +132,7 @@
         },
         "pdf_compress": {
             "priority": 8,
-            "status": "NOT STARTED",
+            "status": "ON_HOLD",
             "description": "Compress PDF document to reduce file size",
             "clientSide": true,
             "dependencies": ["pdf-lib"],
@@ -153,7 +153,7 @@
     "images": {
         "image_format_convert": {
             "priority": 1,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Convert image between different formats using Canvas API",
             "clientSide": true,
             "dependencies": ["native-canvas"],
@@ -161,56 +161,56 @@
                 "type": "buffer",
                 "format": "any",
                 "required": ["buffer", "format"],
-                "optional": ["quality"]
+                "optional": ["quality", "icoSize"]
             },
             "output": {
                 "type": "buffer",
-                "format": "jpeg|png|webp",
-                "mimeType": "image/jpeg|image/png|image/webp"
+                "format": "jpeg|png|webp|ico",
+                "mimeType": "image/jpeg|image/png|image/webp|image/x-icon"
             },
-            "notes": "Browser Canvas API. Supports JPEG, PNG, WebP. AVIF/TIFF require libraries like image-conversion"
+            "notes": "Browser Canvas API. Supports JPEG, PNG, WebP, ICO. ICO creates favicon with optional size (16, 32, 48, 64)."
         },
         "image_compress": {
             "priority": 2,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Compress image to reduce file size",
             "clientSide": true,
-            "dependencies": ["browser-image-compression"],
+            "dependencies": ["native-canvas"],
             "input": {
                 "type": "buffer",
                 "format": "any",
                 "required": ["buffer"],
-                "optional": ["quality", "format", "maxSizeMB", "maxWidthOrHeight"]
+                "optional": ["quality", "format"]
             },
             "output": {
                 "type": "buffer",
                 "format": "original",
                 "mimeType": "image/jpeg|image/png|image/webp"
             },
-            "notes": "Uses browser-image-compression library. Reduces quality while maintaining reasonable visual fidelity"
+            "notes": "Uses Canvas API to compress by reducing quality. Simple and lightweight."
         },
         "image_resize": {
             "priority": 3,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Resize image to specified dimensions",
             "clientSide": true,
-            "dependencies": ["native-canvas", "pica"],
+            "dependencies": ["native-canvas"],
             "input": {
                 "type": "buffer",
                 "format": "any",
                 "required": ["buffer", "width", "height"],
-                "optional": ["maintainAspectRatio", "fit", "background"]
+                "optional": ["maintainAspectRatio", "background"]
             },
             "output": {
                 "type": "buffer",
                 "format": "original",
                 "mimeType": "image/jpeg|image/png|image/webp"
             },
-            "notes": "Uses Canvas API with Pica for quality resize. fit: cover, contain, fill, inside, outside"
+            "notes": "Uses Canvas API to resize. Maintains aspect ratio by default."
         },
         "image_crop": {
             "priority": 4,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Crop image to specified region",
             "clientSide": true,
             "dependencies": ["native-canvas"],
@@ -228,7 +228,7 @@
         },
         "image_rotate": {
             "priority": 5,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Rotate image by specified angle",
             "clientSide": true,
             "dependencies": ["native-canvas"],
@@ -247,7 +247,7 @@
         },
         "image_flip": {
             "priority": 6,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Flip image horizontally or vertically",
             "clientSide": true,
             "dependencies": ["native-canvas"],
@@ -266,10 +266,10 @@
         },
         "image_strip_exif": {
             "priority": 7,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Remove EXIF metadata from image",
             "clientSide": true,
-            "dependencies": ["piexifjs"],
+            "dependencies": ["native-canvas"],
             "input": {
                 "type": "buffer",
                 "format": "any",
@@ -280,32 +280,31 @@
                 "format": "original",
                 "mimeType": "image/jpeg|image/png|image/webp"
             },
-            "notes": "Removes EXIF data from JPEG. PNG/WebP re-encoding naturally strips metadata"
+            "notes": "Removes EXIF by re-encoding image. PNG/WebP naturally strip metadata."
         },
         "image_dominant_color": {
             "priority": 8,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Extract dominant color from image",
             "clientSide": true,
-            "dependencies": ["node-vibrant"],
+            "dependencies": ["native-canvas"],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer"],
-                "optional": ["colorCount", "quality"]
+                "required": ["buffer"]
             },
             "output": {
                 "type": "object",
-                "format": "hex|rgb",
+                "format": "hex",
                 "mimeType": null
             },
-            "notes": "Returns hex color code and palette. Uses node-vibrant which works in browser"
+            "notes": "Analyzes image pixels to find most frequent color. Returns hex code and palette."
         }
     },
     "audio": {
         "audio_trim": {
             "priority": 1,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Trim audio to specified start and end times - Client-side",
             "clientSide": true,
             "dependencies": ["native-web-audio-api"],
@@ -323,7 +322,7 @@
         },
         "audio_merge": {
             "priority": 2,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Merge multiple audio files into one - Client-side",
             "clientSide": true,
             "dependencies": ["native-web-audio-api"],
@@ -341,25 +340,25 @@
         },
         "audio_format_convert": {
             "priority": 3,
-            "status": "NOT STARTED",
-            "description": "Convert audio between different formats - Client-side",
+            "status": "TESTING_LEFT",
+            "description": "Convert audio to WAV format - Client-side",
             "clientSide": true,
-            "dependencies": ["audiobuffer-to-wav"],
+            "dependencies": ["native-web-audio-api"],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer", "format"]
+                "required": ["buffer"]
             },
             "output": {
                 "type": "buffer",
                 "format": "wav",
                 "mimeType": "audio/wav"
             },
-            "notes": "Browser limitations: Input decoded to AudioBuffer, output WAV only. MP3/AAC need encoder libraries."
+            "notes": "Uses Web Audio API to decode and re-encode as WAV. Browser limitation: WAV output only."
         },
         "audio_volume_boost": {
             "priority": 4,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Adjust audio volume",
             "clientSide": true,
             "dependencies": ["native-web-audio-api"],
@@ -378,7 +377,7 @@
         },
         "audio_fade_in_out": {
             "priority": 5,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Add fade in and/or fade out effects to audio",
             "clientSide": true,
             "dependencies": ["native-web-audio-api"],
@@ -397,7 +396,7 @@
         },
         "audio_speed_change": {
             "priority": 6,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Change audio playback speed - Client-side",
             "clientSide": true,
             "dependencies": ["native-web-audio-api"],
@@ -416,7 +415,7 @@
         },
         "audio_reverse": {
             "priority": 7,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Reverse audio playback - Client-side",
             "clientSide": true,
             "dependencies": ["native-web-audio-api"],
@@ -434,7 +433,7 @@
         },
         "audio_normalize": {
             "priority": 8,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Normalize audio levels - Client-side",
             "clientSide": true,
             "dependencies": ["native-web-audio-api"],
@@ -455,7 +454,7 @@
     "video": {
         "video_trim": {
             "priority": 1,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Trim video to specified start and end times - Client-side",
             "clientSide": true,
             "dependencies": ["ffmpeg.wasm"],
@@ -473,7 +472,7 @@
         },
         "video_format_convert": {
             "priority": 2,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Convert video between different formats - Client-side",
             "clientSide": true,
             "dependencies": ["ffmpeg.wasm"],
@@ -494,7 +493,7 @@
     "developer": {
         "url_encoder_decoder": {
             "priority": 1,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Encode or decode URL strings",
             "clientSide": true,
             "dependencies": ["native"],
@@ -513,7 +512,7 @@
         },
         "base64_encoder_decoder": {
             "priority": 2,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Encode or decode base64 strings",
             "clientSide": true,
             "dependencies": ["native"],
@@ -532,26 +531,25 @@
         },
         "uuid_generator": {
             "priority": 3,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Generate UUID (v4) strings",
             "clientSide": true,
-            "dependencies": ["uuid"],
+            "dependencies": ["native"],
             "input": {
                 "type": "object",
                 "format": "object",
-                "required": [],
-                "optional": ["version"]
+                "required": []
             },
             "output": {
                 "type": "string",
                 "format": "string",
                 "mimeType": null
             },
-            "notes": "version: 4 (v1/v5 need namespace, requires crypto.randomUUID())"
+            "notes": "Uses browser crypto.randomUUID() for RFC 4122 compliant UUID v4."
         },
         "slug_generator": {
             "priority": 4,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Generate URL-friendly slugs from text",
             "clientSide": true,
             "dependencies": ["native"],
@@ -570,7 +568,7 @@
         },
         "lorem_ipsum_generator": {
             "priority": 5,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Generate lorem ipsum dummy text",
             "clientSide": true,
             "dependencies": ["native"],
@@ -589,7 +587,7 @@
         },
         "json_to_csv": {
             "priority": 6,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Convert JSON data to CSV format",
             "clientSide": true,
             "dependencies": ["native"],
@@ -608,7 +606,7 @@
         },
         "csv_to_json": {
             "priority": 7,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Convert CSV data to JSON format",
             "clientSide": true,
             "dependencies": ["native"],
@@ -627,7 +625,7 @@
         },
         "yaml_to_json": {
             "priority": 8,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Convert YAML data to JSON format",
             "clientSide": true,
             "dependencies": ["js-yaml"],
@@ -646,7 +644,7 @@
         },
         "hash_generator_sha256": {
             "priority": 9,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Generate SHA256 hash from string or buffer",
             "clientSide": true,
             "dependencies": ["native-subtlecrypto"],
@@ -665,7 +663,7 @@
         },
         "regex_tester": {
             "priority": 10,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Test regex patterns against input strings",
             "clientSide": true,
             "dependencies": ["native"],
@@ -684,10 +682,10 @@
         },
         "cron_expression_builder": {
             "priority": 11,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Build and validate cron expressions",
             "clientSide": true,
-            "dependencies": ["cron-parser"],
+            "dependencies": ["native"],
             "input": {
                 "type": "object",
                 "format": "object",
@@ -699,11 +697,11 @@
                 "format": "schedule",
                 "mimeType": null
             },
-            "notes": "cron-parser works in browser. Returns next execution times."
+            "notes": "Custom implementation. Returns next execution times and human-readable description."
         },
         "jwt_decoder": {
             "priority": 12,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Decode JWT tokens (payload only, no verify)",
             "clientSide": true,
             "dependencies": ["native"],
@@ -722,7 +720,7 @@
         },
         "markdown_previewer": {
             "priority": 13,
-            "status": "NOT STARTED",
+            "status": "TESTING_LEFT",
             "description": "Convert Markdown to HTML",
             "clientSide": true,
             "dependencies": ["marked"],
