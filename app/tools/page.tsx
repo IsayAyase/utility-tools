@@ -1,9 +1,10 @@
 import LayoutWrapper from "@/components/LayoutWrapper";
+import ToolsPage from "@/components/pages/ToolsPage";
 
 export default function page() {
     return (
         <LayoutWrapper>
-            <div>All tools</div>
+            <ToolsPage selectedCategory={"all"} />
         </LayoutWrapper>
     );
 }

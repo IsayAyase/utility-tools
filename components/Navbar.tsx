@@ -1,6 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+import { Wrench } from "lucide-react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
@@ -48,6 +49,12 @@ export default function Navbar() {
                             className="pl-8 placeholder:text-xs text-xs h-9"
                         />
                     </div>
+                    <Link href={"/tools"}>
+                        <Button variant="outline">
+                            <span>Tools</span>
+                            <Wrench />
+                        </Button>
+                    </Link>
                     <Link target="_blank" href={"https://github.com/IsayAyase"}>
                         <Button size={"icon"} variant="outline">
                             <FaGithub />

@@ -191,7 +191,8 @@
 }
 
 @utility min-h-screen-layout-wrapper {
-  min-height: calc(100vh - var(--footer-height));
+  /* 2rem for padding */
+  min-height: calc(100dvh - var(--footer-height) - 6rem); 
 }
 
 body {

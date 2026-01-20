@@ -11,7 +11,7 @@ export default function LayoutWrapper({
     return (
         <div className="w-full">
             <Navbar />
-            <div className="min-h-screen-layout-wrapper max-w-8xl mx-auto px-4 md:px-6 2xl:px-0 my-4">
+            <div className="min-h-screen-layout-wrapper max-w-7xl mx-auto px-4 md:px-6 2xl:px-0 py-4">
                 {children}
             </div>
             {footerEnabled && <Footer />}
