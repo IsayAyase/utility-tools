@@ -1,5 +1,5 @@
 import { mainData } from "@/contents/mainData";
-import { objectOfTools } from "@/lib/tools";
+import { isCategory, objectOfTools } from "@/lib/tools";
 import { Metadata } from "next";
 
 export async function generateMetadata({
@@ -8,19 +8,19 @@ export async function generateMetadata({
     params: Promise<{ slug: string; category: string }>;
 }): Promise<Metadata> {
     const { category: givenCategory, slug } = await params;
-    const toolsForGivenCategory =
-        objectOfTools[givenCategory as keyof typeof objectOfTools];
-    if (!givenCategory || slug || !toolsForGivenCategory) {
+    if (!givenCategory || !slug || !isCategory(givenCategory)) {
         return {
-            title: `"${mainData.title} | Tool Not Found`,
+            title: `${mainData.title} | Tool Not Found`,
         };
     }
-
+    
+    const toolsForGivenCategory =
+        objectOfTools[givenCategory];
     const toolsForGivenCategorySlug =
-        toolsForGivenCategory.tools[slug as keyof typeof toolsForGivenCategory];
+        toolsForGivenCategory.tools[slug];
     if (!toolsForGivenCategorySlug) {
         return {
-            title: `"${mainData.title} | Tool Not Found`,
+            title: `${mainData.title} | Tool Not Found`,
         };
     }
 
