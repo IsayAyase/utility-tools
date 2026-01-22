@@ -13,7 +13,7 @@ export default function Footer() {
 
         const resize = () => {
             const parent = el.parentElement!;
-            const effectiveWidth = Math.min(parent.offsetWidth, 1500); // cap
+            const effectiveWidth = Math.min(parent.offsetWidth, 1200); // cap
             const length = el.innerText.length || 1;
 
             el.style.fontSize = `${(effectiveWidth / length) * 2}px`;
@@ -92,7 +92,7 @@ export default function Footer() {
                         prabhatlabs
                     </Link>
                 </span>
-                <span>{` • Blade © ${new Date().getFullYear()}. All rights reserved.`}</span>
+                <span>{` • Blade Tools © ${new Date().getFullYear()}. All rights reserved.`}</span>
             </div>
         </div>
     );
