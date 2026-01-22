@@ -1,3 +1,3 @@
 export default function WordToPdfPage() {
-    return <div>WordToPdfPage</div>;
+    return <div></div>;
 }

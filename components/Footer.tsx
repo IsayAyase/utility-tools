@@ -1,11 +1,32 @@
 "use client";
 
+import { racingSansOne } from "@/app/fonts";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 export default function Footer() {
+    const ref = useRef<HTMLHeadingElement>(null);
+
+    useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+
+        const resize = () => {
+            const parent = el.parentElement!;
+            const effectiveWidth = Math.min(parent.offsetWidth, 1500); // cap
+            const length = el.innerText.length || 1;
+
+            el.style.fontSize = `${(effectiveWidth / length) * 2}px`;
+        };
+
+        resize();
+        window.addEventListener("resize", resize);
+        return () => window.removeEventListener("resize", resize);
+    }, []);
+
     return (
-        <div className="relative w-full p-4 h-footer-height" id="footer">
-            <div className="absolute bottom-0 left-0 w-full h-full">
+        <div className="relative w-full p-4 h-full" id="footer">
+            <div className="absolute bottom-0 left-0 w-full h-36 md:h-40 lg:h-52 xl:h-60">
                 <div
                     className="absolute inset-0 pointer-events-none"
                     style={{
@@ -45,12 +66,21 @@ export default function Footer() {
                     }}
                 />
             </div>
-            <div className="-z-10 absolute bottom-0 left-0 right-0 flex justify-center w-full md:h-2/3 lg:h-3/4">
-                <h1 className="text-6xl md:text-8xl lg:text-9xl font-extralight text-muted-foreground mb-10">
-                    Garlic Tools
+            <div className="flex justify-center w-full h-full">
+                <h1
+                    ref={ref}
+                    className={`${racingSansOne.className}
+                        text-muted-foreground
+                        whitespace-nowrap
+                        tracking-tighter
+                        leading-none
+                        mb-6 sm:mb-4 md:mb-6 
+                    `}
+                >
+                    Blade Tools
                 </h1>
             </div>
-            <div className="absolute bottom-0 left-0 z-10 text-xs text-muted-foreground w-full h-0 my-4 flex flex-col items-center md:flex-row md:justify-center gap-1">
+            <div className="absolute bottom-0 left-0 z-10 text-xs text-muted-foreground w-full h-fit my-2 sm:my-4 md:my-6 flex flex-col items-center sm:flex-row sm:justify-center gap-1">
                 <span>
                     {"Build by"}{" "}
                     <Link
@@ -62,7 +92,7 @@ export default function Footer() {
                         prabhatlabs
                     </Link>
                 </span>
-                <span>{` • Garlic Tools © ${new Date().getFullYear()}. All rights reserved.`}</span>
+                <span>{` • Blade © ${new Date().getFullYear()}. All rights reserved.`}</span>
             </div>
         </div>
     );

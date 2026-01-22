@@ -1,18 +1,12 @@
 import { ThemeProvider } from "@/components/ThemeProviders";
+import { mainData } from "@/contents/mainData";
 import type { Metadata } from "next";
-import { Ubuntu } from "next/font/google";
+import { ubuntu } from "./fonts";
 import "./globals.css";
 
-const ubuntu = Ubuntu({
-    subsets: ["latin"],
-    variable: "--font-ubuntu",
-    weight: ["300", "400", "500", "700"],
-});
-
 export const metadata: Metadata = {
-    title: "Garlic Tools",
-    description:
-        "Garlic Tools is a secure suite of tools for documents, images, audio, and video - built to keep your data safe and private.",
+    title: mainData.title,
+    description: mainData.description,
 };
 
 export default function RootLayout({
@@ -22,7 +16,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <body className={`${ubuntu.variable} antialiased`}>
+            <body className={`${ubuntu.className} antialiased`}>
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"
