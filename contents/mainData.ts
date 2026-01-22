@@ -1,21 +1,26 @@
-export const mainData = {
-    title: "Blade",
-    heroLine: "Cut through your workflow",
-    subHeroLine: "Trim, slice, and sharpen your files with precision tools for every format",
-    description: "Blade is a secure suite of tools for documents, images, audio, and video - built to keep your data safe and private."
-}
-
-export const features = [
+const features = [
     {
-        line: "Sharp tools for every file",
-        subline: "PDFs, images, audio, video - slice through any format instantly"
+        line: "Your files never leave your device",
+        subline: "100% client-side processing. No uploads, no servers, no data collection."
     },
     {
-        line: "Precision tools, razor-fast results",
-        subline: "Convert, compress, and edit - all your files, one toolbox"
+        line: "Documents, images, and media tools",
+        subline: "Convert, merge, compress, and edit—all processed locally in your browser"
     },
     {
-        line: "Every tool you need, one sharp edge",
-        subline: "The sharpest tools for documents, media, and everything between"
+        line: "No sign-ups, no limits, no tracking",
+        subline: "Professional-grade tools, completely free. Your files, your privacy."
     }
 ]
+
+export const mainData = {
+    title: "Blade Tools",
+    heroLine: "Your files. Your device. Period.",
+    subHeroLine: "Convert, merge, compress, and edit. All processed locally in your browser.",
+    description: "A secure suite of tools for documents, images, audio, and video—built to keep your data safe and private.",
+    features,
+    ctaBtn: {
+        text: "Use Blade Tools",
+        url: "/tools"
+    }
+}
