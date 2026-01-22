@@ -11,7 +11,7 @@ import type {
     WordToPdfInput
 } from './type';
 
-export async function pdfExtractAllData(
+export async function getPdfInfo(
     input: GetPdfInfoInput
 ): Promise<ToolResult<GetPdfInfoOutput>> {
     try {
@@ -83,6 +83,8 @@ export async function pdfExtractAllData(
 
 export async function wordToPdf(input: WordToPdfInput): Promise<ToolResult<Uint8Array>> {
     try {
+        if (!input.buffer) throw new Error('No buffer!')
+
         const mammoth = (await import('mammoth')).default || await import('mammoth')
         const { jsPDF } = await import('jspdf')
         const JSZip = (await import('jszip')).default
@@ -417,6 +419,8 @@ export async function pdfMerge(input: PdfMergeInput): Promise<ToolResult<Uint8Ar
 
 export async function pdfSplit(input: PdfSplitInput): Promise<ToolResult<Uint8Array>> {
     try {
+        if (!input.buffer) throw new Error('No buffer!')
+
         const pdfDoc = await PDFDocument.load(input.buffer)
         const totalPages = pdfDoc.getPageCount()
 
@@ -457,6 +461,8 @@ export async function pdfAddTextWatermark(
     input: PdfAddTextWatermarkInput
 ): Promise<ToolResult<Uint8Array>> {
     try {
+        if (!input.buffer) throw new Error('No buffer!')
+
         const pdfDoc = await PDFDocument.load(input.buffer)
         const pages = pdfDoc.getPages()
         const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold)
@@ -539,6 +545,9 @@ export async function pdfAddTextWatermark(
 
 export async function pdfAddImageWatermark(input: PdfAddImageWatermarkInput): Promise<ToolResult<Uint8Array>> {
     try {
+        if (!input.buffer) throw new Error('No buffer!')
+        if (!input.watermarkBuffer) throw new Error('No image buffer!')
+
         const pdfDoc = await PDFDocument.load(input.buffer)
         const pages = pdfDoc.getPages()
 
@@ -621,6 +630,8 @@ export async function pdfAddImageWatermark(input: PdfAddImageWatermarkInput): Pr
 
 export async function pdfMetadataUpdater(input: PdfMetadataUpdaterInput): Promise<ToolResult<Uint8Array>> {
     try {
+        if (!input.buffer) throw new Error('No buffer!')
+
         const pdfDoc = await PDFDocument.load(input.buffer)
 
         pdfDoc.setTitle(input.title || '')

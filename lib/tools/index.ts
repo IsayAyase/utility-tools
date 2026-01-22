@@ -6,7 +6,7 @@ export type Tool = {
     slug: string
     name: string
     description: string
-    category: string
+    category: CategoriesWithoutAll
     keywords: string[]
 }
 

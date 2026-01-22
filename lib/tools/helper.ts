@@ -1,3 +1,5 @@
+import { toolsArray, type Tool } from "."
+
 export type ToolResult<T = Uint8Array> = {
   success: boolean
   data?: T
@@ -88,4 +90,38 @@ export function formatDuration(seconds: number): string {
     return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
   }
   return `${m}:${s.toString().padStart(2, '0')}`
+}
+
+export function getRelatedToolsByKeywords(Kws: string[], slugToSkip: string | null = null, maxPosts: number = 4): Tool[] {
+    const tools = toolsArray
+    type ListOfToolsItemWithScore = Tool & { score: number };
+
+    const setOfKws = new Set<string>();
+    const toolWithScore = new Array<ListOfToolsItemWithScore>();
+
+    for (const kw of Kws) setOfKws.add(kw);
+
+    for (const tool of tools) {
+        if (tool.slug === slugToSkip) continue;
+        if (!tool.keywords || tool.keywords.length === 0) continue;
+
+        let score = 0;
+        for (const tag of tool.keywords) {
+            if (!setOfKws.has(tag)) continue;
+            score += 1;
+        }
+
+        if (score === 0) continue;
+        toolWithScore.push({ ...tool, score });
+    }
+
+    toolWithScore.sort((a, b) => b.score - a.score);
+
+    const matchings = new Array<ListOfToolsItemWithScore>();
+
+    for (const post of toolWithScore) {
+        matchings.push(post);
+        if (matchings.length === maxPosts) break;
+    }
+    return matchings;
 }
