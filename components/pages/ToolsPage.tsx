@@ -1,8 +1,8 @@
 import CategoryBar from "@/components/CategoryBar";
 import {
     Card,
+    CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
@@ -14,27 +14,44 @@ import {
 } from "@/lib/tools";
 import Link from "next/link";
 import type { JSX } from "react";
-import { BiLinkExternal } from "react-icons/bi";
-import { Button } from "../ui/button";
 
-export function ToolCard({ data }: { data: ToolType }) {
+export function ToolCard({
+    data,
+    variant = "default",
+}: {
+    data: ToolType;
+    variant?: "default" | "simple" | "titleonly";
+}) {
     const url = `/tools/${data.category}/${data.slug}`;
+    const render = () => {
+        if (variant === 'titleonly') {
+            return (
+                <CardContent>
+                    <CardTitle>{data.name}</CardTitle>
+                </CardContent>
+            );
+        } else if (variant === "simple") {
+            return (
+                <CardContent>
+                    <CardTitle>{data.name}</CardTitle>
+                    <CardDescription>{data.description}</CardDescription>
+                </CardContent>
+            );
+        } else {
+            return (
+                <>
+                    <CardHeader>
+                        <CardTitle>{data.name}</CardTitle>
+                        <CardDescription>{data.description}</CardDescription>
+                    </CardHeader>
+                </>
+            );
+        }
+    };
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>{data.name}</CardTitle>
-                <CardDescription>{data.description}</CardDescription>
-            </CardHeader>
-            {/* <CardContent></CardContent> */}
-            <CardFooter>
-                <Link href={url}>
-                    <Button className="w-full cursor-pointer">
-                        <span>Open</span>
-                        <BiLinkExternal />
-                    </Button>
-                </Link>
-            </CardFooter>
-        </Card>
+        <Link href={url}>
+            <Card>{render()}</Card>
+        </Link>
     );
 }
 
