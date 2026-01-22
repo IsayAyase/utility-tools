@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@/components/ThemeProviders";
+import { Toaster } from "@/components/ui/sonner";
 import { mainData } from "@/contents/mainData";
 import type { Metadata } from "next";
 import { ubuntu } from "./fonts";
@@ -24,6 +25,7 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     {children}
+                    <Toaster position="top-center" />
                 </ThemeProvider>
             </body>
         </html>

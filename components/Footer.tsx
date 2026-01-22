@@ -25,7 +25,7 @@ export default function Footer() {
     }, []);
 
     return (
-        <div className="relative w-full p-4 h-full" id="footer">
+        <div className="relative w-full p-4 h-full mt-20" id="footer">
             <div className="absolute bottom-0 left-0 w-full h-36 md:h-40 lg:h-52 xl:h-60">
                 <div
                     className="absolute inset-0 pointer-events-none"

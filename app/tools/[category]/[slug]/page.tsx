@@ -1,6 +1,7 @@
 import LayoutWrapper from "@/components/LayoutWrapper";
-import ToolPageSwitch from "@/components/pages/ToolPageSwitch";
-import { isCategory, toolsArray } from "@/lib/tools";
+import ToolPageRenderer from "@/components/pages/ToolPageRenderer";
+import { isCategory, objectOfTools, toolsArray } from "@/lib/tools";
+import { getRelatedToolsByKeywords } from "@/lib/tools/helper";
 import { notFound } from "next/navigation";
 
 type paramType = {
@@ -23,9 +24,13 @@ export default async function page({ params }: { params: Promise<paramType> }) {
     const { category, slug } = await params;
     if (!isCategory(category)) return notFound();
 
+    const toolInfo = objectOfTools[category].tools[slug];
+    if (!toolInfo) return notFound();
+    
+    const relatedTools = getRelatedToolsByKeywords(toolInfo.keywords, toolInfo.slug, 6);
     return (
-        <LayoutWrapper>
-            <ToolPageSwitch category={category} slug={slug} />
+        <LayoutWrapper >
+            <ToolPageRenderer toolInfo={toolInfo} relatedTools={relatedTools} />
         </LayoutWrapper>
     );
 }
