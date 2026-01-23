@@ -5,7 +5,7 @@ const features = [
     },
     {
         line: "Documents, images, and media tools",
-        subline: "Convert, merge, compress, and edit—all processed locally in your browser"
+        subline: "PDFs, images, audio, video - convert, compress, trim and edit in seconds."
     },
     {
         line: "No sign-ups, no limits, no tracking",
@@ -15,31 +15,6 @@ const features = [
 
 const footer = {
     sections: [
-        {
-            title: "Links",
-            links: [
-                {
-                    title: "Site",
-                    url: "https://prabhatlabs.dev",
-                    target: "_blank"
-                },
-                {
-                    title: "GitHub",
-                    url: "https://github.com/IsayAyase",
-                    target: "_blank"
-                },
-                {
-                    title: "X",
-                    url: "https://x.com/prabhatlabs",
-                    target: "_blank"
-                },
-                {
-                    title: "Gmail",
-                    url: "mailto:workforprabhat1254.com",
-                    target: "_blank"
-                },
-            ]
-        },
         {
             title: "Tool Categories",
             links: [
@@ -71,6 +46,31 @@ const footer = {
             ]
         },
         {
+            title: "Social",
+            links: [
+                {
+                    title: "Site",
+                    url: "https://prabhatlabs.dev",
+                    target: "_blank"
+                },
+                {
+                    title: "GitHub",
+                    url: "https://github.com/IsayAyase",
+                    target: "_blank"
+                },
+                {
+                    title: "X",
+                    url: "https://x.com/prabhatlabs",
+                    target: "_blank"
+                },
+                {
+                    title: "Gmail",
+                    url: "mailto:workforprabhat1254.com",
+                    target: "_blank"
+                },
+            ]
+        },
+        {
             title: "Legal",
             links: [
                 {
@@ -91,7 +91,7 @@ const footer = {
 export const mainData = {
     title: "Blade Tools",
     heroLine: "Your files. Your device. Period.",
-    subHeroLine: "Convert, merge, compress, and edit. All processed locally in your browser.",
+    subHeroLine: "Convert, merge, trim, compress, and edit. All processed locally in your browser.",
     description: "A secure suite of tools for documents, images, audio, and video—built to keep your data safe and private.",
     features,
     ctaBtn: {

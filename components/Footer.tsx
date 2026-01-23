@@ -59,7 +59,7 @@ export default function Footer() {
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     variant={"ghost"}
-                                    className="hover:bg-foreground dark:hover:bg-foreground hover:text-background hover:underline"
+                                    className="hover:bg-white/20 dark:hover:bg-white/20"
                                 >
                                     {sec.title}
                                 </Button>
