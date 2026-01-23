@@ -8,6 +8,7 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaGithub } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
 import ToogleMode from "./ToogleMode";
 import { Button } from "./ui/button";
@@ -65,13 +66,22 @@ export default function Navbar() {
                     
                     <Link
                         target="_blank"
-                        className="hidden md:block"
+                        href={"https://x.com/prabhatlabs"}
+                    >
+                        <Button size={"icon-sm"} variant="outline">
+                            <FaXTwitter />
+                        </Button>
+                    </Link>
+
+                    <Link
+                        target="_blank"
                         href={"https://github.com/IsayAyase"}
                     >
                         <Button size={"icon-sm"} variant="outline">
                             <FaGithub />
                         </Button>
                     </Link>
+
                     <ToogleMode />
                 </div>
             </nav>

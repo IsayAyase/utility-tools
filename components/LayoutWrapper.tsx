@@ -9,7 +9,7 @@ export default function LayoutWrapper({
     footerEnabled?: boolean;
 }) {
     return (
-        <div className="w-full">
+        <div className="w-full overflow-hidden">
             <div className="min-h-dvh">
                 <Navbar />
                 <div className="h-full max-w-7xl mx-auto px-4 md:px-6 2xl:px-0 py-4">

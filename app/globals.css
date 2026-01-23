@@ -159,13 +159,16 @@ body {
   }
 }
 
-/* for button loading! */
-@keyframes border-spin {
-  to {
-    transform: rotate(360deg);
-  }
+.animate-move-l-r {
+  animation: move-l-r 1.5s ease-in-out infinite;
+  animation-delay: 5s;
 }
 
-.animate-border-spin {
-  animation: border-spin 1.2s linear infinite;
+@keyframes move-l-r {
+  0% {
+    left: -240px;
+  }
+  100% {
+    left: 240px;
+  }
 }

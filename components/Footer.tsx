@@ -1,8 +1,16 @@
 "use client";
 
 import { racingSansOne } from "@/app/fonts";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { mainData } from "@/contents/mainData";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { Button } from "./ui/button";
 
 export default function Footer() {
     const ref = useRef<HTMLHeadingElement>(null);
@@ -25,7 +33,54 @@ export default function Footer() {
     }, []);
 
     return (
-        <div className="relative w-full p-4 h-full mt-20" id="footer">
+        <div
+            className="relative w-full p-4 h-full bg-black text-white border-t border-muted-foreground/30"
+            id="footer"
+        >
+            <div className="relative z-10 h-full w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center md:gap-4 mt-2 md:mt-6 md:mb-10">
+                <div className="text-sm text-center md:text-start">
+                    <p>
+                        {"Build by"}{" "}
+                        <Link
+                            href="https://x.com/prabhatlabs"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="hover:underline hover:text-background w-fit"
+                        >
+                            prabhatlabs
+                        </Link>
+                    </p>
+                    <p>{`Blade Tools © ${new Date().getFullYear()}. All rights reserved.`}</p>
+                </div>
+
+                <div className="flex gap-1 items-center">
+                    {mainData.footer.sections.map((sec, index) => (
+                        <DropdownMenu key={index}>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant={"ghost"}
+                                    className="hover:bg-foreground dark:hover:bg-foreground hover:text-background hover:underline"
+                                >
+                                    {sec.title}
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent side="top">
+                                {sec.links.map((link, index) => (
+                                    <DropdownMenuItem key={index}>
+                                        <Link
+                                            href={link.url}
+                                            target={link.target}
+                                        >
+                                            {link.title}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    ))}
+                </div>
+            </div>
+
             <div className="absolute bottom-0 left-0 w-full h-36 md:h-40 lg:h-52 xl:h-60">
                 <div
                     className="absolute inset-0 pointer-events-none"
@@ -33,11 +88,11 @@ export default function Footer() {
                         background: `linear-gradient(180deg, 
                                     transparent 0%, 
                                     transparent 25%, 
-                                    color-mix(in oklab, var(--background) 40%, transparent) 45%, 
-                                    color-mix(in oklab, var(--background) 45%, transparent) 50%, 
-                                    color-mix(in oklab, var(--background) 60%, transparent) 70%, 
-                                    color-mix(in oklab, var(--background) 65%, transparent) 85%, 
-                                    color-mix(in oklab, var(--background) 75%, transparent) 100%
+                                    color-mix(in oklab, black 40%, transparent) 45%, 
+                                    color-mix(in oklab, black 45%, transparent) 50%, 
+                                    color-mix(in oklab, black 60%, transparent) 70%, 
+                                    color-mix(in oklab, black 65%, transparent) 85%, 
+                                    color-mix(in oklab, black 75%, transparent) 100%
                                 )`,
                         backdropFilter: `blur(0px)`,
                     }}
@@ -47,25 +102,26 @@ export default function Footer() {
                     style={{
                         background: `linear-gradient(180deg, 
                     transparent 0%, 
-                                    color-mix(in oklab, var(--background) 20%, transparent) 60%, 
-                                    color-mix(in oklab, var(--background) 30%, transparent) 70%, 
-                                    color-mix(in oklab, var(--background) 40%, transparent) 80%, 
-                                    color-mix(in oklab, var(--background) 50%, transparent) 90%, 
-                                    color-mix(in oklab, var(--background) 60%, transparent) 100%
+                                    color-mix(in oklab, black 20%, transparent) 60%, 
+                                    color-mix(in oklab, black 30%, transparent) 70%, 
+                                    color-mix(in oklab, black 40%, transparent) 80%, 
+                                    color-mix(in oklab, black 50%, transparent) 90%, 
+                                    color-mix(in oklab, black 60%, transparent) 100%
                                 )`,
                         backdropFilter: `blur(8px)`,
                         maskImage: `linear-gradient(180deg, 
                                     transparent 0%, 
                                     transparent 10%, 
-                                    color-mix(in oklab, var(--foreground) 20%, transparent) 55%, 
-                                    color-mix(in oklab, var(--foreground) 30%, transparent) 65%, 
-                                    color-mix(in oklab, var(--foreground) 50%, transparent) 75%, 
-                                    color-mix(in oklab, var(--foreground) 70%, transparent) 85%, 
-                                    color-mix(in oklab, var(--foreground) 100%, transparent) 100%
+                                    color-mix(in oklab, white 20%, transparent) 55%, 
+                                    color-mix(in oklab, white 30%, transparent) 65%, 
+                                    color-mix(in oklab, white 50%, transparent) 75%, 
+                                    color-mix(in oklab, white 70%, transparent) 85%, 
+                                    color-mix(in oklab, white 100%, transparent) 100%
                                 )`,
                     }}
                 />
             </div>
+
             <div className="flex justify-center w-full h-full">
                 <h1
                     ref={ref}
@@ -73,26 +129,11 @@ export default function Footer() {
                         text-muted-foreground
                         whitespace-nowrap
                         tracking-tighter
-                        leading-none
-                        mb-6 sm:mb-4 md:mb-6 
+                        leading-20 sm:leading-28 md:leading-36
                     `}
                 >
                     Blade Tools
                 </h1>
-            </div>
-            <div className="absolute bottom-0 left-0 z-10 text-xs text-muted-foreground w-full h-fit my-2 sm:my-4 md:my-6 flex flex-col items-center sm:flex-row sm:justify-center gap-1">
-                <span>
-                    {"Build by"}{" "}
-                    <Link
-                        href="https://x.com/prabhatlabs"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="underline"
-                    >
-                        prabhatlabs
-                    </Link>
-                </span>
-                <span>{` • Blade Tools © ${new Date().getFullYear()}. All rights reserved.`}</span>
             </div>
         </div>
     );
