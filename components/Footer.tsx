@@ -10,7 +10,7 @@ import {
 import { mainData } from "@/contents/mainData";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { Button } from "./ui/button";
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 export default function Footer() {
     const ref = useRef<HTMLHeadingElement>(null);
@@ -21,7 +21,7 @@ export default function Footer() {
 
         const resize = () => {
             const parent = el.parentElement!;
-            const effectiveWidth = Math.min(parent.offsetWidth, 1200); // cap
+            const effectiveWidth = Math.min(parent.offsetWidth, 1280); // cap
             const length = el.innerText.length || 1;
 
             el.style.fontSize = `${(effectiveWidth / length) * 2}px`;
@@ -37,32 +37,26 @@ export default function Footer() {
             className="relative w-full p-4 h-full bg-black text-white border-t border-muted-foreground/30"
             id="footer"
         >
-            <div className="relative z-10 h-full w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center md:gap-4 mt-2 md:mt-6 md:mb-10">
-                <div className="text-sm text-center md:text-start">
-                    <p>
-                        {"Build by"}{" "}
-                        <Link
-                            href="https://x.com/prabhatlabs"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="hover:underline hover:text-background w-fit"
-                        >
-                            prabhatlabs
-                        </Link>
-                    </p>
-                    <p>{`Blade Tools © ${new Date().getFullYear()}. All rights reserved.`}</p>
+            <div className="relative z-10 h-full w-full max-w-7xl mx-auto flex justify-between items-center gap-4 mt-2 md:mt-6 md:mb-10">
+                <div className="text-sm text-white/60">
+                    {"Build by "}{" "}
+                    <Link
+                        href="https://x.com/prabhatlabs"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="hover:underline hover:text-white/90 w-fit"
+                    >
+                        prabhatlabs
+                    </Link>
+                    {` • ${mainData.title} © ${new Date().getFullYear()}`}
                 </div>
 
-                <div className="flex gap-1 items-center">
+                <div className="flex items-center gap-4">
                     {mainData.footer.sections.map((sec, index) => (
                         <DropdownMenu key={index}>
-                            <DropdownMenuTrigger asChild>
-                                <Button
-                                    variant={"ghost"}
-                                    className="hover:bg-white/20 dark:hover:bg-white/20"
-                                >
-                                    {sec.title}
-                                </Button>
+                            <DropdownMenuTrigger className="text-sm flex items-center focus:outline-0 text-white/60 hover:text-white/90">
+                                <span>{sec.title}</span>
+                                <RiArrowDropDownLine className="size-4" />
                             </DropdownMenuTrigger>
                             <DropdownMenuContent side="top">
                                 {sec.links.map((link, index) => (

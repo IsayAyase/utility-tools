@@ -1,3 +1,4 @@
+import { bytesToSize } from "@/lib/tools/helper";
 import { Upload } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Label } from "./label";
@@ -23,18 +24,24 @@ export default function FileUpload({
 }) {
     const inputRef = useRef<HTMLInputElement>(null);
     const [fileNames, setFileNames] = useState<string[] | null>(null);
+    const [size, setSize] = useState(0);
 
     useEffect(() => {
         if (valueFiles) {
             setFileNames(Array.from(valueFiles).map((file) => file.name));
+            const file = valueFiles[0];
+            if (file) {
+                setSize(file.size);
+            }
         } else {
-            const ele = inputRef.current
+            const ele = inputRef.current;
             if (ele) {
                 ele.value = "";
-                ele.files = null
+                ele.files = null;
             }
             setFileNames(null);
             onFileSelect?.(null);
+            setSize(0);
         }
     }, [valueFiles]);
 
@@ -63,12 +70,14 @@ export default function FileUpload({
                 <Upload className="mb-2 h-5 w-5 text-muted-foreground" />
 
                 <p className="font-medium text-foreground text-sm">
-                    {multiple ? "Click to choose files or drag here" : "Click to choose file or drag here"}
+                    {multiple
+                        ? "Click to choose files or drag here"
+                        : "Click to choose file or drag here"}
                 </p>
 
                 {accept && (
                     <p className="mt-1 text-xs text-muted-foreground">
-                        {`(${accept.toUpperCase()})`}
+                        {`(${accept})`}
                     </p>
                 )}
 
@@ -91,8 +100,15 @@ export default function FileUpload({
                         )}
                     </ul>
                 ) : (
-                    <p className="mt-2 text-xs text-foreground truncate">
-                        {fileNames?.[0]}
+                    <p className="mt-2 text-xs text-foreground">
+                        <span className="">
+                            {fileNames &&
+                            fileNames[0] &&
+                            fileNames[0].length > 20
+                                ? fileNames?.[0].slice(0, 20) + "..."
+                                : fileNames?.[0]}
+                        </span>
+                        <span>{size > 0 && `(${bytesToSize(size)})`}</span>
                     </p>
                 )}
 

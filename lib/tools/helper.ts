@@ -56,6 +56,7 @@ export function downloadBuffer(buffer: Uint8Array, filename: string, mimeType: s
   const blob = bufferToBlob(buffer, mimeType)
   const url = URL.createObjectURL(blob)
   const link = document.createElement('a')
+  link.style.display = "none"
   link.href = url
   link.download = filename
   document.body.appendChild(link)
@@ -64,9 +65,11 @@ export function downloadBuffer(buffer: Uint8Array, filename: string, mimeType: s
   URL.revokeObjectURL(url)
 }
 
-export function getFilenameWithExtension(baseName: string, extension: string): string {
-  const sanitizedBase = baseName.replace(/\.[^/.]+$/, '')
-  return `${sanitizedBase}.${extension}`
+export function bytesToSize(bytes: number): string {
+  const k = 1024
+  const sizes = ['B', 'KB', 'MB', 'GB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
 }
 
 export function parseTimeToSeconds(time: string | number): number {
@@ -93,35 +96,35 @@ export function formatDuration(seconds: number): string {
 }
 
 export function getRelatedToolsByKeywords(Kws: string[], slugToSkip: string | null = null, maxPosts: number = 4): Tool[] {
-    const tools = toolsArray
-    type ListOfToolsItemWithScore = Tool & { score: number };
+  const tools = toolsArray
+  type ListOfToolsItemWithScore = Tool & { score: number };
 
-    const setOfKws = new Set<string>();
-    const toolWithScore = new Array<ListOfToolsItemWithScore>();
+  const setOfKws = new Set<string>();
+  const toolWithScore = new Array<ListOfToolsItemWithScore>();
 
-    for (const kw of Kws) setOfKws.add(kw);
+  for (const kw of Kws) setOfKws.add(kw);
 
-    for (const tool of tools) {
-        if (tool.slug === slugToSkip) continue;
-        if (!tool.keywords || tool.keywords.length === 0) continue;
+  for (const tool of tools) {
+    if (tool.slug === slugToSkip) continue;
+    if (!tool.keywords || tool.keywords.length === 0) continue;
 
-        let score = 0;
-        for (const tag of tool.keywords) {
-            if (!setOfKws.has(tag)) continue;
-            score += 1;
-        }
-
-        if (score === 0) continue;
-        toolWithScore.push({ ...tool, score });
+    let score = 0;
+    for (const tag of tool.keywords) {
+      if (!setOfKws.has(tag)) continue;
+      score += 1;
     }
 
-    toolWithScore.sort((a, b) => b.score - a.score);
+    if (score === 0) continue;
+    toolWithScore.push({ ...tool, score });
+  }
 
-    const matchings = new Array<ListOfToolsItemWithScore>();
+  toolWithScore.sort((a, b) => b.score - a.score);
 
-    for (const post of toolWithScore) {
-        matchings.push(post);
-        if (matchings.length === maxPosts) break;
-    }
-    return matchings;
+  const matchings = new Array<ListOfToolsItemWithScore>();
+
+  for (const post of toolWithScore) {
+    matchings.push(post);
+    if (matchings.length === maxPosts) break;
+  }
+  return matchings;
 }

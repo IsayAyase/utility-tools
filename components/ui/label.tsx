@@ -23,18 +23,26 @@ function Label({
 
 function Field({
     label,
+    rightLabel,
     htmlFor,
     children,
     className,
 }: {
     label: string;
+    rightLabel?: string;
     htmlFor: string;
     children: React.ReactNode;
     className?: string;
 }) {
     return (
         <div className={cn(className, "space-y-2")}>
-            <Label htmlFor={htmlFor}>{label}</Label>
+            <Label
+                htmlFor={htmlFor}
+                className="flex items-center justify-between gap-2"
+            >
+                <span>{label}</span>
+                {rightLabel && <span className="text-xs italic font-light text-muted-foreground">{rightLabel}</span>}
+            </Label>
             {children}
         </div>
     );

@@ -2,6 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { downloadBuffer } from "@/lib/tools/helper";
+import { imageFormatConvert } from "@/lib/tools/image";
 import { useState } from "react";
 
 const TestingPage = () => {
@@ -14,7 +16,17 @@ const TestingPage = () => {
         if (!buffer) {
             throw new Error("No buffer");
         }
-        
+        const result = await imageFormatConvert({
+            buffer,
+            format: "ico",
+            icoSize: 70,
+            quality: 20,
+        });
+
+        if (!result.data) {
+            throw new Error("No data");
+        }
+        downloadBuffer(result.data, "test.ico", "image/ico");
     }
     // console.log(tools);
 

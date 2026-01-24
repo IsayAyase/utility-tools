@@ -37,7 +37,7 @@ const toolsPageCompObj: Record<
         pdf_metadata_updater: dynamic(
             () => import("./document/PdfMetadataUpdaterPage"),
             { ssr: false, loading: () => <LoadingPage /> },
-        )
+        ),
     },
     image: {
         image_format_convert: dynamic(
@@ -59,7 +59,7 @@ const ToolPageRenderer = ({
 
     return (
         <div className="">
-            <div className="md:space-y-2">
+            <div className="md:space-y-1">
                 <h1 className="font-semibold text-2xl md:text-3xl lg:text-4xl">
                     {toolInfo.name}
                 </h1>
@@ -68,21 +68,19 @@ const ToolPageRenderer = ({
                 </p>
             </div>
 
-            <div className="mb-8">
-                <h5 className="text-muted-foreground text-sm md:text-base xl:text-lg font-light italic mb-1">
+            <div className="flex items-center gap-2 flex-wrap text-xs mb-8">
+                <h5 className="text-muted-foreground text-sm italic mb-1">
                     Related tools:
                 </h5>
-                <div className="flex items-center gap-2 flex-wrap text-xs md:text-sm">
-                    {relatedTools.map((t, i) => (
-                        <Link
-                            key={i}
-                            href={`/tools/${t.category}/${t.slug}`}
-                            className="px-3 py-1 rounded-full bg-secondary hover:bg-background hover:underline transition-colors duration-150 border"
-                        >
-                            {t.name}
-                        </Link>
-                    ))}
-                </div>
+                {relatedTools.map((t, i) => (
+                    <Link
+                        key={i}
+                        href={`/tools/${t.category}/${t.slug}`}
+                        className="px-2 rounded-full bg-secondary hover:bg-background transition-colors duration-150 border"
+                    >
+                        {t.name}
+                    </Link>
+                ))}
             </div>
 
             <div className="relative min-h-96 h-full flex items-center justify-center">

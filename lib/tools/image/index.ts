@@ -11,6 +11,8 @@ import type {
   ImageStripExifInput
 } from './type'
 
+export const imageFormatConvertList = ['png', 'jpg', 'jpeg', 'webp', 'ico'] as const
+
 export async function imageFormatConvert(input: ImageFormatConvertInput): Promise<ToolResult<Uint8Array>> {
   try {
     const img = await loadImage(input.buffer)
@@ -45,7 +47,7 @@ export async function imageFormatConvert(input: ImageFormatConvertInput): Promis
         success: true,
         data: icoBuffer,
         metadata: {
-          originalSize: input.buffer.length,
+          originalSize: input.buffer?.length || 0,
           newSize: icoBuffer.length,
           format: 'ico',
           width: targetSize,
@@ -68,7 +70,7 @@ export async function imageFormatConvert(input: ImageFormatConvertInput): Promis
       success: true,
       data: new Uint8Array(arrayBuffer),
       metadata: {
-        originalSize: input.buffer.length,
+        originalSize: input.buffer?.length || 0,
         newSize: arrayBuffer.byteLength,
         format: input.format,
         width: img.width,
@@ -108,7 +110,7 @@ export async function imageCompress(input: ImageCompressInput): Promise<ToolResu
       success: true,
       data: new Uint8Array(arrayBuffer),
       metadata: {
-        originalSize: input.buffer.length,
+        originalSize: input.buffer?.length || 0,
         newSize: arrayBuffer.byteLength,
         format: input.format || 'jpeg',
         width: img.width,
@@ -166,7 +168,7 @@ export async function imageResize(input: ImageResizeInput): Promise<ToolResult<U
       success: true,
       data: new Uint8Array(arrayBuffer),
       metadata: {
-        originalSize: input.buffer.length,
+        originalSize: input.buffer?.length || 0,
         newSize: arrayBuffer.byteLength,
         format: 'png',
         width: newWidth,
@@ -207,7 +209,7 @@ export async function imageCrop(input: ImageCropInput): Promise<ToolResult<Uint8
       success: true,
       data: new Uint8Array(arrayBuffer),
       metadata: {
-        originalSize: input.buffer.length,
+        originalSize: input.buffer?.length || 0,
         newSize: arrayBuffer.byteLength,
         format: 'png',
         width: input.width,
@@ -268,7 +270,7 @@ export async function imageRotate(input: ImageRotateInput): Promise<ToolResult<U
       success: true,
       data: new Uint8Array(arrayBuffer),
       metadata: {
-        originalSize: input.buffer.length,
+        originalSize: input.buffer?.length || 0,
         newSize: arrayBuffer.byteLength,
         format: 'png',
         width: newWidth,
@@ -318,7 +320,7 @@ export async function imageFlip(input: ImageFlipInput): Promise<ToolResult<Uint8
       success: true,
       data: new Uint8Array(arrayBuffer),
       metadata: {
-        originalSize: input.buffer.length,
+        originalSize: input.buffer?.length || 0,
         newSize: arrayBuffer.byteLength,
         format: 'png',
         width: img.width,
@@ -384,7 +386,7 @@ export async function imageDominantColor(input: ImageDominantColorInput): Promis
       success: true,
       data: { color: dominantColor, palette },
       metadata: {
-        originalSize: input.buffer.length,
+        originalSize: input.buffer?.length || 0,
         format: 'dominant-color'
       }
     }
@@ -396,7 +398,8 @@ export async function imageDominantColor(input: ImageDominantColorInput): Promis
   }
 }
 
-function loadImage(buffer: Uint8Array): Promise<HTMLImageElement> {
+function loadImage(buffer: Uint8Array | null): Promise<HTMLImageElement> {
+  if (!buffer) throw new Error("Buffer is null")
   return new Promise((resolve, reject) => {
     const img = new Image()
     img.onload = () => resolve(img)

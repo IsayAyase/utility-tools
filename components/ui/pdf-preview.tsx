@@ -17,7 +17,7 @@ export default function PdfPreview({ buffer }: { buffer: Uint8Array | null }) {
             </h4>
             <iframe
                 src={url}
-                className="w-full h-[calc(100%-24px)] rounded-lg"
+                className="w-full h-[calc(100%-50px)] rounded-lg"
             />
         </div>
     );
