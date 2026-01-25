@@ -208,64 +208,27 @@
             },
             "notes": "Uses Canvas API to resize. Maintains aspect ratio by default."
         },
-        "image_crop": {
+        "image_transform": {
             "priority": 4,
             "status": "TESTING_LEFT",
-            "description": "Crop image to specified region",
-            "clientSide": true,
-            "dependencies": ["native-canvas"],
-            "input": {
-                "type": "buffer",
-                "format": "any",
-                "required": ["buffer", "left", "top", "width", "height"]
-            },
-            "output": {
-                "type": "buffer",
-                "format": "original",
-                "mimeType": "image/jpeg|image/png|image/webp"
-            },
-            "notes": "Coordinates are in pixels from top-left corner. Uses Canvas API"
-        },
-        "image_rotate": {
-            "priority": 5,
-            "status": "TESTING_LEFT",
-            "description": "Rotate image by specified angle",
-            "clientSide": true,
-            "dependencies": ["native-canvas"],
-            "input": {
-                "type": "buffer",
-                "format": "any",
-                "required": ["buffer", "angle"],
-                "optional": ["background", "expand"]
-            },
-            "output": {
-                "type": "buffer",
-                "format": "original",
-                "mimeType": "image/jpeg|image/png|image/webp"
-            },
-            "notes": "Angle in degrees, positive is clockwise. Uses Canvas API"
-        },
-        "image_flip": {
-            "priority": 6,
-            "status": "TESTING_LEFT",
-            "description": "Flip image horizontally or vertically",
+            "description": "Apply crop, rotate, and/or flip transformations to image",
             "clientSide": true,
             "dependencies": ["native-canvas"],
             "input": {
                 "type": "buffer",
                 "format": "any",
                 "required": ["buffer"],
-                "optional": ["direction"]
+                "optional": ["crop", "rotate", "flip"]
             },
             "output": {
                 "type": "buffer",
-                "format": "original",
-                "mimeType": "image/jpeg|image/png|image/webp"
+                "format": "png",
+                "mimeType": "image/png"
             },
-            "notes": "direction: 'horizontal' | 'vertical' | 'both'. Uses Canvas API"
+            "notes": "Unified function for crop, rotate, and flip. Apply multiple transformations in sequence: crop -> rotate -> flip. Uses Canvas API"
         },
         "image_strip_exif": {
-            "priority": 7,
+            "priority": 5,
             "status": "TESTING_LEFT",
             "description": "Remove EXIF metadata from image",
             "clientSide": true,
@@ -283,7 +246,7 @@
             "notes": "Removes EXIF by re-encoding image. PNG/WebP naturally strip metadata."
         },
         "image_dominant_color": {
-            "priority": 8,
+            "priority": 6,
             "status": "TESTING_LEFT",
             "description": "Extract dominant color from image",
             "clientSide": true,

@@ -2,17 +2,15 @@ import type { ToolResult } from '../helper'
 import type {
   DominantColorResult,
   ImageConvertResizeReduceInput,
-  ImageCropInput,
   ImageDominantColorInput,
-  ImageFlipInput,
-  ImageRotateInput,
-  ImageToPdfInput
+  ImageToPdfInput,
+  ImageTransformInput
 } from './type'
 
 export const imageFormatConvertList = ['png', 'jpg', 'jpeg', 'webp', 'ico'] as const
 export const imageFitList = ['cover', 'contain', 'fill'] as const
 export const pageSizeList = ['A4', 'A3', 'letter', 'legal'] as const
-export const flipDirectionList = ['horizontal', 'vertical', 'both'] as const
+export const flipDirectionList = ['none', 'horizontal', 'vertical', 'both'] as const
 
 export async function imageConvertResizeReduce(
   input: ImageConvertResizeReduceInput
@@ -213,154 +211,143 @@ export async function imageConvertResizeReduce(
   }
 }
 
-export async function imageCrop(input: ImageCropInput): Promise<ToolResult<Uint8Array>> {
+export async function imageTransform(input: ImageTransformInput): Promise<ToolResult<Uint8Array>> {
   try {
+    if (!input.buffer) throw new Error('No image buffer provided')
+    
     const img = await loadImage(input.buffer)
-
-    const canvas = document.createElement('canvas')
-    canvas.width = input.width
-    canvas.height = input.height
-    const ctx = canvas.getContext('2d')
+    let canvas = document.createElement('canvas')
+    let ctx = canvas.getContext('2d')
     if (!ctx) throw new Error('Could not get canvas context')
-
-    ctx.drawImage(img, input.left, input.top, input.width, input.height, 0, 0, input.width, input.height)
-
-    const mimeType = 'image/png'
+    
+    // Start with original image dimensions
+    let currentWidth = img.width
+    let currentHeight = img.height
+    canvas.width = currentWidth
+    canvas.height = currentHeight
+    
+    // Apply transformations in order: crop -> rotate -> flip
+    let tempCanvas = document.createElement('canvas')
+    let tempCtx = tempCanvas.getContext('2d')
+    if (!tempCtx) throw new Error('Could not get temporary canvas context')
+    
+    // Step 1: Start with original image
+    tempCanvas.width = img.width
+    tempCanvas.height = img.height
+    tempCtx.drawImage(img, 0, 0)
+    
+    // Step 2: Apply crop if specified
+    if (input.crop) {
+      const { left, top, width, height } = input.crop
+      
+      // Validate crop dimensions
+      if (left < 0 || top < 0 || width <= 0 || height <= 0) {
+        throw new Error('Invalid crop dimensions')
+      }
+      if (left + width > img.width || top + height > img.height) {
+        throw new Error('Crop area exceeds image boundaries')
+      }
+      
+      canvas.width = width
+      canvas.height = height
+      ctx.drawImage(tempCanvas, left, top, width, height, 0, 0, width, height)
+      
+      // Update temp canvas for next transformation
+      tempCanvas.width = width
+      tempCanvas.height = height
+      tempCtx.drawImage(canvas, 0, 0)
+      currentWidth = width
+      currentHeight = height
+    }
+    
+    // Step 3: Apply rotation if specified
+    if (input.rotate) {
+      const { angle, background, expand } = input.rotate
+      const radians = (angle * Math.PI) / 180
+      const cos = Math.abs(Math.cos(radians))
+      const sin = Math.abs(Math.sin(radians))
+      
+      let newWidth: number, newHeight: number
+      if (expand !== false) {
+        newWidth = Math.round(currentWidth * cos + currentHeight * sin)
+        newHeight = Math.round(currentWidth * sin + currentHeight * cos)
+      } else {
+        newWidth = currentWidth
+        newHeight = currentHeight
+      }
+      
+      canvas.width = newWidth
+      canvas.height = newHeight
+      
+      if (background) {
+        ctx.fillStyle = background
+        ctx.fillRect(0, 0, newWidth, newHeight)
+      }
+      
+      ctx.translate(newWidth / 2, newHeight / 2)
+      ctx.rotate(radians)
+      ctx.drawImage(tempCanvas, -currentWidth / 2, -currentHeight / 2)
+      
+      // Update temp canvas for next transformation
+      tempCanvas.width = newWidth
+      tempCanvas.height = newHeight
+      tempCtx.drawImage(canvas, 0, 0)
+      currentWidth = newWidth
+      currentHeight = newHeight
+    }
+    
+    // Step 4: Apply flip if specified
+    if (input.flip) {
+      const { direction } = input.flip
+      
+      canvas.width = currentWidth
+      canvas.height = currentHeight
+      
+      ctx.save()
+      
+      if (direction === 'horizontal' || direction === 'both') {
+        ctx.translate(currentWidth, 0)
+        ctx.scale(-1, 1)
+      }
+      if (direction === 'vertical' || direction === 'both') {
+        ctx.translate(0, currentHeight)
+        ctx.scale(1, -1)
+      }
+      
+      ctx.drawImage(tempCanvas, 0, 0)
+      ctx.restore()
+    }
+    
+    const mimeType = `image/${input.format || "png"}`
     const quality = 0.92
-
+    
     const blob = await new Promise<Blob | null>(resolve => {
       canvas.toBlob(resolve, mimeType, quality)
     })
-
-    if (!blob) throw new Error('Failed to crop image')
-
+    
+    if (!blob) throw new Error('Failed to transform image')
+    
     const arrayBuffer = await blob.arrayBuffer()
     return {
       success: true,
       data: new Uint8Array(arrayBuffer),
       metadata: {
-        originalSize: input.buffer?.length || 0,
+        originalSize: input.buffer.length,
         newSize: arrayBuffer.byteLength,
-        format: 'png',
-        width: input.width,
-        height: input.height
+        format: input.format || "png",
+        width: canvas.width,
+        height: canvas.height,
+        transformations: {
+          crop: !!input.crop,
+          rotate: !!input.rotate,
+          flip: !!input.flip
+        }
       }
     }
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Failed to crop image'
-    }
-  }
-}
-
-export async function imageRotate(input: ImageRotateInput): Promise<ToolResult<Uint8Array>> {
-  try {
-    const img = await loadImage(input.buffer)
-
-    const radians = (input.angle * Math.PI) / 180
-    const cos = Math.abs(Math.cos(radians))
-    const sin = Math.abs(Math.sin(radians))
-
-    let newWidth: number, newHeight: number
-    if (input.expand !== false) {
-      newWidth = Math.round(img.width * cos + img.height * sin)
-      newHeight = Math.round(img.width * sin + img.height * cos)
-    } else {
-      newWidth = img.width
-      newHeight = img.height
-    }
-
-    const canvas = document.createElement('canvas')
-    canvas.width = newWidth
-    canvas.height = newHeight
-    const ctx = canvas.getContext('2d')
-    if (!ctx) throw new Error('Could not get canvas context')
-
-    if (input.background) {
-      ctx.fillStyle = input.background
-      ctx.fillRect(0, 0, newWidth, newHeight)
-    }
-
-    ctx.translate(newWidth / 2, newHeight / 2)
-    ctx.rotate(radians)
-    ctx.drawImage(img, -img.width / 2, -img.height / 2)
-
-    const mimeType = 'image/png'
-    const quality = 0.92
-
-    const blob = await new Promise<Blob | null>(resolve => {
-      canvas.toBlob(resolve, mimeType, quality)
-    })
-
-    if (!blob) throw new Error('Failed to rotate image')
-
-    const arrayBuffer = await blob.arrayBuffer()
-    return {
-      success: true,
-      data: new Uint8Array(arrayBuffer),
-      metadata: {
-        originalSize: input.buffer?.length || 0,
-        newSize: arrayBuffer.byteLength,
-        format: 'png',
-        width: newWidth,
-        height: newHeight
-      }
-    }
-  } catch (error) {
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Failed to rotate image'
-    }
-  }
-}
-
-export async function imageFlip(input: ImageFlipInput): Promise<ToolResult<Uint8Array>> {
-  try {
-    const img = await loadImage(input.buffer)
-
-    const canvas = document.createElement('canvas')
-    canvas.width = img.width
-    canvas.height = img.height
-    const ctx = canvas.getContext('2d')
-    if (!ctx) throw new Error('Could not get canvas context')
-
-    if (input.direction === 'horizontal' || input.direction === 'both') {
-      ctx.translate(img.width, 0)
-      ctx.scale(-1, 1)
-    }
-    if (input.direction === 'vertical' || input.direction === 'both') {
-      ctx.translate(0, img.height)
-      ctx.scale(1, -1)
-    }
-
-    ctx.drawImage(img, 0, 0)
-
-    const mimeType = 'image/png'
-    const quality = 0.92
-
-    const blob = await new Promise<Blob | null>(resolve => {
-      canvas.toBlob(resolve, mimeType, quality)
-    })
-
-    if (!blob) throw new Error('Failed to flip image')
-
-    const arrayBuffer = await blob.arrayBuffer()
-    return {
-      success: true,
-      data: new Uint8Array(arrayBuffer),
-      metadata: {
-        originalSize: input.buffer?.length || 0,
-        newSize: arrayBuffer.byteLength,
-        format: 'png',
-        width: img.width,
-        height: img.height
-      }
-    }
-  } catch (error) {
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Failed to flip image'
+      error: error instanceof Error ? error.message : 'Failed to transform image'
     }
   }
 }

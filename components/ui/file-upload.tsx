@@ -49,9 +49,8 @@ export default function FileUpload({
     }, [valueFiles]);
 
     return (
-        <div className="space-y-2 w-full">
-            <Label>{label}</Label>
-
+        <div className="w-full">
+            {label && <Label className="mb-2">{label}</Label>}
             <div
                 onClick={() => inputRef.current?.click()}
                 onDragOver={(e) => e.preventDefault()}

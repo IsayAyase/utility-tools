@@ -96,6 +96,13 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "image",
                 keywords: ["image", "tools", "convert", "merge", "split", "watermark", "metadata", "update"],
             },
+            "image_transform": {
+                slug: "image_transform",
+                name: "Image Transform",
+                description: "Crop, rotate, flip and resize images of any format",
+                category: "image",
+                keywords: ["image", "tools", "convert", "merge", "split", "watermark", "metadata", "update"],
+            },
         }
     }
 }

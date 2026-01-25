@@ -141,7 +141,7 @@ export default function ImageResizeConvertFormatPage() {
         const fileNameSplit = file.name.split(".");
         const fileName = fileNameSplit[0];
         const format = fileNameSplit.pop();
-        
+
         setOrgFileData({
             name: fileName,
             format: format || "",
@@ -190,160 +190,169 @@ export default function ImageResizeConvertFormatPage() {
             )}
 
             <div className="flex flex-col justify-center items-center gap-4 w-full">
-                <div
-                    className={`w-full grid grid-cols-1 gap-4`}
-                >
-                    <Field
-                        htmlFor="format"
-                        label="Format"
-                        rightLabel={
-                            orgFileData
-                                ? `${orgFileData.format || "?"} -> ${outputData?.metadata?.format || "?"}`
-                                : ""
-                        }
-                        className="w-full"
-                    >
-                        <Select
-                            name="format"
-                            value={field.format}
-                            onValueChange={(value) =>
-                                setField((prev) => ({
-                                    ...prev,
-                                    format: value as typeof prev.format,
-                                    quality:
-                                        value === "png" || value === "ico"
-                                            ? 100
-                                            : prev.quality,
-                                }))
+                <div className="w-full border rounded-lg p-4 space-y-4">
+                    <div className={`w-full grid grid-cols-1 gap-4`}>
+                        <Field
+                            htmlFor="format"
+                            label="Format"
+                            rightLabel={
+                                orgFileData
+                                    ? `${orgFileData.format || "?"} -> ${outputData?.metadata?.format || "?"}`
+                                    : ""
                             }
+                            className="w-full"
                         >
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Select format" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {imageFormatConvertList.map(
-                                    (format: string) => (
-                                        <SelectItem key={format} value={format}>
-                                            {format}
-                                        </SelectItem>
-                                    ),
-                                )}
-                            </SelectContent>
-                        </Select>
-                    </Field>
-                </div>
+                            <Select
+                                name="format"
+                                value={field.format}
+                                onValueChange={(value) =>
+                                    setField((prev) => ({
+                                        ...prev,
+                                        format: value as typeof prev.format,
+                                        quality:
+                                            value === "png" || value === "ico"
+                                                ? 100
+                                                : prev.quality,
+                                    }))
+                                }
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Select format" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {imageFormatConvertList.map(
+                                        (format: string) => (
+                                            <SelectItem
+                                                key={format}
+                                                value={format}
+                                            >
+                                                {format}
+                                            </SelectItem>
+                                        ),
+                                    )}
+                                </SelectContent>
+                            </Select>
+                        </Field>
+                    </div>
 
-                {/* width, height */}
-                <div className={`w-full grid grid-cols-2 gap-4`}>
-                    <Field
-                        htmlFor="width"
-                        label="Width"
-                        rightLabel={`${field.width} px`}
-                    >
-                        <Input
-                            name="width"
-                            type="number"
-                            value={field.width}
-                            onChange={(e) => {
-                                const newWidth = parseInt(e.target.value, 10);
-                                setField((prev) => ({
-                                    ...prev,
-                                    width: newWidth,
-                                }));
-                                setUserDimensions((prev) =>
-                                    prev
-                                        ? { ...prev, width: newWidth }
-                                        : {
-                                              width: newWidth,
-                                              height: field.height || 0,
-                                          },
-                                );
-                            }}
-                            min={1}
-                            max={field.format === "ico" ? 300 : undefined}
-                        />
-                    </Field>
-                    <Field
-                        htmlFor="height"
-                        label="Height"
-                        rightLabel={`${field.height} px`}
-                    >
-                        <Input
-                            name="height"
-                            type="number"
-                            value={field.height}
-                            onChange={(e) => {
-                                const newHeight = parseInt(e.target.value, 10);
-                                setField((prev) => ({
-                                    ...prev,
-                                    height: newHeight,
-                                }));
-                                setUserDimensions((prev) =>
-                                    prev
-                                        ? { ...prev, height: newHeight }
-                                        : {
-                                              width: field.width || 0,
-                                              height: newHeight,
-                                          },
-                                );
-                            }}
-                            min={1}
-                            max={field.format === "ico" ? 300 : undefined}
-                        />
-                    </Field>
-                </div>
-
-                {/* fit, accept ratio */}
-                <div className={`w-full grid grid-cols-2 gap-4`}>
-                    <Field htmlFor="fit" label="Fit" className="w-full">
-                        <Select
-                            name="fit"
-                            value={field.fit}
-                            onValueChange={(value) =>
-                                setField((prev) => ({
-                                    ...prev,
-                                    fit: value as typeof prev.fit,
-                                }))
-                            }
+                    {/* width, height */}
+                    <div className={`w-full grid grid-cols-2 gap-4`}>
+                        <Field
+                            htmlFor="width"
+                            label="Width"
+                            rightLabel={`${field.width} px`}
                         >
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Select fit" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {imageFitList.map((fit: string) => (
-                                    <SelectItem key={fit} value={fit}>
-                                        {fit}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </Field>
-                    <Field htmlFor="ratio" label="Maintain Aspect Ratio">
-                        <Button
-                            name="ratio"
-                            onClick={() =>
-                                setField((p) => ({
-                                    ...p,
-                                    maintainAspectRatio: !p.maintainAspectRatio,
-                                }))
-                            }
-                            type="button"
-                            className="flex gap-2 justify-start items-center w-full"
-                            variant={"outline"}
-                            disabled={loading}
-                        >
-                            <span
-                                className={`${!field.maintainAspectRatio ? "bg-red-500" : "bg-green-500"} w-2 h-2 rounded-full`}
+                            <Input
+                                name="width"
+                                type="number"
+                                value={field.width}
+                                onChange={(e) => {
+                                    const newWidth = parseInt(
+                                        e.target.value,
+                                        10,
+                                    );
+                                    setField((prev) => ({
+                                        ...prev,
+                                        width: newWidth,
+                                    }));
+                                    setUserDimensions((prev) =>
+                                        prev
+                                            ? { ...prev, width: newWidth }
+                                            : {
+                                                  width: newWidth,
+                                                  height: field.height || 0,
+                                              },
+                                    );
+                                }}
+                                min={1}
+                                max={field.format === "ico" ? 300 : undefined}
                             />
-                            <span>
-                                {field.maintainAspectRatio ? "Yes" : "No"}
-                            </span>
-                        </Button>
-                    </Field>
-                </div>
+                        </Field>
+                        <Field
+                            htmlFor="height"
+                            label="Height"
+                            rightLabel={`${field.height} px`}
+                        >
+                            <Input
+                                name="height"
+                                type="number"
+                                value={field.height}
+                                onChange={(e) => {
+                                    const newHeight = parseInt(
+                                        e.target.value,
+                                        10,
+                                    );
+                                    setField((prev) => ({
+                                        ...prev,
+                                        height: newHeight,
+                                    }));
+                                    setUserDimensions((prev) =>
+                                        prev
+                                            ? { ...prev, height: newHeight }
+                                            : {
+                                                  width: field.width || 0,
+                                                  height: newHeight,
+                                              },
+                                    );
+                                }}
+                                min={1}
+                                max={field.format === "ico" ? 300 : undefined}
+                            />
+                        </Field>
+                    </div>
 
-                {/* background, max size */}
-                {/* <div className="w-full grid grid-cols-2 gap-4">
+                    {/* fit, accept ratio */}
+                    <div className={`w-full grid grid-cols-2 gap-4`}>
+                        <Field htmlFor="fit" label="Fit" className="w-full">
+                            <Select
+                                name="fit"
+                                value={field.fit}
+                                onValueChange={(value) =>
+                                    setField((prev) => ({
+                                        ...prev,
+                                        fit: value as typeof prev.fit,
+                                    }))
+                                }
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Select fit" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {imageFitList.map((fit: string) => (
+                                        <SelectItem key={fit} value={fit}>
+                                            {fit}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </Field>
+                        <Field htmlFor="ratio" label="Maintain Aspect Ratio">
+                            <Button
+                                name="ratio"
+                                onClick={() =>
+                                    setField((p) => ({
+                                        ...p,
+                                        maintainAspectRatio:
+                                            !p.maintainAspectRatio,
+                                    }))
+                                }
+                                type="button"
+                                className="flex gap-2 justify-start items-center w-full"
+                                variant={"outline"}
+                                disabled={loading}
+                            >
+                                <span
+                                    className={`${!field.maintainAspectRatio ? "bg-red-500" : "bg-green-500"} w-2 h-2 rounded-full`}
+                                />
+                                <span>
+                                    {field.maintainAspectRatio ? "Yes" : "No"}
+                                </span>
+                            </Button>
+                        </Field>
+                    </div>
+
+                    {/* background, max size */}
+                    {/* <div className="w-full grid grid-cols-2 gap-4">
                     <Field htmlFor="background" label="Background">
                         <Input
                             name="background"
@@ -381,29 +390,30 @@ export default function ImageResizeConvertFormatPage() {
                     </Field>
                 </div> */}
 
-                {/* quality */}
-                {(field.format === "jpeg" || field.format === "webp") && (
-                    <Field
-                        htmlFor="quality"
-                        label="Quality"
-                        rightLabel={`${field.quality}%`}
-                        className="w-full"
-                    >
-                        <Slider
-                            value={[field.quality || 10]}
-                            onValueChange={(val) =>
-                                setField((prev) => ({
-                                    ...prev,
-                                    quality: val[0],
-                                }))
-                            }
-                            min={10}
-                            max={100}
-                            step={1}
-                            className="mb-2"
-                        />
-                    </Field>
-                )}
+                    {/* quality */}
+                    {(field.format === "jpeg" || field.format === "webp") && (
+                        <Field
+                            htmlFor="quality"
+                            label="Quality"
+                            rightLabel={`${field.quality}%`}
+                            className="w-full"
+                        >
+                            <Slider
+                                value={[field.quality || 10]}
+                                onValueChange={(val) =>
+                                    setField((prev) => ({
+                                        ...prev,
+                                        quality: val[0],
+                                    }))
+                                }
+                                min={10}
+                                max={100}
+                                step={1}
+                                className="mb-2"
+                            />
+                        </Field>
+                    )}
+                </div>
 
                 <div className="w-full grid grid-cols-2 items-center gap-2">
                     <Button type="submit" disabled={loading} className="w-full">

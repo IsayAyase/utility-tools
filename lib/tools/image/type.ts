@@ -23,24 +23,29 @@ export interface ImageConvertResizeReduceInput {
   maxWidthOrHeight?: number
 }
 
-export interface ImageCropInput {
+export interface ImageTransformInput {
   buffer: Uint8Array | null
-  left: number
-  top: number
-  width: number
-  height: number
-}
-
-export interface ImageRotateInput {
-  buffer: Uint8Array | null
-  angle: number
-  background?: string
-  expand?: boolean
-}
-
-export interface ImageFlipInput {
-  buffer: Uint8Array | null
-  direction: ImageDirectionType
+  format?: ImageFormatType
+  
+  // Crop parameters
+  crop?: {
+    left: number
+    top: number
+    width: number
+    height: number
+  }
+  
+  // Rotate parameters
+  rotate?: {
+    angle: number
+    background?: string
+    expand?: boolean
+  }
+  
+  // Flip parameters
+  flip?: {
+    direction: ImageDirectionType
+  }
 }
 
 export interface ImageStripExifInput {

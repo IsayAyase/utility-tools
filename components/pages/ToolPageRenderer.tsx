@@ -48,6 +48,11 @@ const toolsPageCompObj: Record<
             ssr: false,
             loading: () => <LoadingPage />,
         }),
+        
+        image_transform: dynamic(() => import("./image/ImageTransformPage"), {
+            ssr: false,
+            loading: () => <LoadingPage />,
+        }),
     },
 };
 
