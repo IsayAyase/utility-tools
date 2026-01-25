@@ -133,7 +133,10 @@ export default function ImageToPdfPage() {
         >
             {files && files.length > 0 ? (
                 <div className="order-2 lg:order-1">
-                <PdfPreview loading={loading} buffer={outputData?.data || null} />
+                    <PdfPreview
+                        loading={loading}
+                        buffer={outputData?.data || null}
+                    />
                 </div>
             ) : (
                 <FileUpload
@@ -150,99 +153,107 @@ export default function ImageToPdfPage() {
             )}
 
             <div className="flex flex-col justify-center items-center gap-4 w-full order-1 lg:order-2">
-                <div className={`w-full grid grid-cols-2 gap-4`}>
-                    <Field htmlFor="fit" label="Fit" className="w-full">
-                        <Select
-                            name="fit"
-                            value={fields.fit}
-                            onValueChange={(value) =>
-                                setFields((prev) => ({
-                                    ...prev,
-                                    fit: value as typeof prev.fit,
-                                }))
-                            }
+                <div className="w-full border rounded-lg p-4 space-y-4">
+                    <div className={`w-full grid grid-cols-2 gap-4`}>
+                        <Field htmlFor="fit" label="Fit" className="w-full">
+                            <Select
+                                name="fit"
+                                value={fields.fit}
+                                onValueChange={(value) =>
+                                    setFields((prev) => ({
+                                        ...prev,
+                                        fit: value as typeof prev.fit,
+                                    }))
+                                }
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Select fit" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {imageFitList.map((fit: string) => (
+                                        <SelectItem key={fit} value={fit}>
+                                            {fit}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </Field>
+                        <Field
+                            htmlFor="pageSize"
+                            label="Page size"
+                            className="w-full"
                         >
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Select fit" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {imageFitList.map((fit: string) => (
-                                    <SelectItem key={fit} value={fit}>
-                                        {fit}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </Field>
-                    <Field
-                        htmlFor="pageSize"
-                        label="Page size"
-                        className="w-full"
-                    >
-                        <Select
-                            name="pageSize"
-                            value={fields.pageSize}
-                            onValueChange={(value) =>
-                                setFields((prev) => ({
-                                    ...prev,
-                                    pageSize: value as typeof prev.pageSize,
-                                }))
-                            }
-                        >
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Select page size" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {pageSizeList.map((pageSize: string) => (
-                                    <SelectItem key={pageSize} value={pageSize}>
-                                        {pageSize}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </Field>
-                </div>
+                            <Select
+                                name="pageSize"
+                                value={fields.pageSize}
+                                onValueChange={(value) =>
+                                    setFields((prev) => ({
+                                        ...prev,
+                                        pageSize: value as typeof prev.pageSize,
+                                    }))
+                                }
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Select page size" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {pageSizeList.map((pageSize: string) => (
+                                        <SelectItem
+                                            key={pageSize}
+                                            value={pageSize}
+                                        >
+                                            {pageSize}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </Field>
+                    </div>
 
-                <div className={`w-full grid grid-cols-2 gap-4`}>
-                    <Field
-                        htmlFor="margin"
-                        label="Margin"
-                        rightLabel={`${fields.margin} px`}
-                    >
-                        <Input
-                            name="margin"
-                            type="number"
-                            value={fields.margin}
-                            onChange={(e) => {
-                                const newmargin = parseInt(e.target.value, 10);
-                                setFields((prev) => ({
-                                    ...prev,
-                                    margin: newmargin,
-                                }));
-                            }}
-                            min={1}
-                        />
-                    </Field>
-                    <Field htmlFor="compress" label="Compress">
-                        <Button
-                            name="compress"
-                            onClick={() =>
-                                setFields((p) => ({
-                                    ...p,
-                                    compress: !p.compress,
-                                }))
-                            }
-                            type="button"
-                            className="flex gap-2 justify-start items-center w-full"
-                            variant={"outline"}
-                            disabled={loading}
+                    <div className={`w-full grid grid-cols-2 gap-4`}>
+                        <Field
+                            htmlFor="margin"
+                            label="Margin"
+                            rightLabel={`${fields.margin} px`}
                         >
-                            <span
-                                className={`${!fields.compress ? "bg-red-500" : "bg-green-500"} w-2 h-2 rounded-full`}
+                            <Input
+                                name="margin"
+                                type="number"
+                                value={fields.margin}
+                                onChange={(e) => {
+                                    const newmargin = parseInt(
+                                        e.target.value,
+                                        10,
+                                    );
+                                    setFields((prev) => ({
+                                        ...prev,
+                                        margin: newmargin,
+                                    }));
+                                }}
+                                min={1}
                             />
-                            {fields.compress ? "Yes" : "No"}
-                        </Button>
-                    </Field>
+                        </Field>
+                        <Field htmlFor="compress" label="Compress">
+                            <Button
+                                name="compress"
+                                onClick={() =>
+                                    setFields((p) => ({
+                                        ...p,
+                                        compress: !p.compress,
+                                    }))
+                                }
+                                type="button"
+                                className="flex gap-2 justify-start items-center w-full"
+                                variant={"outline"}
+                                disabled={loading}
+                            >
+                                <span
+                                    className={`${!fields.compress ? "bg-red-500" : "bg-green-500"} w-2 h-2 rounded-full`}
+                                />
+                                {fields.compress ? "Yes" : "No"}
+                            </Button>
+                        </Field>
+                    </div>
                 </div>
 
                 <div className="w-full grid grid-cols-2 items-center gap-2">

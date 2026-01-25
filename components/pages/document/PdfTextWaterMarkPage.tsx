@@ -133,8 +133,15 @@ export default function PdfTextWaterMarkPage() {
     }
 
     return (
-        <div className="grid grid-cols-1 gap-8 w-full">
-            <div className="flex flex-col justify-center items-center gap-6 max-w-md w-full m-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-4 items-start lg:gap-6 w-full">
+            {files && files.length > 0 ? (
+                <div className="order-2 lg:order-1">
+                    <PdfPreview
+                        loading={loading}
+                        buffer={outputBuffer || null}
+                    />
+                </div>
+            ) : (
                 <FileUpload
                     onFileSelect={handleFileChange}
                     valueFiles={files}
@@ -143,93 +150,105 @@ export default function PdfTextWaterMarkPage() {
                     accept=".pdf"
                     required
                     helperText=""
+                    className="h-72 md:h-96 lg:h-120 xl:h-150"
                 />
+            )}
 
-                <div className="w-full grid grid-cols-2 items-center gap-2">
-                    <Field htmlFor="text" label="Text">
-                        <Input
-                            name="text"
-                            value={fields.text}
-                            onChange={handleFieldChange}
-                            placeholder="Text"
-                        />
-                    </Field>
+            <div className="flex flex-col justify-center items-center gap-4 w-full order-1 lg:order-2">
+                <div className="w-full border rounded-lg p-4 space-y-4">
+                    <div className="w-full grid grid-cols-2 items-center gap-2">
+                        <Field htmlFor="text" label="Text">
+                            <Input
+                                name="text"
+                                value={fields.text}
+                                onChange={handleFieldChange}
+                                placeholder="Text"
+                            />
+                        </Field>
 
-                    <Field
-                        htmlFor="position"
-                        label="Position"
-                        className="w-full"
-                    >
-                        <Select
-                            name="position"
-                            value={fields.position}
-                            onValueChange={(value) =>
-                                handleFieldChange({ name: "position", value })
-                            }
+                        <Field
+                            htmlFor="position"
+                            label="Position"
+                            className="w-full"
                         >
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Position" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="top-left">
-                                    Top Left
-                                </SelectItem>
-                                <SelectItem value="top-right">
-                                    Top Right
-                                </SelectItem>
-                                <SelectItem value="bottom-left">
-                                    Bottom Left
-                                </SelectItem>
-                                <SelectItem value="bottom-right">
-                                    Bottom Right
-                                </SelectItem>
-                                <SelectItem value="center">Center</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </Field>
-                </div>
+                            <Select
+                                name="position"
+                                value={fields.position}
+                                onValueChange={(value) =>
+                                    handleFieldChange({
+                                        name: "position",
+                                        value,
+                                    })
+                                }
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Position" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="top-left">
+                                        Top Left
+                                    </SelectItem>
+                                    <SelectItem value="top-right">
+                                        Top Right
+                                    </SelectItem>
+                                    <SelectItem value="bottom-left">
+                                        Bottom Left
+                                    </SelectItem>
+                                    <SelectItem value="bottom-right">
+                                        Bottom Right
+                                    </SelectItem>
+                                    <SelectItem value="center">
+                                        Center
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </Field>
+                    </div>
 
-                <div className="w-full grid grid-cols-4 items-center gap-2">
-                    <Field htmlFor="color" label="Color">
-                        <Input
-                            name="color"
-                            value={fields.color}
-                            onChange={handleFieldChange}
-                            placeholder="Color"
-                            type="color"
-                        />
-                    </Field>
+                    <div className="w-full grid grid-cols-2 items-center gap-2">
+                        <Field htmlFor="fontSize" label="Font Size">
+                            <Input
+                                name="fontSize"
+                                value={fields.fontSize}
+                                onChange={handleFieldChange}
+                                placeholder="Font Size"
+                                type="number"
+                            />
+                        </Field>
 
-                    <Field htmlFor="opacity" label="Opacity">
-                        <Input
-                            name="opacity"
-                            value={fields.opacity}
-                            onChange={handleFieldChange}
-                            placeholder="Opacity"
-                            type="number"
-                            step="0.1"
-                        />
-                    </Field>
+                        <Field htmlFor="color" label="Color">
+                            <Input
+                                name="color"
+                                value={fields.color}
+                                onChange={handleFieldChange}
+                                placeholder="Color"
+                                type="color"
+                            />
+                        </Field>
+                    </div>
 
-                    <Field htmlFor="fontSize" label="Font Size">
-                        <Input
-                            name="fontSize"
-                            value={fields.fontSize}
-                            onChange={handleFieldChange}
-                            placeholder="Font Size"
-                            type="number"
-                        />
-                    </Field>
+                    <div className="w-full grid grid-cols-2 items-center gap-2">
+                        <Field htmlFor="opacity" label="Opacity">
+                            <Input
+                                name="opacity"
+                                value={fields.opacity}
+                                onChange={handleFieldChange}
+                                placeholder="Opacity"
+                                type="number"
+                                step="0.1"
+                            />
+                        </Field>
 
-                    <Field htmlFor="rotation" label="Rotation">
-                        <Input
-                            name="rotation"
-                            value={fields.rotation}
-                            onChange={handleFieldChange}
-                            placeholder="Rotation"
-                            type="number"
-                        />
-                    </Field>
+                        <Field htmlFor="rotation" label="Rotation">
+                            <Input
+                                name="rotation"
+                                value={fields.rotation}
+                                onChange={handleFieldChange}
+                                placeholder="Rotation"
+                                type="number"
+                            />
+                        </Field>
+                    </div>
                 </div>
 
                 <div className="w-full grid grid-cols-2 items-center gap-2">
@@ -239,7 +258,7 @@ export default function PdfTextWaterMarkPage() {
                         className="w-full"
                     >
                         {loading && <LoadingSpinner className="size-4" />}
-                        <span>Download</span>
+                        <span>Save</span>
                     </Button>
                     <Button
                         variant={"outline"}
@@ -251,8 +270,6 @@ export default function PdfTextWaterMarkPage() {
                     </Button>
                 </div>
             </div>
-
-            <PdfPreview buffer={outputBuffer} />
         </div>
     );
 }

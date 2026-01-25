@@ -170,8 +170,15 @@ export default function PdfSplitPage() {
     }
 
     return (
-        <div className="grid grid-cols-1 gap-8 w-full">
-            <div className="flex flex-col justify-center items-center gap-4 max-w-md w-full m-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-4 items-start lg:gap-6 w-full">
+            {files && files.length > 0 ? (
+                <div className="order-2 lg:order-1">
+                    <PdfPreview
+                        loading={loading}
+                        buffer={outputBuffer || null}
+                    />
+                </div>
+            ) : (
                 <FileUpload
                     onFileSelect={setFiles}
                     valueFiles={files}
@@ -180,8 +187,11 @@ export default function PdfSplitPage() {
                     accept=".pdf"
                     required
                     helperText=""
+                    className="h-72 md:h-96 lg:h-120 xl:h-150"
                 />
+            )}
 
+            <div className="flex flex-col justify-center items-center gap-4 w-full order-1 lg:order-2">
                 <div className="flex items-end gap-2 w-full">
                     <Field
                         htmlFor="pages"
@@ -230,8 +240,6 @@ export default function PdfSplitPage() {
                     </Button>
                 </div>
             </div>
-
-            <PdfPreview buffer={outputBuffer} />
         </div>
     );
 }

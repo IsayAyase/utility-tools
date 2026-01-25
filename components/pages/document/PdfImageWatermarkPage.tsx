@@ -81,10 +81,6 @@ export default function PdfImageWatermarkPage() {
         };
     }, [fields]);
 
-    useEffect(() => {
-        console.log("shit");
-    }, [outputBuffer]);
-
     async function handleFileChange(fl: FileList | null) {
         if (!fl) return;
 
@@ -158,8 +154,15 @@ export default function PdfImageWatermarkPage() {
     }
 
     return (
-        <div className="grid grid-cols-1 gap-8 w-full">
-            <div className="flex flex-col justify-center items-center gap-6 max-w-md w-full m-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-4 items-start lg:gap-6 w-full">
+            {files && files.length > 0 ? (
+                <div className="order-2 lg:order-1">
+                    <PdfPreview
+                        loading={loading}
+                        buffer={outputBuffer || null}
+                    />
+                </div>
+            ) : (
                 <FileUpload
                     onFileSelect={handleFileChange}
                     valueFiles={files}
@@ -168,8 +171,11 @@ export default function PdfImageWatermarkPage() {
                     accept=".pdf"
                     required
                     helperText=""
+                    className="h-72 md:h-96 lg:h-120 xl:h-150"
                 />
+            )}
 
+            <div className="flex flex-col justify-center items-center gap-4 w-full order-1 lg:order-2">
                 <FileUpload
                     onFileSelect={handleImageChange}
                     valueFiles={imageFiles}
@@ -180,71 +186,80 @@ export default function PdfImageWatermarkPage() {
                     helperText=""
                 />
 
-                <div className="w-full grid grid-cols-4 items-center gap-2">
-                    <Field
-                        htmlFor="position"
-                        label="Position"
-                        className="w-full"
-                    >
-                        <Select
-                            name="position"
-                            value={fields.position}
-                            onValueChange={(value) =>
-                                handleFieldChange({ name: "position", value })
-                            }
+                <div className="w-full border rounded-lg p-4 space-y-4">
+                    <div className="w-full grid grid-cols-2 items-center gap-2">
+                        <Field
+                            htmlFor="position"
+                            label="Position"
+                            className="w-full"
                         >
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Position" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="top-left">
-                                    Top Left
-                                </SelectItem>
-                                <SelectItem value="top-right">
-                                    Top Right
-                                </SelectItem>
-                                <SelectItem value="bottom-left">
-                                    Bottom Left
-                                </SelectItem>
-                                <SelectItem value="bottom-right">
-                                    Bottom Right
-                                </SelectItem>
-                                <SelectItem value="center">Center</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </Field>
+                            <Select
+                                name="position"
+                                value={fields.position}
+                                onValueChange={(value) =>
+                                    handleFieldChange({
+                                        name: "position",
+                                        value,
+                                    })
+                                }
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Position" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="top-left">
+                                        Top Left
+                                    </SelectItem>
+                                    <SelectItem value="top-right">
+                                        Top Right
+                                    </SelectItem>
+                                    <SelectItem value="bottom-left">
+                                        Bottom Left
+                                    </SelectItem>
+                                    <SelectItem value="bottom-right">
+                                        Bottom Right
+                                    </SelectItem>
+                                    <SelectItem value="center">
+                                        Center
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </Field>
 
-                    <Field htmlFor="scale" label="Scale">
-                        <Input
-                            name="scale"
-                            value={fields.scale}
-                            onChange={handleFieldChange}
-                            placeholder="Scale"
-                            type="number"
-                            step={"0.1"}
-                        />
-                    </Field>
+                        <Field htmlFor="scale" label="Scale">
+                            <Input
+                                name="scale"
+                                value={fields.scale}
+                                onChange={handleFieldChange}
+                                placeholder="Scale"
+                                type="number"
+                                step={"0.1"}
+                            />
+                        </Field>
+                    </div>
+                    
+                    <div className="w-full grid grid-cols-2 items-center gap-2">
+                        <Field htmlFor="opacity" label="Opacity">
+                            <Input
+                                name="opacity"
+                                value={fields.opacity}
+                                onChange={handleFieldChange}
+                                placeholder="Opacity"
+                                type="number"
+                                step="0.1"
+                            />
+                        </Field>
 
-                    <Field htmlFor="opacity" label="Opacity">
-                        <Input
-                            name="opacity"
-                            value={fields.opacity}
-                            onChange={handleFieldChange}
-                            placeholder="Opacity"
-                            type="number"
-                            step="0.1"
-                        />
-                    </Field>
-
-                    <Field htmlFor="rotation" label="Rotation">
-                        <Input
-                            name="rotation"
-                            value={fields.rotation}
-                            onChange={handleFieldChange}
-                            placeholder="Rotation"
-                            type="number"
-                        />
-                    </Field>
+                        <Field htmlFor="rotation" label="Rotation">
+                            <Input
+                                name="rotation"
+                                value={fields.rotation}
+                                onChange={handleFieldChange}
+                                placeholder="Rotation"
+                                type="number"
+                            />
+                        </Field>
+                    </div>
                 </div>
 
                 <div className="w-full grid grid-cols-2 items-center gap-2">
@@ -266,8 +281,6 @@ export default function PdfImageWatermarkPage() {
                     </Button>
                 </div>
             </div>
-
-            <PdfPreview buffer={outputBuffer} />
         </div>
     );
 }
