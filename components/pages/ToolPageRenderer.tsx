@@ -48,7 +48,7 @@ const toolsPageCompObj: Record<
             ssr: false,
             loading: () => <LoadingPage />,
         }),
-        
+
         image_transform: dynamic(() => import("./image/ImageTransformPage"), {
             ssr: false,
             loading: () => <LoadingPage />,
@@ -69,9 +69,14 @@ const ToolPageRenderer = ({
     return (
         <div className="">
             <div className="md:space-y-1">
-                <h1 className="font-semibold text-2xl md:text-3xl lg:text-4xl">
-                    {toolInfo.name}
-                </h1>
+                <div className="flex items-center gap-3">
+                    <div className="rounded-md p-2 border w-fit h-fit">
+                        {toolInfo.icon}
+                    </div>
+                    <h1 className="font-semibold text-2xl md:text-3xl lg:text-4xl">
+                        {toolInfo.name}
+                    </h1>
+                </div>
                 <p className="text-muted-foreground text-sm md:text-base xl:text-lg">
                     {toolInfo.description}
                 </p>

@@ -3,6 +3,7 @@ import {
     Card,
     CardContent,
     CardDescription,
+    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
@@ -14,6 +15,7 @@ import {
 } from "@/lib/tools";
 import Link from "next/link";
 import type { JSX } from "react";
+import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 
 export function ToolCard({
     data,
@@ -24,7 +26,7 @@ export function ToolCard({
 }) {
     const url = `/tools/${data.category}/${data.slug}`;
     const render = () => {
-        if (variant === 'titleonly') {
+        if (variant === "titleonly") {
             return (
                 <CardContent>
                     <CardTitle>{data.name}</CardTitle>
@@ -41,23 +43,37 @@ export function ToolCard({
             return (
                 <>
                     <CardHeader>
-                        <CardTitle>{data.name}</CardTitle>
+                        <div className="rounded-md p-2 border w-fit h-fit">
+                            {data.icon}
+                        </div>
+                        <CardTitle className="text-lg">{data.name}</CardTitle>
+                        <div className="w-fit text-xs px-2 rounded-full bg-secondary hover:bg-background transition-colors duration-150 border capitalize">
+                            {data.category}
+                        </div>
                         <CardDescription>{data.description}</CardDescription>
                     </CardHeader>
+                    <CardFooter>
+                        <div className="flex items-center gap-1 group-hover:gap-3 transition-all duration-300">
+                            <span>Open</span>
+                            <MdOutlineKeyboardDoubleArrowRight className="size-5" />
+                        </div>
+                    </CardFooter>
                 </>
             );
         }
     };
     return (
-        <Link className="h-full" href={url}>
-            <Card className="h-full hover:scale-[102%] hover:shadow-md transition-all duration-300">{render()}</Card>
+        <Link className="h-full group" href={url}>
+            <Card className="h-full hover:scale-[101%] hover:shadow-md transition-all duration-300">
+                {render()}
+            </Card>
         </Link>
     );
 }
 
 export function ToolCardGrid({ renderTools }: { renderTools: JSX.Element[] }) {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
             {renderTools.length > 0 ? (
                 renderTools
             ) : (
@@ -83,7 +99,7 @@ export default function ToolsPage({
                   ([_, tool]) => <ToolCard key={tool.slug} data={tool} />,
               );
     return (
-        <div className="space-y-4">
+        <div className="space-y-6">
             <CategoryBar selectedCategory={selectedCategory} />
             <ToolCardGrid renderTools={renderTools} />
         </div>
