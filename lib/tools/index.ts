@@ -82,10 +82,17 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
             keywords: ["image", "tools", "convert", "merge", "split", "watermark", "metadata", "update"],
         },
         tools: {
-            "image_format_convert": {
-                slug: "image_format_convert",
-                name: "Image Format Convert",
-                description: "Convert image between different formats using Canvas API",
+            "image_resize_convert_format": {
+                slug: "image_resize_convert_format",
+                name: "Image Resize and Convert Format",
+                description: "Convert image format, resize and reduce file size of images",
+                category: "image",
+                keywords: ["image", "tools", "convert", "merge", "split", "watermark", "metadata", "update"],
+            },
+            "image_to_pdf": {
+                slug: "image_to_pdf",
+                name: "Image to PDF",
+                description: "Convert an image (JPG, PNG, WebP) or multiple images to PDF document",
                 category: "image",
                 keywords: ["image", "tools", "convert", "merge", "split", "watermark", "metadata", "update"],
             },

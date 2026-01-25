@@ -40,10 +40,14 @@ const toolsPageCompObj: Record<
         ),
     },
     image: {
-        image_format_convert: dynamic(
-            () => import("./image/ImageFormatConvertPage"),
+        image_resize_convert_format: dynamic(
+            () => import("./image/ImageResizeConvertFormatPage"),
             { ssr: false, loading: () => <LoadingPage /> },
         ),
+        image_to_pdf: dynamic(() => import("./image/ImageToPdfPage"), {
+            ssr: false,
+            loading: () => <LoadingPage />,
+        }),
     },
 };
 

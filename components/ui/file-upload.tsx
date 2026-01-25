@@ -1,4 +1,5 @@
 import { bytesToSize } from "@/lib/tools/helper";
+import { cn } from "@/lib/utils";
 import { Upload } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Label } from "./label";
@@ -12,6 +13,7 @@ export default function FileUpload({
     valueFiles = null,
     onFileSelect,
     multiple = false,
+    className,
 }: {
     name: string;
     label: string;
@@ -21,6 +23,7 @@ export default function FileUpload({
     valueFiles?: FileList | null;
     onFileSelect?: (files: FileList | null) => void;
     multiple?: boolean;
+    className?: string;
 }) {
     const inputRef = useRef<HTMLInputElement>(null);
     const [fileNames, setFileNames] = useState<string[] | null>(null);
@@ -60,12 +63,15 @@ export default function FileUpload({
                         onFileSelect?.(files);
                     }
                 }}
-                className="
+                className={cn(
+                    `
                 flex cursor-pointer flex-col items-center justify-center
                 rounded-md border border-dashed border-muted-foreground/40
                 bg-muted/30 px-6 py-10 text-center
                 transition hover:bg-muted/50
-                "
+                `,
+                    className,
+                )}
             >
                 <Upload className="mb-2 h-5 w-5 text-muted-foreground" />
 

@@ -1,20 +1,22 @@
 import { bufferToBlob } from "@/lib/tools/helper";
 import LoadingSpinner from "./LoadingSpinner";
 
-export default function PdfPreview({
+export default function ImagePreview({
     buffer,
     loading = false,
 }: {
-    buffer: Uint8Array | null;
+    buffer?: Uint8Array | null;
     loading?: boolean;
 }) {
     const url = buffer
-        ? URL.createObjectURL(bufferToBlob(buffer, "application/pdf"))
+        ? URL.createObjectURL(bufferToBlob(buffer, "image/*"))
         : "";
     return (
-        <div className="w-full h-180 bg-muted/30 border rounded-lg">
-            {!url ? (
-                <div className="flex items-center justify-center w-full h-full">
+        <div className="flex justify-center items-center w-full h-72 md:h-96 lg:h-120 xl:h-150 bg-muted/30 border rounded-lg overflow-hidden">
+            {url ? (
+                <img src={url} className="w-full h-full object-contain" />
+            ) : (
+                <>
                     {loading ? (
                         <LoadingSpinner className="size-5" />
                     ) : (
@@ -22,9 +24,7 @@ export default function PdfPreview({
                             Nothing to preview.
                         </span>
                     )}
-                </div>
-            ) : (
-                <iframe src={url} className="w-full h-full rounded-lg" />
+                </>
             )}
         </div>
     );

@@ -73,7 +73,7 @@ export default function PdfMergePage() {
             <div className="w-full grid grid-cols-2 items-center gap-2">
                 <Button type="submit" disabled={loading} className="w-full">
                     {loading && <LoadingSpinner className="size-4" />}
-                    <span>Split</span>
+                    <span>Merge</span>
                 </Button>
                 <Button
                     type="button"

@@ -1,29 +1,26 @@
-import type { imageFormatConvertList } from "."
+import type { flipDirectionList, imageFitList, imageFormatConvertList, pageSizeList } from "."
 
 export type ImageFormatType = typeof imageFormatConvertList[number]
+export type ImageFitType = typeof imageFitList[number]
+export type ImageDirectionType = typeof flipDirectionList[number]
 
-export interface ImageFormatConvertInput {
+export interface ImageConvertResizeReduceInput {
   buffer: Uint8Array | null
-  format: ImageFormatType
-  quality?: number
-  icoSize?: number
-}
 
-export interface ImageCompressInput {
-  buffer: Uint8Array | null
-  quality?: number
+  /* ---------- format / compression ---------- */
   format?: ImageFormatType
+  quality?: number
+
+  /* ---------- resize ---------- */
+  width?: number
+  height?: number
+  maintainAspectRatio?: boolean
+  fit?: ImageFitType
+  background?: string
+
+  /* ---------- constraints ---------- */
   maxSizeMB?: number
   maxWidthOrHeight?: number
-}
-
-export interface ImageResizeInput {
-  buffer: Uint8Array | null
-  width: number
-  height: number
-  maintainAspectRatio?: boolean
-  fit?: 'cover' | 'contain' | 'fill' | 'inside' | 'outside'
-  background?: string
 }
 
 export interface ImageCropInput {
@@ -43,7 +40,7 @@ export interface ImageRotateInput {
 
 export interface ImageFlipInput {
   buffer: Uint8Array | null
-  direction: 'horizontal' | 'vertical' | 'both'
+  direction: ImageDirectionType
 }
 
 export interface ImageStripExifInput {
@@ -54,6 +51,16 @@ export interface ImageDominantColorInput {
   buffer: Uint8Array | null
   colorCount?: number
   quality?: number
+}
+
+export type PageSizeType = typeof pageSizeList[number]
+
+export interface ImageToPdfInput {
+  buffers: Uint8Array[]
+  pageSize?: PageSizeType
+  fit?: ImageFitType
+  margin?: number
+  compress?: boolean
 }
 
 export interface DominantColorResult {

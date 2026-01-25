@@ -75,7 +75,7 @@ export default function WordToPdfPage() {
                 onClick={() => setDoCompress((p) => !p)}
                 type="button"
                 className="flex gap-2 justify-center items-center w-full"
-                variant={"ghost"}
+                variant={"outline"}
                 disabled={loading}
             >
                 <span
