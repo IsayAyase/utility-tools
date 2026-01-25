@@ -49,15 +49,15 @@ export function ToolCard({
         }
     };
     return (
-        <Link href={url}>
-            <Card>{render()}</Card>
+        <Link className="h-full" href={url}>
+            <Card className="h-full hover:scale-[102%] hover:shadow-md transition-all duration-300">{render()}</Card>
         </Link>
     );
 }
 
 export function ToolCardGrid({ renderTools }: { renderTools: JSX.Element[] }) {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
             {renderTools.length > 0 ? (
                 renderTools
             ) : (
