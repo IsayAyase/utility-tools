@@ -26,7 +26,6 @@ export async function generateMetadata({
 
     const title = toolsForGivenCategorySlug.name;
     const description = toolsForGivenCategorySlug.description;
-    // const imageUrl = toolsForGivenCategorySlug.imageUrl;
     const keywords = toolsForGivenCategorySlug.keywords;
     const category = toolsForGivenCategorySlug.category;
 
@@ -44,23 +43,14 @@ export async function generateMetadata({
             title: `${title} | ${mainData.title}`,
             description,
             type: "website",
-            // images: imageUrl
-            //     ? [
-            //           {
-            //               url: imageUrl,
-            //               width: 1200,
-            //               height: 630,
-            //               alt: title,
-            //           },
-            //       ]
-            //     : undefined,
+            images: ["/preview.png"],
             siteName: mainData.title,
         },
         twitter: {
             card: "summary_large_image",
             title: `${title} | ${mainData.title}`,
             description,
-            // images: imageUrl ? [imageUrl] : undefined,
+            images: ["/preview.png"],
             site: "@prabhatlabs",
         },
         alternates: {
