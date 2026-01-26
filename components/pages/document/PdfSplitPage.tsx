@@ -36,8 +36,8 @@ function parsePageRanges(inputStr: string, totalPages?: number): number[] {
         if (part.includes("-")) {
             const [startRaw, endRaw] = part.split("-").map((s) => s.trim());
 
-            let start = startRaw === "" ? 1 : Number(startRaw);
-            let end =
+            const start = startRaw === "" ? 1 : Number(startRaw);
+            const end =
                 endRaw === ""
                     ? (totalPages ?? Number.POSITIVE_INFINITY)
                     : Number(endRaw);

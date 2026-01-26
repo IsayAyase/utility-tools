@@ -45,7 +45,7 @@ export async function generateMetadata({
             description,
             type: "website",
             images: [
-                "/preview.png",
+                "/preview_image_convert_blade_tools.webp",
             ],
             siteName: mainData.title,
         },
@@ -54,7 +54,7 @@ export async function generateMetadata({
             title: `${title} | ${mainData.title}`,
             description,
             images: [
-                "/preview.png",
+                "/preview_image_convert_blade_tools.webp",
             ],
             site: "@prabhatlabs",
         },

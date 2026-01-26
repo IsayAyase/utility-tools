@@ -43,14 +43,14 @@ export async function generateMetadata({
             title: `${title} | ${mainData.title}`,
             description,
             type: "website",
-            images: ["/preview.png"],
+            images: ["/preview_image_convert_blade_tools.webp"],
             siteName: mainData.title,
         },
         twitter: {
             card: "summary_large_image",
             title: `${title} | ${mainData.title}`,
             description,
-            images: ["/preview.png"],
+            images: ["/preview_image_convert_blade_tools.webp"],
             site: "@prabhatlabs",
         },
         alternates: {

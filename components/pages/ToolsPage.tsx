@@ -96,7 +96,7 @@ export default function ToolsPage({
         selectedCategory === "all"
             ? toolsArray.map((tool) => <ToolCard key={tool.slug} data={tool} />)
             : Object.entries(objectOfTools[selectedCategory]?.tools || {}).map(
-                  ([_, tool]) => <ToolCard key={tool.slug} data={tool} />,
+                  ([, tool]) => <ToolCard key={tool.slug} data={tool} />,
               );
     return (
         <div className="space-y-6">
