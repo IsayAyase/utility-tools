@@ -258,7 +258,7 @@ export default function PdfTextWaterMarkPage() {
                         className="w-full"
                     >
                         {loading && <LoadingSpinner className="size-4" />}
-                        <span>Save</span>
+                        <span>Download</span>
                     </Button>
                     <Button
                         variant={"outline"}
