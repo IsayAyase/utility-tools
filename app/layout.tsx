@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     title: mainData.title,
     description: mainData.description,
     category: "productivity",
+    metadataBase: "https://bladetools.prabhatlabs.dev",
     keywords: [
         "free pdf tools",
         "online image converter",
