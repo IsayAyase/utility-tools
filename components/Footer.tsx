@@ -120,7 +120,7 @@ export default function Footer() {
                 <h1
                     ref={ref}
                     className={`${racingSansOne.className}
-                        text-muted-foreground
+                        text-red-900
                         whitespace-nowrap
                         tracking-tighter
                         leading-20 sm:leading-28 md:leading-36

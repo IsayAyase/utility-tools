@@ -60,7 +60,9 @@ export default function Home() {
                 <div>
                     <div className="flex flex-col items-center justify-center sm:gap-1 md:gap-2 lg:gap-4">
                         <h2 className="font-semibold text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-                            {mainData.heroLine}
+                            Your files<span className="text-red-500">.</span>{" "}
+                            Your device<span className="text-red-500">.</span>{" "}
+                            Period<span className="text-red-500">.</span>
                         </h2>
                         <p className="text-center text-sm sm:text-base md:text-lg lg:text-xl">
                             {mainData.subHeroLine}
@@ -71,7 +73,7 @@ export default function Home() {
                         <h1
                             className={`${racingSansOne.className} text-6xl md:text-7xl lg:text-9xl text-center`}
                         >
-                            {mainData.title}
+                            BladeTool<span className="text-red-500">s</span>
                         </h1>
                     </div>
 
@@ -102,7 +104,7 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <div className="flex items-center justify-center py-14">
+                    <div className="flex justify-center py-14">
                         <Link href={mainData.ctaBtn.url}>
                             <Button
                                 size={"lg"}
@@ -111,10 +113,16 @@ export default function Home() {
                             >
                                 <span>{mainData.ctaBtn.text}</span>
 
-                                <span className="h-4 w-15 bg-background/20 absolute rotate-125 animate-move-l-r" />
-                                <span className="h-4 w-15 bg-background/10 absolute rotate-125 animate-move-l-r translate-x-6" />
+                                <span className="h-4 w-15 bg-background/20 absolute rotate-125 -left-60 animate-move-l-r" />
+                                <span className="h-4 w-15 bg-background/10 absolute rotate-125 -left-60 animate-move-l-r translate-x-6" />
                             </Button>
                         </Link>
+                    </div>
+
+                    <div className="flex justify-center">
+                        <div className="py-4 px-6 border rounded-lg w-fit text-muted-foreground/50 animate-pulse">
+                            More tools will be added soon!
+                        </div>
                     </div>
                 </div>
             </div>

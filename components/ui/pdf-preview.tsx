@@ -47,7 +47,6 @@ export default function PdfPreview({
           )}
         </div>
       ) : isMobile ? (
-        // 📱 Mobile: message only
         <div className="flex items-center justify-center w-full h-full px-4">
           <p className="text-sm text-muted-foreground text-center">
             PDF preview isn't supported on mobile browsers.
@@ -56,11 +55,10 @@ export default function PdfPreview({
           </p>
         </div>
       ) : (
-        // 🖥 Desktop inline preview
         <embed
           src={url}
           type="application/pdf"
-          className="w-full h-full"
+          className="w-full h-full thin-scroll-bar"
         />
       )}
     </div>

@@ -1,5 +1,4 @@
 import { racingSansOne } from "@/app/fonts";
-import { mainData } from "@/contents/mainData";
 import { toolsArray } from "@/lib/tools";
 import { Wrench } from "lucide-react";
 import Link from "next/link";
@@ -17,7 +16,7 @@ export default function Navbar() {
                     <h3
                         className={`text-xl italic font-semibold tracking-wide ${racingSansOne.className}`}
                     >
-                        {mainData.title}
+                        BladeTool<span className="text-red-500">s</span>
                     </h3>
                 </Link>
 

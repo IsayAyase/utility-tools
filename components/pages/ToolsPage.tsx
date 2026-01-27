@@ -53,9 +53,9 @@ export function ToolCard({
                         <CardDescription>{data.description}</CardDescription>
                     </CardHeader>
                     <CardFooter>
-                        <div className="flex items-center gap-1 group-hover:gap-3 transition-all duration-300">
+                        <div className="flex items-center gap-0.5 group-hover:gap-2 transition-all duration-300">
                             <span>Open</span>
-                            <MdOutlineKeyboardDoubleArrowRight className="size-5" />
+                            <MdOutlineKeyboardDoubleArrowRight className="size-5 group-hover:text-red-500 transition-colors duration-300" />
                         </div>
                     </CardFooter>
                 </>
