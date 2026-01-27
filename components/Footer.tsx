@@ -34,10 +34,10 @@ export default function Footer() {
 
     return (
         <div
-            className="relative w-full p-4 h-full bg-black text-white border-t border-muted-foreground/30"
+            className="relative w-full mt-8 p-4 h-full bg-black text-white border-t border-muted-foreground/30"
             id="footer"
         >
-            <div className="relative z-10 h-full w-full max-w-7xl mx-auto flex justify-between items-center gap-4 mt-2 md:mt-6 md:mb-10">
+            <div className="relative z-10 h-full w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center md:gap-4 mt-2 md:mt-6 md:mb-10">
                 <div className="text-sm text-white/60">
                     {"Build by "}{" "}
                     <Link

@@ -14,7 +14,11 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import tools from "@/lib/tools";
-import { downloadBuffer, type ToolResult } from "@/lib/tools/helper";
+import {
+    bufferToBlob,
+    downloadBuffer,
+    type ToolResult,
+} from "@/lib/tools/helper";
 import { imageFitList, pageSizeList } from "@/lib/tools/image";
 import type { ImageToPdfInput } from "@/lib/tools/image/type";
 import { useEffect, useState } from "react";
@@ -36,9 +40,30 @@ export default function ImageToPdfPage() {
         null,
     );
 
+    // Drag-and-drop reorder for image buffers
+    const [dragIndex, setDragIndex] = useState<number | null>(null);
+    const [imageSrcs, setImageSrcs] = useState<string[]>([]);
+
+    // Generate object URLs for image previews when buffers change
+    useEffect(() => {
+        const bufs = fields.buffers || [];
+        const urls = bufs.map((buf) =>
+            buf?.length
+                ? URL.createObjectURL(bufferToBlob(buf, "image/*"))
+                : "",
+        );
+        setImageSrcs(urls);
+        // Cleanup URLs when buffers change or on unmount
+        return () => {
+            urls.forEach((u) => {
+                if (u) URL.revokeObjectURL(u);
+            });
+        };
+    }, [fields.buffers]);
+
+    // Debounced generation of PDF when buffers (and options) change
     useEffect(() => {
         if (fields.buffers.length === 0) return;
-
         const timer = setTimeout(() => {
             const ops = async () => {
                 setLoading(true);
@@ -86,7 +111,7 @@ export default function ImageToPdfPage() {
             return;
         }
 
-        const buffers = [];
+        const buffers: Uint8Array[] = [];
         for (let i = 0; i < fs.length; i++) {
             const buffer = new Uint8Array(await fs[i].arrayBuffer());
             buffers.push(buffer);
@@ -126,6 +151,25 @@ export default function ImageToPdfPage() {
         setFields(init);
     }
 
+    // Drag helpers
+    function onDragStart(index: number) {
+        setDragIndex(index);
+    }
+    function onDrop(targetIndex: number) {
+        if (dragIndex === null || dragIndex === targetIndex) {
+            setDragIndex(null);
+            return;
+        }
+        const newBuffers = [...(fields.buffers || [])];
+        const [moved] = newBuffers.splice(dragIndex, 1);
+        newBuffers.splice(targetIndex, 0, moved);
+        setFields((prev) => ({
+            ...prev,
+            buffers: newBuffers,
+        }));
+        setDragIndex(null);
+    }
+
     return (
         <form
             onSubmit={onSubmit}
@@ -153,6 +197,40 @@ export default function ImageToPdfPage() {
             )}
 
             <div className="flex flex-col justify-center items-center gap-4 w-full order-1 lg:order-2">
+                {fields.buffers.length > 0 && (
+                    <div className="w-full max-h-100 overflow-auto">
+                        <div className="grid grid-cols-3 gap-2">
+                            {fields.buffers.map((_, idx) => (
+                                <div
+                                    key={idx}
+                                    draggable
+                                    onDragStart={() => onDragStart(idx)}
+                                    onDragOver={(e) => e.preventDefault()}
+                                    onDrop={() => onDrop(idx)}
+                                    className={`border rounded-sm p-1 cursor-move ${
+                                        dragIndex === idx
+                                            ? "border-blue-500"
+                                            : ""
+                                    }`}
+                                >
+                                    {imageSrcs[idx] ? (
+                                        <img
+                                            src={imageSrcs[idx]}
+                                            alt={`image-${idx}`}
+                                            className="w-full h-28 object-cover rounded"
+                                        />
+                                    ) : (
+                                        <div className="h-28 w-full bg-gray-100" />
+                                    )}
+                                    <div className="text-xs text-center">
+                                        {idx + 1}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
                 <div className="w-full border rounded-lg p-4 space-y-4">
                     <div className={`w-full grid grid-cols-2 gap-4`}>
                         <Field htmlFor="fit" label="Fit" className="w-full">
@@ -248,7 +326,11 @@ export default function ImageToPdfPage() {
                                 disabled={loading}
                             >
                                 <span
-                                    className={`${!fields.compress ? "bg-red-500" : "bg-green-500"} w-2 h-2 rounded-full`}
+                                    className={`${
+                                        !fields.compress
+                                            ? "bg-red-500"
+                                            : "bg-green-500"
+                                    } w-2 h-2 rounded-full`}
                                 />
                                 {fields.compress ? "Yes" : "No"}
                             </Button>
