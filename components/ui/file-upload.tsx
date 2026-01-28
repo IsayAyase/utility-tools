@@ -14,6 +14,7 @@ export default function FileUpload({
     onFileSelect,
     multiple = false,
     className,
+    variant = "default",
 }: {
     name: string;
     label: string;
@@ -24,6 +25,7 @@ export default function FileUpload({
     onFileSelect?: (files: FileList | null) => void;
     multiple?: boolean;
     className?: string;
+    variant?: "sm" | "default";
 }) {
     const inputRef = useRef<HTMLInputElement>(null);
     const [fileNames, setFileNames] = useState<string[] | null>(null);
@@ -66,19 +68,21 @@ export default function FileUpload({
                     `
                 flex cursor-pointer flex-col items-center justify-center
                 rounded-md border border-dashed border-muted-foreground/40
-                bg-muted/30 px-6 py-10 text-center
+                bg-muted/30 px-4 py-6 text-center
                 transition hover:bg-muted/50
                 `,
                     className,
                 )}
             >
-                <Upload className="mb-2 h-5 w-5 text-muted-foreground" />
+                <Upload className="h-5 w-5 text-muted-foreground" />
 
-                <p className="font-medium text-foreground text-sm">
-                    {multiple
-                        ? "Click to choose files or drag here"
-                        : "Click to choose file or drag here"}
-                </p>
+                {variant === "default" && (
+                    <p className="mt-2 font-medium text-foreground text-sm">
+                        {multiple
+                            ? "Click to choose files or drag here"
+                            : "Click to choose file or drag here"}
+                    </p>
+                )}
 
                 {accept && (
                     <p className="mt-1 text-xs text-muted-foreground">
@@ -86,35 +90,41 @@ export default function FileUpload({
                     </p>
                 )}
 
-                {helperText && (
+                {variant === "default" && helperText && (
                     <p className="mt-1 text-xs text-muted-foreground">
                         {helperText}
                     </p>
                 )}
 
-                {fileNames && fileNames?.length > 1 ? (
-                    <ul className="mt-2 text-xs text-foreground truncate">
-                        {fileNames.slice(0, 2).map((fileName) => (
-                            <li key={fileName}>{fileName}</li>
-                        ))}
+                {variant === "default" && (
+                    <>
+                        {fileNames && fileNames?.length > 1 ? (
+                            <ul className="mt-2 text-xs text-foreground truncate">
+                                {fileNames.slice(0, 2).map((fileName) => (
+                                    <li key={fileName}>{fileName}</li>
+                                ))}
 
-                        {fileNames.length > 2 && (
-                            <li className="text-muted-foreground">
-                                +{fileNames.length - 2} more
-                            </li>
+                                {fileNames.length > 2 && (
+                                    <li className="text-muted-foreground">
+                                        +{fileNames.length - 2} more
+                                    </li>
+                                )}
+                            </ul>
+                        ) : (
+                            <p className="mt-2 text-xs text-foreground">
+                                <span className="">
+                                    {fileNames &&
+                                    fileNames[0] &&
+                                    fileNames[0].length > 20
+                                        ? fileNames?.[0].slice(0, 20) + "..."
+                                        : fileNames?.[0]}
+                                </span>
+                                <span>
+                                    {size > 0 && `(${bytesToSize(size)})`}
+                                </span>
+                            </p>
                         )}
-                    </ul>
-                ) : (
-                    <p className="mt-2 text-xs text-foreground">
-                        <span className="">
-                            {fileNames &&
-                            fileNames[0] &&
-                            fileNames[0].length > 20
-                                ? fileNames?.[0].slice(0, 20) + "..."
-                                : fileNames?.[0]}
-                        </span>
-                        <span>{size > 0 && `(${bytesToSize(size)})`}</span>
-                    </p>
+                    </>
                 )}
 
                 <input

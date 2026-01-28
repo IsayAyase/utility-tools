@@ -20,7 +20,9 @@ import {
 } from "@/lib/tools/helper";
 import { imageFitList, imageToPdf, pageSizeList } from "@/lib/tools/image";
 import type { ImageToPdfInput } from "@/lib/tools/image/type";
+import { Plus, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { RiDraggable } from "react-icons/ri";
 import { toast } from "sonner";
 
 const init: ImageToPdfInput = {
@@ -39,7 +41,6 @@ export default function ImageToPdfPage() {
         null,
     );
 
-    // Drag-and-drop reorder for image buffers
     const [dragIndex, setDragIndex] = useState<number | null>(null);
     const [imageSrcs, setImageSrcs] = useState<string[]>([]);
 
@@ -60,7 +61,6 @@ export default function ImageToPdfPage() {
         };
     }, [fields.buffers]);
 
-    // Debounced generation of PDF when buffers (and options) change
     useEffect(() => {
         if (fields.buffers.length === 0) return;
         const timer = setTimeout(() => {
@@ -149,11 +149,11 @@ export default function ImageToPdfPage() {
         setFields(init);
     }
 
-    // Drag helpers
-    function onDragStart(index: number) {
+    function handleDragStart(index: number) {
         setDragIndex(index);
     }
-    function onDrop(targetIndex: number) {
+
+    function handleDrop(targetIndex: number) {
         if (dragIndex === null || dragIndex === targetIndex) {
             setDragIndex(null);
             return;
@@ -166,6 +166,15 @@ export default function ImageToPdfPage() {
             buffers: newBuffers,
         }));
         setDragIndex(null);
+    }
+
+    function handleImageRemove(index: number) {
+        const newBuffers = [...(fields.buffers || [])];
+        newBuffers.splice(index, 1);
+        setFields((prev) => ({
+            ...prev,
+            buffers: newBuffers,
+        }));
     }
 
     return (
@@ -199,32 +208,34 @@ export default function ImageToPdfPage() {
                     <div className="w-full max-h-100 overflow-auto">
                         <div className="grid grid-cols-3 gap-2">
                             {fields.buffers.map((_, idx) => (
-                                <div
+                                <PreviewGridItem
                                     key={idx}
-                                    draggable
-                                    onDragStart={() => onDragStart(idx)}
-                                    onDragOver={(e) => e.preventDefault()}
-                                    onDrop={() => onDrop(idx)}
-                                    className={`border rounded-sm p-1 cursor-move ${
-                                        dragIndex === idx
-                                            ? "border-blue-500"
-                                            : ""
-                                    }`}
-                                >
-                                    {imageSrcs[idx] ? (
-                                        <img
-                                            src={imageSrcs[idx]}
-                                            alt={`image-${idx}`}
-                                            className="w-full h-28 object-cover rounded"
-                                        />
-                                    ) : (
-                                        <div className="h-28 w-full bg-gray-100" />
-                                    )}
-                                    <div className="text-xs text-center">
-                                        {idx + 1}
-                                    </div>
-                                </div>
+                                    index={idx}
+                                    dragIndex={dragIndex}
+                                    onRemove={handleImageRemove}
+                                    onDragStart={handleDragStart}
+                                    onDrop={handleDrop}
+                                    imageSrc={imageSrcs[idx]}
+                                />
                             ))}
+                            <div className={`border rounded-sm p-1`}>
+                                <FileUpload
+                                    onFileSelect={handleFileSelect}
+                                    label=""
+                                    name="inputfiles"
+                                    accept="image/*"
+                                    required
+                                    helperText=""
+                                    valueFiles={files}
+                                    multiple
+                                    className="h-28"
+                                    variant="sm"
+                                />
+                                <div className="flex items-center justify-center gap-1 mt-1">
+                                    <Plus className="size-3" />
+                                    <span className="text-xs">Add more</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 )}
@@ -353,5 +364,52 @@ export default function ImageToPdfPage() {
                 </div>
             </div>
         </form>
+    );
+}
+
+function PreviewGridItem({
+    index,
+    dragIndex,
+    onDragStart,
+    onDrop,
+    imageSrc,
+    onRemove,
+}: {
+    index: number;
+    dragIndex: number | null;
+    onDragStart: (index: number) => void;
+    onDrop: (index: number) => void;
+    imageSrc: string;
+    onRemove: (index: number) => void;
+}) {
+    return (
+        <div
+            key={index}
+            draggable
+            onDragStart={() => onDragStart(index)}
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={() => onDrop(index)}
+            className={`border rounded-sm p-1 cursor-move ${
+                dragIndex === index ? "border-blue-500" : ""
+            }`}
+        >
+            {imageSrc ? (
+                <img
+                    src={imageSrc}
+                    alt={`image-${index}`}
+                    className="w-full h-28 object-cover rounded"
+                />
+            ) : (
+                <div className="h-28 w-full bg-gray-100" />
+            )}
+            <div className="flex items-center justify-between gap-0.5 mt-1">
+                <RiDraggable className="size-3" />
+                <span className="text-xs">{index + 1}</span>
+                <X
+                    className="size-3 text-destructive cursor-pointer"
+                    onClick={() => onRemove(index)}
+                />
+            </div>
+        </div>
     );
 }
