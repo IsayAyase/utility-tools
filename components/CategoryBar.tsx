@@ -16,13 +16,24 @@ function Category({
                 variant={isSelected ? "default" : "outline"}
                 className="rounded-full capitalize"
             >
-                {name}
+                <span>
+                    {name.slice(0, name.length - 1)}
+                    <span
+                        className={`${isSelected ? "text-red-500" : ""} lowercase`}
+                    >
+                        {name.slice(name.length - 1)}
+                    </span>
+                </span>
             </Button>
         </Link>
     );
 }
 
-function CategoryBar({ selectedCategory }: { selectedCategory: CategoriesWithAll }) {
+function CategoryBar({
+    selectedCategory,
+}: {
+    selectedCategory: CategoriesWithAll;
+}) {
     return (
         <div className="flex flex-wrap gap-2 items-center">
             <Category isSelected={"all" === selectedCategory} name={"all"} />

@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react'
 import { BsFileEarmarkRichtext, BsFiletypeDocx } from 'react-icons/bs'
 import { IoDocumentTextOutline } from 'react-icons/io5'
+import { LuAudioLines } from 'react-icons/lu'
 import { PiFilePdf, PiResize } from 'react-icons/pi'
 import { RxTransform } from 'react-icons/rx'
 import { TbArrowMerge, TbArrowsSplit2, TbFileInfo } from 'react-icons/tb'
 
-export type CategoriesWithAll = "all" | "document" | "image"
-export type CategoriesWithoutAll = "document" | "image"
-//  | "audio" | "developer" | "video"  
+export type CategoriesWithAll = "all" | "document" | "image" | "audio"
+export type CategoriesWithoutAll = Exclude<CategoriesWithAll, "all">
 
 export type Tool = {
     slug: string
@@ -124,6 +124,32 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 icon: RxTransform(iconProp)
             },
         }
+    },
+    audio: {
+        metadata: {
+            title: "Audio Editing Tools - Convert, Edit & Transform Audio Files Online",
+            description: "Online Audio Tools - Convert, Edit & Transform Audio Files",
+            category: "audio",
+            keywords: ["audio converter", "audio editor", "audio tools", "audio format converter", "online audio tools"],
+        },
+        tools: {
+            "audio_trim": {
+                slug: "audio_trim",
+                name: "Audio Trim",
+                description: "Trim audio files to specified start and end times. Supports WAV, MP3, and OGG formats.",
+                category: "audio",
+                keywords: ["audio", "trim", "start", "end", "time", "wav", "mp3", "ogg"],
+                icon: LuAudioLines(iconProp)
+            },
+            "audio_merge": {
+                slug: "audio_merge",
+                name: "Audio Merge & Combine",
+                description: "Merge multiple audio files into one. Supports WAV, MP3, and OGG formats.",
+                category: "audio",
+                keywords: ["audio", "merge", "combine", "join", "wav", "mp3", "ogg"],
+                icon: TbArrowMerge(iconProp)
+            }
+        },
     }
 }
 

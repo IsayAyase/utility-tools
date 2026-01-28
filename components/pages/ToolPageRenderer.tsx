@@ -54,6 +54,16 @@ const toolsPageCompObj: Record<
             loading: () => <LoadingPage />,
         }),
     },
+    audio: {
+        audio_trim: dynamic(() => import("./audio/AudioTrimPage"), {
+            ssr: false,
+            loading: () => <LoadingPage />,
+        }),
+        audio_merge: dynamic(() => import("./audio/AudioMergePage"), {
+            ssr: false,
+            loading: () => <LoadingPage />,
+        })
+    }
 };
 
 const ToolPageRenderer = ({
