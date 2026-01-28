@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/ui/file-upload";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import PdfPreview from "@/components/ui/pdf-preview";
-import tools from "@/lib/tools";
+import { pdfMerge } from "@/lib/tools/document";
 import {
     bufferToBlob,
     downloadBuffer,
@@ -58,8 +58,7 @@ export default function PdfMergePage() {
                 return;
             }
 
-            const documentTools = await tools.document;
-            const outputBuffer = await documentTools.pdfMerge({ buffers });
+            const outputBuffer = await pdfMerge({ buffers });
             if (!outputBuffer.data) {
                 throw new Error("Something went wrong! While converting.");
             }

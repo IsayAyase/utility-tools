@@ -11,7 +11,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import tools from "@/lib/tools";
+import { getPdfInfo, pdfSplit } from "@/lib/tools/document";
 import { downloadBuffer } from "@/lib/tools/helper";
 import { Info } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -93,8 +93,7 @@ export default function PdfSplitPage() {
 
                     const buffer = new Uint8Array(await file.arrayBuffer());
 
-                    const documentTools = await tools.document;
-                    const pdfInfo = await documentTools.getPdfInfo({
+                    const pdfInfo = await getPdfInfo({
                         buffer,
                     });
 
@@ -109,7 +108,7 @@ export default function PdfSplitPage() {
                         pdfInfo.data.file.pageCount,
                     );
 
-                    const outputBuffer = await documentTools.pdfSplit({
+                    const outputBuffer = await pdfSplit({
                         buffer,
                         pages,
                     });

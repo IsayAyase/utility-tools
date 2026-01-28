@@ -13,7 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import tools from "@/lib/tools";
+import { pdfAddImageWatermark } from "@/lib/tools/document";
 import type { PdfAddImageWatermarkInput } from "@/lib/tools/document/type";
 import { downloadBuffer } from "@/lib/tools/helper";
 import { useEffect, useState } from "react";
@@ -48,9 +48,8 @@ export default function PdfImageWatermarkPage() {
                 setLoading(true);
 
                 try {
-                    const documentTools = await tools.document;
                     const outputBuffer =
-                        await documentTools.pdfAddImageWatermark({
+                        await pdfAddImageWatermark({
                             ...fields,
                         });
 

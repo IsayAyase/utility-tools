@@ -169,13 +169,3 @@ for (const [_, tools] of Object.entries(objectOfTools)) {
     }
 }
 
-const tools = {
-    image: import('./image'),
-    audio: import('./audio'),
-    document: import('./document'),
-    developer: import('./developer'),
-    helper: import('./helper')
-}
-
-export default tools
-

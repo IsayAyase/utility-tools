@@ -14,13 +14,12 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import tools from "@/lib/tools";
 import {
     bytesToSize,
     downloadBuffer,
     type ToolResult,
 } from "@/lib/tools/helper";
-import { flipDirectionList } from "@/lib/tools/image";
+import { flipDirectionList, imageTransform, loadImage } from "@/lib/tools/image";
 import {
     type ImageDirectionType,
     type ImageFormatType,
@@ -88,9 +87,7 @@ export default function ImageTransformPage() {
             const ops = async () => {
                 setLoading(true);
                 try {
-                    const imageTools = await tools.image;
-
-                    const outputBuffer = await imageTools.imageTransform(field);
+                    const outputBuffer = await imageTransform(field);
                     if (!outputBuffer.data) {
                         throw new Error(
                             "Something went wrong! While generating.",
@@ -135,8 +132,7 @@ export default function ImageTransformPage() {
         });
 
         const buffer = new Uint8Array(await file.arrayBuffer());
-        const imageTools = await tools.image;
-        const imageLoaded = await imageTools.loadImage(buffer);
+        const imageLoaded = await loadImage(buffer);
 
         setField((prev) => ({
             ...prev,

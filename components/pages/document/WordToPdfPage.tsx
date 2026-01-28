@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/ui/file-upload";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
-import tools from "@/lib/tools";
+import { wordToPdf } from "@/lib/tools/document";
 import { downloadBuffer } from "@/lib/tools/helper";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -29,8 +29,7 @@ export default function WordToPdfPage() {
                 throw new Error("Error getting buffer!");
             }
 
-            const documentTools = await tools.document;
-            const outputBuffer = await documentTools.wordToPdf({
+            const outputBuffer = await wordToPdf({
                 buffer,
                 compress: doCompress,
             });

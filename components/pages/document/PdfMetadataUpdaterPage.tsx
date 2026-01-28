@@ -5,7 +5,7 @@ import FileUpload from "@/components/ui/file-upload";
 import { Input } from "@/components/ui/input";
 import { Field } from "@/components/ui/label";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
-import tools from "@/lib/tools";
+import { getPdfInfo, pdfMetadataUpdater } from "@/lib/tools/document";
 import type { PdfMetadataUpdaterInput } from "@/lib/tools/document/type";
 import { downloadBuffer } from "@/lib/tools/helper";
 import { useEffect, useState } from "react";
@@ -32,8 +32,7 @@ export default function PdfMetadataUpdaterPage() {
                     throw new Error("Error getting buffer!");
                 }
 
-                const documentTools = await tools.document;
-                const pdfInfo = await documentTools.getPdfInfo({
+                const pdfInfo = await getPdfInfo({
                     buffer,
                 });
                 if (!pdfInfo.data) {
@@ -71,8 +70,7 @@ export default function PdfMetadataUpdaterPage() {
                 throw new Error("No file selected!");
             }
 
-            const documentTools = await tools.document;
-            const outputBuffer = await documentTools.pdfMetadataUpdater({
+            const outputBuffer = await pdfMetadataUpdater({
                 ...fields,
             });
             console.log(outputBuffer);

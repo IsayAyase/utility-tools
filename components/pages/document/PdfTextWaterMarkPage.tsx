@@ -13,7 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import tools from "@/lib/tools";
+import { pdfAddTextWatermark } from "@/lib/tools/document";
 import type { PdfAddTextWatermarkInput } from "@/lib/tools/document/type";
 import { downloadBuffer } from "@/lib/tools/helper";
 import { useEffect, useState } from "react";
@@ -43,9 +43,8 @@ export default function PdfTextWaterMarkPage() {
             const ops = async () => {
                 setLoading(true);
                 try {
-                    const documentTools = await tools.document;
                     const outputBuffer =
-                        await documentTools.pdfAddTextWatermark({
+                        await pdfAddTextWatermark({
                             ...fields,
                         });
                     if (!outputBuffer.data) {

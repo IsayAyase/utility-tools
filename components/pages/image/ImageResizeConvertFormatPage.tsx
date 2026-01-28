@@ -14,13 +14,12 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import tools from "@/lib/tools";
 import {
     bytesToSize,
     downloadBuffer,
     type ToolResult,
 } from "@/lib/tools/helper";
-import { imageFitList, imageFormatConvertList } from "@/lib/tools/image";
+import { imageConvertResizeReduce, imageFitList, imageFormatConvertList, loadImage } from "@/lib/tools/image";
 import { type ImageConvertResizeReduceInput } from "@/lib/tools/image/type";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -83,9 +82,8 @@ export default function ImageResizeConvertFormatPage() {
             const ops = async () => {
                 setLoading(true);
                 try {
-                    const imageTools = await tools.image;
                     const outputBuffer =
-                        await imageTools.imageConvertResizeReduce({
+                        await imageConvertResizeReduce({
                             ...field,
                         });
                     if (!outputBuffer.data) {
@@ -150,8 +148,7 @@ export default function ImageResizeConvertFormatPage() {
         });
 
         const buffer = new Uint8Array(await file.arrayBuffer());
-        const imageTools = await tools.image;
-        const imageLoaded = await imageTools.loadImage(buffer);
+        const imageLoaded = await loadImage(buffer);
 
         setField((prev) => ({
             ...prev,

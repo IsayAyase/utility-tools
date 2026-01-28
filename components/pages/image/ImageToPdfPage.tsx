@@ -13,13 +13,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import tools from "@/lib/tools";
 import {
     bufferToBlob,
     downloadBuffer,
     type ToolResult,
 } from "@/lib/tools/helper";
-import { imageFitList, pageSizeList } from "@/lib/tools/image";
+import { imageFitList, imageToPdf, pageSizeList } from "@/lib/tools/image";
 import type { ImageToPdfInput } from "@/lib/tools/image/type";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -68,8 +67,7 @@ export default function ImageToPdfPage() {
             const ops = async () => {
                 setLoading(true);
                 try {
-                    const imageTools = await tools.image;
-                    const output = await imageTools.imageToPdf({
+                    const output = await imageToPdf({
                         ...fields,
                     });
                     if (!output.data) {

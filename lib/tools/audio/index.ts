@@ -67,22 +67,21 @@ export async function audioMerge(input: AudioMergeInput): Promise<ToolResult<Uin
     if (input.buffers.length < 2) {
       return { success: false, error: 'At least 2 audio files required for merging' }
     }
-
-    const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
-
+    
     const decodedBuffers: AudioBuffer[] = []
     let totalLength = 0
     let sampleRate = 44100
     let numChannels = 2
-
+    
     for (const buffer of input.buffers) {
-      const audioBuffer = await audioContext.decodeAudioData(buffer.buffer as ArrayBuffer)
+      const audioBuffer = await decodeAudio(buffer)
       decodedBuffers.push(audioBuffer)
       totalLength += audioBuffer.length
       sampleRate = audioBuffer.sampleRate
       numChannels = Math.max(numChannels, audioBuffer.numberOfChannels)
     }
-
+    
+    const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
     const newBuffer = audioContext.createBuffer(numChannels, totalLength, sampleRate)
 
     let offset = 0
