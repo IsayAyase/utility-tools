@@ -1,19 +1,22 @@
 import type { ToolResult } from '../helper'
 import type {
   AudioFadeInOutInput,
-  AudioFormatConvertInput,
   AudioMergeInput,
   AudioNormalizeInput,
   AudioReverseInput,
   AudioSpeedChangeInput,
-  AudioTrimInput,
+  AudioTrimConvertInput,
   AudioVolumeBoostInput
 } from './type'
 
+export const audioFormats = ['wav', 'mp3', 'ogg', 'flac', 'm4a']
+
 let ffmpegInstance: any = null
 
-export async function audioTrim(input: AudioTrimInput): Promise<ToolResult<Uint8Array>> {
+export async function audioTrimConvert(input: AudioTrimConvertInput): Promise<ToolResult<Uint8Array>> {
   try {
+    if (!input.buffer) throw new Error('No buffer!')
+
     const audioBuffer = await decodeAudio(input.buffer)
     const startSample = Math.floor(input.startTime * audioBuffer.sampleRate)
     const endSample = Math.floor(input.endTime * audioBuffer.sampleRate)
@@ -118,31 +121,10 @@ export async function audioMerge(input: AudioMergeInput): Promise<ToolResult<Uin
   }
 }
 
-export async function audioFormatConvert(input: AudioFormatConvertInput): Promise<ToolResult<Uint8Array>> {
-  try {
-    const audioBuffer = await decodeAudio(input.buffer)
-    const outputBuffer = await encodeAudioBuffer(audioBuffer, input.format)
-
-    return {
-      success: true,
-      data: outputBuffer,
-      metadata: {
-        originalSize: input.buffer.length,
-        newSize: outputBuffer.length,
-        format: input.format,
-        duration: audioBuffer.length / audioBuffer.sampleRate
-      }
-    }
-  } catch (error) {
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Failed to convert audio format'
-    }
-  }
-}
-
 export async function audioVolumeBoost(input: AudioVolumeBoostInput): Promise<ToolResult<Uint8Array>> {
   try {
+    if (!input.buffer) throw new Error('No buffer!')
+      
     const audioBuffer = await decodeAudio(input.buffer)
     const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
 
@@ -189,6 +171,8 @@ export async function audioVolumeBoost(input: AudioVolumeBoostInput): Promise<To
 
 export async function audioFadeInOut(input: AudioFadeInOutInput): Promise<ToolResult<Uint8Array>> {
   try {
+    if (!input.buffer) throw new Error('No buffer!')
+      
     const audioBuffer = await decodeAudio(input.buffer)
     const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
 
@@ -244,6 +228,8 @@ export async function audioFadeInOut(input: AudioFadeInOutInput): Promise<ToolRe
 
 export async function audioSpeedChange(input: AudioSpeedChangeInput): Promise<ToolResult<Uint8Array>> {
   try {
+    if (!input.buffer) throw new Error('No buffer!')
+      
     const audioBuffer = await decodeAudio(input.buffer)
     const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
 
@@ -305,6 +291,8 @@ export async function audioSpeedChange(input: AudioSpeedChangeInput): Promise<To
 
 export async function audioReverse(input: AudioReverseInput): Promise<ToolResult<Uint8Array>> {
   try {
+    if (!input.buffer) throw new Error('No buffer!')
+      
     const audioBuffer = await decodeAudio(input.buffer)
     const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
 
@@ -346,6 +334,8 @@ export async function audioReverse(input: AudioReverseInput): Promise<ToolResult
 
 export async function audioNormalize(input: AudioNormalizeInput): Promise<ToolResult<Uint8Array>> {
   try {
+    if (!input.buffer) throw new Error('No buffer!')
+      
     const audioBuffer = await decodeAudio(input.buffer)
     const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
 

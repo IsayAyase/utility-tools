@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { formatTime } from "@/lib/datetime";
-import { audioMerge } from "@/lib/tools/audio";
+import { audioFormats, audioMerge } from "@/lib/tools/audio";
 import type { AudioMergeInput } from "@/lib/tools/audio/type";
 import {
     downloadBuffer,
@@ -129,7 +129,7 @@ export default function AudioMergePage() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [currentFileIndex, setCurrentFileIndex] = useState(0);
-    
+
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const currentFileIndexRef = useRef(0);
 
@@ -352,7 +352,7 @@ export default function AudioMergePage() {
             setDragIndex(null);
             return;
         }
-        
+
         playerReset();
         const newFiles = [...files];
         const [moved] = newFiles.splice(dragIndex, 1);
@@ -446,12 +446,16 @@ export default function AudioMergePage() {
                                     <div
                                         key={file.id}
                                         draggable
-                                        onDragStart={() => handleDragStart(index)}
+                                        onDragStart={() =>
+                                            handleDragStart(index)
+                                        }
                                         onDragOver={handleDragOver}
                                         onDrop={() => handleDrop(index)}
                                         onDragEnd={handleDragEnd}
                                         className={`flex items-center gap-2 p-3 border rounded-lg bg-muted/50 hover:bg-muted transition-colors cursor-move ${
-                                            dragIndex === index ? "border-blue-500 bg-blue-50" : ""
+                                            dragIndex === index
+                                                ? "border-blue-500 bg-blue-50"
+                                                : ""
                                         }`}
                                     >
                                         {/* Drag Handle */}
@@ -541,11 +545,15 @@ export default function AudioMergePage() {
                                 <SelectValue placeholder="Select format" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="mp3">MP3</SelectItem>
-                                <SelectItem value="wav">WAV</SelectItem>
-                                <SelectItem value="ogg">OGG</SelectItem>
-                                <SelectItem value="flac">FLAC</SelectItem>
-                                <SelectItem value="m4a">M4A</SelectItem>
+                                {audioFormats.map((format) => (
+                                    <SelectItem
+                                        key={format}
+                                        value={format}
+                                        className="capitalize"
+                                    >
+                                        {format}
+                                    </SelectItem>
+                                ))}
                             </SelectContent>
                         </Select>
                     </Field>

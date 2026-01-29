@@ -13,8 +13,8 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { audioTrim } from "@/lib/tools/audio";
-import type { AudioTrimInput } from "@/lib/tools/audio/type";
+import { audioFormats, audioTrimConvert } from "@/lib/tools/audio";
+import type { AudioTrimConvertInput } from "@/lib/tools/audio/type";
 import {
     downloadBuffer,
     formatDuration,
@@ -30,7 +30,7 @@ const init = {
     startTime: 0,
     endTime: 0,
     duration: 0,
-    format: "wav" as string,
+    format: "wav",
 };
 
 // Custom Audio Player Slider Component
@@ -207,7 +207,7 @@ function AudioPlayerSlider({
     );
 }
 
-export default function AudioTrimPage() {
+export default function AudioTrimConvertPage() {
     const [files, setFiles] = useState<FileList | null>(null);
     const [field, setField] = useState(init);
     const [orgFileData, setOrgFileData] = useState<{
@@ -279,14 +279,14 @@ export default function AudioTrimPage() {
 
         setLoading(true);
         try {
-            const input: AudioTrimInput = {
+            const input: AudioTrimConvertInput = {
                 buffer: field.buffer!,
                 startTime: field.startTime,
                 endTime: field.endTime,
                 format: field.format,
             };
 
-            const result = await audioTrim(input);
+            const result = await audioTrimConvert(input);
             if (!result.data) {
                 throw new Error("Something went wrong! While trimming.");
             }
@@ -406,11 +406,15 @@ export default function AudioTrimPage() {
                                     <SelectValue placeholder="Select format" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="mp3">MP3</SelectItem>
-                                    <SelectItem value="wav">WAV</SelectItem>
-                                    <SelectItem value="ogg">OGG</SelectItem>
-                                    <SelectItem value="flac">FLAC</SelectItem>
-                                    <SelectItem value="m4a">M4A</SelectItem>
+                                    {audioFormats.map((format) => (
+                                        <SelectItem
+                                            key={format}
+                                            value={format}
+                                            className="capitalize"
+                                        >
+                                            {format}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </Field>

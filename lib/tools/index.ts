@@ -133,12 +133,12 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
             keywords: ["audio converter", "audio editor", "audio tools", "audio format converter", "online audio tools"],
         },
         tools: {
-            "audio_trim": {
-                slug: "audio_trim",
-                name: "Audio Trim",
-                description: "Trim audio files to specified start and end times. Supports WAV, MP3, and OGG formats.",
+            "audio_trim_convert": {
+                slug: "audio_trim_convert",
+                name: "Audio Trim & Convert",
+                description: "Trim audio files to specified start and end times. Supports WAV, MP3, and OGG formats. Additionally, convert audio format while trimming.",
                 category: "audio",
-                keywords: ["audio", "trim", "start", "end", "time", "wav", "mp3", "ogg"],
+                keywords: ["audio", "trim", "convert", "start", "end", "time", "wav", "mp3", "ogg"],
                 icon: LuAudioLines(iconProp)
             },
             "audio_merge": {

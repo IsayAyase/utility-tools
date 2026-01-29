@@ -55,7 +55,7 @@ const toolsPageCompObj: Record<
         }),
     },
     audio: {
-        audio_trim: dynamic(() => import("./audio/AudioTrimPage"), {
+        audio_trim: dynamic(() => import("./audio/AudioTrimConvertPage"), {
             ssr: false,
             loading: () => <LoadingPage />,
         }),
