@@ -7,41 +7,13 @@ export interface AudioTrimConvertInput {
   startTime: number
   endTime: number
   format?: AudioFormatType
+  fadeInDuration?: number
+  fadeOutDuration?: number
+  speed?: number
+  preservePitch?: boolean
 }
 
 export interface AudioMergeInput {
   buffers: Uint8Array[]
-  format?: AudioFormatType
-}
-
-export interface AudioVolumeBoostInput {
-  buffer: Uint8Array | null
-  volume?: number
-  volumeDb?: number
-  format?: AudioFormatType
-}
-
-export interface AudioFadeInOutInput {
-  buffer: Uint8Array | null
-  fadeInDuration?: number
-  fadeOutDuration?: number
-  format?: AudioFormatType
-}
-
-export interface AudioSpeedChangeInput {
-  buffer: Uint8Array | null
-  speed: number
-  preservePitch?: boolean
-  format?: AudioFormatType
-}
-
-export interface AudioReverseInput {
-  buffer: Uint8Array | null
-  format?: AudioFormatType
-}
-
-export interface AudioNormalizeInput {
-  buffer: Uint8Array | null
-  targetPeak?: number
   format?: AudioFormatType
 }

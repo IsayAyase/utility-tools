@@ -16,6 +16,7 @@ import { Slider } from "@/components/ui/slider";
 import { audioFormats, audioTrimConvert } from "@/lib/tools/audio";
 import type { AudioTrimConvertInput } from "@/lib/tools/audio/type";
 import {
+    bufferToBlob,
     downloadBuffer,
     formatDuration,
     type ToolResult,
@@ -31,6 +32,10 @@ const init = {
     endTime: 0,
     duration: 0,
     format: "wav",
+    fadeInDuration: 0,
+    fadeOutDuration: 0,
+    speed: 1,
+    preservePitch: false,
 };
 
 // Custom Audio Player Slider Component
@@ -41,6 +46,11 @@ function AudioPlayerSlider({
     duration,
     onStartTimeChange,
     onEndTimeChange,
+    fadeInDuration,
+    fadeOutDuration,
+    speed,
+    preservePitch,
+    loading,
 }: {
     audioUrl: string;
     startTime: number;
@@ -48,6 +58,11 @@ function AudioPlayerSlider({
     duration: number;
     onStartTimeChange: (time: number) => void;
     onEndTimeChange: (time: number) => void;
+    fadeInDuration?: number;
+    fadeOutDuration?: number;
+    speed?: number;
+    preservePitch?: boolean;
+    loading?: boolean;
 }) {
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -55,35 +70,59 @@ function AudioPlayerSlider({
     // const animationFrameRef = useRef<number>();
 
     useEffect(() => {
-        if (audioUrl) {
-            audioRef.current = new Audio(audioUrl);
+        if (!audioUrl) return;
 
-            const audio = audioRef.current;
+        setIsPlaying(false);
+        audioRef.current = new Audio(audioUrl);
 
-            audio.addEventListener("ended", () => {
-                setIsPlaying(false);
-                setCurrentTime(startTime);
-                audio.currentTime = startTime;
-            });
+        const audio = audioRef.current;
 
-            audio.addEventListener("timeupdate", () => {
-                setCurrentTime(audio.currentTime);
-
-                // Stop at end time
-                if (audio.currentTime >= endTime) {
-                    audio.pause();
-                    setIsPlaying(false);
-                    audio.currentTime = startTime;
-                    setCurrentTime(startTime);
-                }
-            });
-
-            return () => {
-                audio.pause();
-                audio.src = "";
-            };
+        // Apply speed and preserve pitch settings
+        if (speed && speed !== 1) {
+            audio.playbackRate = speed;
+            if (preservePitch) {
+                audio.preservesPitch = true;
+            }
         }
-    }, [audioUrl, startTime, endTime]);
+
+        const handleAudioEnded = () => {
+            setIsPlaying(false);
+            setCurrentTime(startTime);
+            audio.currentTime = startTime;
+        };
+
+        const handleAudioTimeUpdate = () => {
+            let adjustedCurrentTime = audio.currentTime;
+
+            // Adjust time display based on speed
+            if (speed && speed !== 1) {
+                adjustedCurrentTime = audio.currentTime;
+            }
+
+            setCurrentTime(adjustedCurrentTime);
+
+            // only between startTime and endTime (adjust for speed)
+            const adjustedStartTime = speed ? startTime : startTime;
+            const adjustedEndTime = speed ? endTime : endTime;
+            const audioTime = adjustedCurrentTime;
+            if (audioTime < adjustedStartTime || audioTime >= adjustedEndTime) {
+                audio.pause();
+                setIsPlaying(false);
+                audio.currentTime = adjustedStartTime;
+                setCurrentTime(adjustedStartTime);
+            }
+        };
+
+        audio.addEventListener("ended", handleAudioEnded);
+        audio.addEventListener("timeupdate", handleAudioTimeUpdate);
+
+        return () => {
+            audio.removeEventListener("ended", handleAudioEnded);
+            audio.removeEventListener("timeupdate", handleAudioTimeUpdate);
+            audio.pause();
+            audio.src = "";
+        };
+    }, [audioUrl, startTime, endTime, speed, preservePitch]);
 
     const handlePlay = () => {
         if (!audioRef.current) return;
@@ -95,8 +134,14 @@ function AudioPlayerSlider({
             setIsPlaying(false);
         } else {
             // Start from the current position or from startTime if outside range
-            if (audio.currentTime < startTime || audio.currentTime >= endTime) {
-                audio.currentTime = startTime;
+            const adjustedStartTime = startTime / (speed || 1);
+            const adjustedEndTime = endTime / (speed || 1);
+
+            if (
+                audio.currentTime < adjustedStartTime ||
+                audio.currentTime >= adjustedEndTime
+            ) {
+                audio.currentTime = adjustedStartTime;
             }
             audio.play();
             setIsPlaying(true);
@@ -107,8 +152,9 @@ function AudioPlayerSlider({
         if (!audioRef.current) return;
 
         const audio = audioRef.current;
+        const adjustedStartTime = startTime / (speed || 1);
         audio.pause();
-        audio.currentTime = startTime;
+        audio.currentTime = adjustedStartTime;
         setCurrentTime(startTime);
         setIsPlaying(false);
     };
@@ -117,8 +163,25 @@ function AudioPlayerSlider({
         if (!audioRef.current) return;
 
         const [newTime] = value;
-        audioRef.current.currentTime = newTime;
-        setCurrentTime(newTime);
+        let adjustedTime = newTime / (speed || 1);
+
+        // handling these here as well (already in 'timeupdate' event listener),
+        // so that the seeker doesn't jump around, if click out of range
+        const adjustedStartTime = startTime;
+        const adjustedEndTime = endTime;
+
+        if (
+            adjustedTime >= adjustedStartTime &&
+            adjustedTime <= adjustedEndTime
+        ) {
+            setCurrentTime(newTime);
+        }
+    };
+
+    const handleTrimChange = (value: number[]) => {
+        const [newStartTime, newEndTime] = value;
+        onStartTimeChange(newStartTime);
+        onEndTimeChange(newEndTime);
     };
 
     const formatTime = (seconds: number): string => {
@@ -130,9 +193,15 @@ function AudioPlayerSlider({
     return (
         <div className="border rounded-lg p-4 space-y-4">
             <div className="flex items-center justify-between">
-                <h3 className="font-medium">Audio Player</h3>
+                <h3 className="font-medium flex items-center gap-2">
+                    <span>Audio Player</span>{" "}
+                    {loading && <LoadingSpinner className="size-3" />}
+                </h3>
                 <div className="text-sm text-muted-foreground">
                     {formatTime(currentTime)} / {formatTime(duration)}
+                    {speed && speed !== 1 && (
+                        <span className="ml-1 text-xs">({speed}x)</span>
+                    )}
                 </div>
             </div>
 
@@ -140,7 +209,7 @@ function AudioPlayerSlider({
             <Field
                 htmlFor="audio-progress"
                 label="Timeline Progress"
-                rightLabel={formatDuration(endTime - startTime)}
+                rightLabel={formatDuration(currentTime - startTime)}
             >
                 <Slider
                     name="audio-progress"
@@ -156,7 +225,9 @@ function AudioPlayerSlider({
             <Field
                 htmlFor="trim-range"
                 label="Trim Range"
-                rightLabel={`${formatTime(startTime)} - ${formatTime(endTime)}`}
+                rightLabel={`${formatTime(startTime)} - ${formatTime(endTime)} = ${formatDuration(
+                    endTime - startTime
+                )}`}
             >
                 <Slider
                     name="trim-range"
@@ -164,19 +235,7 @@ function AudioPlayerSlider({
                     max={duration}
                     step={0.1}
                     value={[startTime, endTime]}
-                    onValueChange={(value) => {
-                        const [newStart, newEnd] = value;
-                        onStartTimeChange(newStart);
-                        onEndTimeChange(newEnd);
-
-                        // Update audio position if scrubbing
-                        if (audioRef.current) {
-                            audioRef.current.pause();
-                            setIsPlaying(false);
-                            audioRef.current.currentTime = newStart;
-                            setCurrentTime(newStart);
-                        }
-                    }}
+                    onValueChange={handleTrimChange}
                 />
             </Field>
 
@@ -188,6 +247,7 @@ function AudioPlayerSlider({
                     variant={isPlaying ? "secondary" : "default"}
                     size="sm"
                     className="flex-1"
+                    disabled={loading}
                 >
                     {isPlaying ? <Pause /> : <Play />}
                     {isPlaying ? "Pause" : "Play"}
@@ -198,6 +258,7 @@ function AudioPlayerSlider({
                     variant="outline"
                     size="sm"
                     className="flex-1"
+                    disabled={loading}
                 >
                     <Square />
                     Stop
@@ -221,12 +282,34 @@ export default function AudioTrimConvertPage() {
         null,
     );
     const [audioUrl, setAudioUrl] = useState<string>("");
+    const [previewLoading, setPreviewLoading] = useState<boolean>(false);
 
+    // Generate preview when parameters change
     useEffect(() => {
-        return () => {
-            if (audioUrl) URL.revokeObjectURL(audioUrl);
+        if (!field.buffer) {
+            return;
+        }
+
+        const generatePreview = async () => {
+            setPreviewLoading(true);
+            try {
+                if (!field.buffer) return;
+
+                const audioBlob = bufferToBlob(field.buffer, "audio/wav");
+                setAudioUrl((p) => {
+                    if (p) URL.revokeObjectURL(p);
+                    return URL.createObjectURL(audioBlob);
+                });
+            } catch (error) {
+                console.error("Preview generation failed:", error);
+            } finally {
+                setPreviewLoading(false);
+            }
         };
-    }, [audioUrl]);
+
+        const timeoutId = setTimeout(generatePreview, 300); // Debounce
+        return () => clearTimeout(timeoutId);
+    }, [field.buffer]);
 
     async function handleFileSelect(files: FileList | null) {
         setFiles(files);
@@ -284,6 +367,10 @@ export default function AudioTrimConvertPage() {
                 startTime: field.startTime,
                 endTime: field.endTime,
                 format: field.format,
+                fadeInDuration: field.fadeInDuration,
+                fadeOutDuration: field.fadeOutDuration,
+                speed: field.speed,
+                preservePitch: field.preservePitch,
             };
 
             const result = await audioTrimConvert(input);
@@ -323,21 +410,31 @@ export default function AudioTrimConvertPage() {
                 <div className="space-y-4">
                     {/* Audio Player with Timeline */}
                     {audioUrl && (
-                        <AudioPlayerSlider
-                            audioUrl={audioUrl}
-                            startTime={field.startTime}
-                            endTime={field.endTime}
-                            duration={field.duration}
-                            onStartTimeChange={(time) =>
-                                setField((prev) => ({
-                                    ...prev,
-                                    startTime: time,
-                                }))
-                            }
-                            onEndTimeChange={(time) =>
-                                setField((prev) => ({ ...prev, endTime: time }))
-                            }
-                        />
+                        <div className="space-y-2">
+                            <AudioPlayerSlider
+                                audioUrl={audioUrl}
+                                startTime={field.startTime}
+                                endTime={field.endTime}
+                                duration={field.duration}
+                                fadeInDuration={field.fadeInDuration}
+                                fadeOutDuration={field.fadeOutDuration}
+                                speed={field.speed}
+                                preservePitch={field.preservePitch}
+                                onStartTimeChange={(time) =>
+                                    setField((prev) => ({
+                                        ...prev,
+                                        startTime: time,
+                                    }))
+                                }
+                                onEndTimeChange={(time) =>
+                                    setField((prev) => ({
+                                        ...prev,
+                                        endTime: time,
+                                    }))
+                                }
+                                loading={previewLoading}
+                            />
+                        </div>
                     )}
 
                     {/* Original File Info */}
@@ -382,45 +479,7 @@ export default function AudioTrimConvertPage() {
 
             <div className="flex flex-col justify-center items-center gap-4 w-full">
                 <div className="w-full border rounded-lg p-4 space-y-4">
-                    <div className="w-full grid grid-cols-1 gap-4">
-                        <Field
-                            htmlFor="format"
-                            label="Output Format"
-                            rightLabel={
-                                orgFileData
-                                    ? `${orgFileData.format || "?"} -> ${field.format}`
-                                    : ""
-                            }
-                            className="w-full"
-                        >
-                            <Select
-                                onValueChange={(value) =>
-                                    setField((prev) => ({
-                                        ...prev,
-                                        format: value,
-                                    }))
-                                }
-                                value={field.format}
-                            >
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select format" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {audioFormats.map((format) => (
-                                        <SelectItem
-                                            key={format}
-                                            value={format}
-                                            className="capitalize"
-                                        >
-                                            {format}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </Field>
-                    </div>
-
-                    {/* Time Input Fields */}
+                    {/* time input fields */}
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="text-sm font-medium mb-1 block">
@@ -483,12 +542,153 @@ export default function AudioTrimConvertPage() {
                             />
                         </div>
                     </div>
+
+                    {/* Fade Duration Fields */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="text-sm font-medium mb-1 block">
+                                Fade In Duration (s)
+                            </label>
+                            <Input
+                                name="fadeInDuration"
+                                type="number"
+                                min={0}
+                                step={0.1}
+                                value={field.fadeInDuration}
+                                onChange={(e) => {
+                                    const value =
+                                        parseFloat(e.target.value) || 0;
+                                    setField((prev) => ({
+                                        ...prev,
+                                        fadeInDuration: Math.max(0, value),
+                                    }));
+                                }}
+                                placeholder="0"
+                            />
+                        </div>
+                        <div>
+                            <label className="text-sm font-medium mb-1 block">
+                                Fade Out Duration (s)
+                            </label>
+                            <Input
+                                name="fadeOutDuration"
+                                type="number"
+                                min={0}
+                                step={0.1}
+                                value={field.fadeOutDuration}
+                                onChange={(e) => {
+                                    const value =
+                                        parseFloat(e.target.value) || 0;
+                                    setField((prev) => ({
+                                        ...prev,
+                                        fadeOutDuration: Math.max(0, value),
+                                    }));
+                                }}
+                                placeholder="0"
+                            />
+                        </div>
+                    </div>
+
+                    {/* speed slider */}
+                    <div>
+                        <Field
+                            htmlFor="speed"
+                            label="Speed"
+                            rightLabel={`${field.speed.toFixed(2)}x`}
+                        >
+                            <Slider
+                                name="speed"
+                                min={0.25}
+                                max={2}
+                                step={0.25}
+                                value={[field.speed]}
+                                onValueChange={(value) => {
+                                    setField((prev) => ({
+                                        ...prev,
+                                        speed: value[0],
+                                    }));
+                                }}
+                            />
+                        </Field>
+                        <div className="text-xs text-muted-foreground mt-1.5 flex justify-between">
+                            <span>0.25x</span>
+                            <span>0.5x</span>
+                            <span>0.75x</span>
+                            <span>1x</span>
+                            <span>1.25x</span>
+                            <span>1.5x</span>
+                            <span>1.75x</span>
+                            <span>2x</span>
+                        </div>
+                    </div>
+
+                    {/* output format and Preserve Pitch Toggle */}
+                    <div className="w-full grid grid-cols-2 gap-4">
+                        <Field
+                            htmlFor="format"
+                            label="Format"
+                            rightLabel={
+                                orgFileData
+                                    ? `${orgFileData.format || "?"} -> ${field.format}`
+                                    : ""
+                            }
+                            className="w-full"
+                        >
+                            <Select
+                                onValueChange={(value) =>
+                                    setField((prev) => ({
+                                        ...prev,
+                                        format: value,
+                                    }))
+                                }
+                                value={field.format}
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Select format" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {audioFormats.map((format) => (
+                                        <SelectItem key={format} value={format}>
+                                            {format}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </Field>
+
+                        <Field
+                            htmlFor="pitch"
+                            label="Preserve Pitch"
+                            className="w-full"
+                        >
+                            <Button
+                                onClick={() =>
+                                    setField((prev) => ({
+                                        ...prev,
+                                        preservePitch: !prev.preservePitch,
+                                    }))
+                                }
+                                name="pitch"
+                                type="button"
+                                variant={"outline"}
+                                disabled={loading}
+                                className="w-full"
+                            >
+                                <span
+                                    className={`${!field.preservePitch ? "bg-red-500" : "bg-green-500"} w-2 h-2 rounded-full`}
+                                />
+                                <span>
+                                    {field.preservePitch ? "Yes" : "No"}
+                                </span>
+                            </Button>
+                        </Field>
+                    </div>
                 </div>
 
                 <div className="w-full grid grid-cols-2 items-center gap-2">
                     <Button type="submit" disabled={loading} className="w-full">
                         {loading && <LoadingSpinner className="size-4" />}
-                        <span>Trim</span>
+                        <span>Process</span>
                         {outputData && (
                             <span className="italic text-xs">
                                 (

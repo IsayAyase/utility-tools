@@ -64,7 +64,7 @@ export function ToolCard({
     };
     return (
         <Link className="h-full group" href={url}>
-            <Card className="h-full hover:scale-[101%] hover:shadow-md transition-all duration-300">
+            <Card className="h-full hover:scale-[101%] hover:shadow-md transition-all duration-300 justify-between">
                 {render()}
             </Card>
         </Link>
@@ -94,10 +94,12 @@ export default function ToolsPage({
 }) {
     const renderTools =
         selectedCategory === "all"
-            ? toolsArray.map((tool) => <ToolCard key={tool.slug} data={tool} />)
-            : Object.entries(objectOfTools[selectedCategory]?.tools || {}).map(
-                  ([, tool]) => <ToolCard key={tool.slug} data={tool} />,
-              );
+            ? toolsArray
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map((tool) => <ToolCard key={tool.slug} data={tool} />)
+            : Object.entries(objectOfTools[selectedCategory]?.tools || {})
+                  .sort((a, b) => a[1].name.localeCompare(b[1].name))
+                  .map(([, tool]) => <ToolCard key={tool.slug} data={tool} />);
     return (
         <div className="space-y-6">
             <CategoryBar selectedCategory={selectedCategory} />
