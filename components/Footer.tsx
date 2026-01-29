@@ -34,17 +34,17 @@ export default function Footer() {
 
     return (
         <div
-            className="relative w-full mt-8 p-4 h-full bg-black text-white border-t border-muted-foreground/30"
+            className="relative w-full mt-8 p-4 h-full border-t"
             id="footer"
         >
             <div className="relative z-10 h-full w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center md:gap-4 mt-2 md:mt-6 md:mb-10">
-                <div className="text-sm text-white/60">
+                <div className="text-sm text-muted-foreground">
                     {"Build by "}{" "}
                     <Link
                         href="https://x.com/prabhatlabs"
                         target="_blank"
                         rel="noreferrer"
-                        className="hover:underline hover:text-white/90 w-fit"
+                        className="hover:underline w-fit"
                     >
                         prabhatlabs
                     </Link>
@@ -54,7 +54,7 @@ export default function Footer() {
                 <div className="flex items-center gap-4">
                     {mainData.footer.sections.map((sec, index) => (
                         <DropdownMenu key={index}>
-                            <DropdownMenuTrigger className="text-sm flex items-center focus:outline-0 text-white/60 hover:text-white/90">
+                            <DropdownMenuTrigger className="text-sm flex items-center focus:outline-0">
                                 <span>{sec.title}</span>
                                 <RiArrowDropDownLine className="size-4" />
                             </DropdownMenuTrigger>
@@ -82,11 +82,11 @@ export default function Footer() {
                         background: `linear-gradient(180deg, 
                                     transparent 0%, 
                                     transparent 25%, 
-                                    color-mix(in oklab, black 40%, transparent) 45%, 
-                                    color-mix(in oklab, black 45%, transparent) 50%, 
-                                    color-mix(in oklab, black 60%, transparent) 70%, 
-                                    color-mix(in oklab, black 65%, transparent) 85%, 
-                                    color-mix(in oklab, black 75%, transparent) 100%
+                                    color-mix(in oklab, var(--background) 40%, transparent) 45%, 
+                                    color-mix(in oklab, var(--background) 45%, transparent) 50%, 
+                                    color-mix(in oklab, var(--background) 60%, transparent) 70%, 
+                                    color-mix(in oklab, var(--background) 65%, transparent) 85%, 
+                                    color-mix(in oklab, var(--background) 75%, transparent) 100%
                                 )`,
                         backdropFilter: `blur(0px)`,
                     }}
@@ -96,21 +96,21 @@ export default function Footer() {
                     style={{
                         background: `linear-gradient(180deg, 
                     transparent 0%, 
-                                    color-mix(in oklab, black 20%, transparent) 60%, 
-                                    color-mix(in oklab, black 30%, transparent) 70%, 
-                                    color-mix(in oklab, black 40%, transparent) 80%, 
-                                    color-mix(in oklab, black 50%, transparent) 90%, 
-                                    color-mix(in oklab, black 60%, transparent) 100%
+                                    color-mix(in oklab, var(--background) 20%, transparent) 60%, 
+                                    color-mix(in oklab, var(--background) 30%, transparent) 70%, 
+                                    color-mix(in oklab, var(--background) 40%, transparent) 80%, 
+                                    color-mix(in oklab, var(--background) 50%, transparent) 90%, 
+                                    color-mix(in oklab, var(--background) 60%, transparent) 100%
                                 )`,
                         backdropFilter: `blur(8px)`,
                         maskImage: `linear-gradient(180deg, 
                                     transparent 0%, 
                                     transparent 10%, 
-                                    color-mix(in oklab, white 20%, transparent) 55%, 
-                                    color-mix(in oklab, white 30%, transparent) 65%, 
-                                    color-mix(in oklab, white 50%, transparent) 75%, 
-                                    color-mix(in oklab, white 70%, transparent) 85%, 
-                                    color-mix(in oklab, white 100%, transparent) 100%
+                                    color-mix(in oklab, var(--foreground) 20%, transparent) 55%, 
+                                    color-mix(in oklab, var(--foreground) 30%, transparent) 65%, 
+                                    color-mix(in oklab, var(--foreground) 50%, transparent) 75%, 
+                                    color-mix(in oklab, var(--foreground) 70%, transparent) 85%, 
+                                    color-mix(in oklab, var(--foreground) 100%, transparent) 100%
                                 )`,
                     }}
                 />
@@ -120,7 +120,7 @@ export default function Footer() {
                 <h1
                     ref={ref}
                     className={`${racingSansOne.className}
-                        text-red-900
+                        text-muted-foreground
                         whitespace-nowrap
                         tracking-tighter
                         leading-20 sm:leading-28 md:leading-36
