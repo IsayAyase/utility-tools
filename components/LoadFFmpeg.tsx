@@ -13,6 +13,7 @@ export default function LoadFFmpeg() {
         isLoading,
         error,
         setLoadingProgress,
+        // resetFFmpeg,
     } = useFFmpegStore((state) => state);
 
     const toastId = useRef<string | number | null>(null);
@@ -78,8 +79,8 @@ export default function LoadFFmpeg() {
     useEffect(() => {
         if (!instance) return;
 
-        function handleLog({ message }: { message: string }) {
-            console.log("[FFmpeg]", message);
+        function handleLog({ message, type }: { message: string, type: string }) {
+            console.log("[FFmpeg]", message, "type:", type);
         }
 
         function handleProgress({ progress }: { progress: number }) {

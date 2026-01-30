@@ -194,7 +194,7 @@ export default function ImageResizeConvertFormatPage() {
                             label="Format"
                             rightLabel={
                                 orgFileData
-                                    ? `${orgFileData.format || "?"} -> ${outputData?.metadata?.format || "?"}`
+                                    ? `${orgFileData.format || "?"} → ${outputData?.metadata?.format || "?"}`
                                     : ""
                             }
                             className="w-full"

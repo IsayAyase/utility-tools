@@ -15,7 +15,7 @@ export default function ImagePreview({
     return (
         <div className="flex justify-center items-center w-full h-72 md:h-96 lg:h-120 xl:h-150 bg-muted/30 border rounded-lg overflow-hidden">
             {url ? (
-                <Image alt="Preview" src={url} className="w-full h-full object-contain" />
+                <Image width={1000} height={600} alt="Preview" src={url} className="w-full h-full object-contain" />
             ) : (
                 <>
                     {loading ? (

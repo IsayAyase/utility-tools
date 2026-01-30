@@ -96,6 +96,9 @@ export const useFFmpegStore = create<FFmpegState>((set, get) => ({
     },
 
     resetFFmpeg: () => {
+        const ffmpeg = get().instance;
+        if (ffmpeg) ffmpeg.terminate();
+        
         set({ 
             instance: null, 
             isLoaded: false, 

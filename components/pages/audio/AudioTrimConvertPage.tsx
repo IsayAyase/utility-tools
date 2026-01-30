@@ -473,12 +473,14 @@ export default function AudioTrimConvertPage() {
 
             <div className="flex flex-col justify-center items-center gap-4 w-full">
                 <div className="w-full border rounded-lg p-4 space-y-4">
-                    {/* time input fields */}
+                    {/* Time input fields */}
                     <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <label className="text-sm font-medium mb-1 block">
-                                Start Time (s)
-                            </label>
+                        <Field
+                            htmlFor="startTime"
+                            label="Start Time"
+                            rightLabel={`${field.startTime}s`}
+                            className="w-full"
+                        >
                             <Input
                                 name="startTime"
                                 type="number"
@@ -504,11 +506,13 @@ export default function AudioTrimConvertPage() {
                                 }}
                                 placeholder="Start time in seconds"
                             />
-                        </div>
-                        <div>
-                            <label className="text-sm font-medium mb-1 block">
-                                End Time (s)
-                            </label>
+                        </Field>
+                        <Field
+                            htmlFor="endTime"
+                            label="End Time"
+                            rightLabel={`${field.endTime}s`}
+                            className="w-full"
+                        >
                             <Input
                                 name="endTime"
                                 type="number"
@@ -534,15 +538,17 @@ export default function AudioTrimConvertPage() {
                                 }}
                                 placeholder="End time in seconds"
                             />
-                        </div>
+                        </Field>
                     </div>
 
                     {/* Fade Duration Fields */}
                     <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <label className="text-sm font-medium mb-1 block">
-                                Fade In Duration (s)
-                            </label>
+                        <Field
+                            htmlFor="fadeInDuration"
+                            label="Fade In Duration"
+                            rightLabel={`${field.fadeInDuration}s`}
+                            className="w-full"
+                        >
                             <Input
                                 name="fadeInDuration"
                                 type="number"
@@ -559,11 +565,13 @@ export default function AudioTrimConvertPage() {
                                 }}
                                 placeholder="0"
                             />
-                        </div>
-                        <div>
-                            <label className="text-sm font-medium mb-1 block">
-                                Fade Out Duration (s)
-                            </label>
+                        </Field>
+                        <Field
+                            htmlFor="fadeOutDuration"
+                            label="Fade Out Duration"
+                            rightLabel={`${field.fadeOutDuration}s`}
+                            className="w-full"
+                        >
                             <Input
                                 name="fadeOutDuration"
                                 type="number"
@@ -580,7 +588,7 @@ export default function AudioTrimConvertPage() {
                                 }}
                                 placeholder="0"
                             />
-                        </div>
+                        </Field>
                     </div>
 
                     {/* speed slider */}
@@ -623,7 +631,7 @@ export default function AudioTrimConvertPage() {
                             label="Format"
                             rightLabel={
                                 orgFileData
-                                    ? `${orgFileData.format || "?"} -> ${field.format}`
+                                    ? `${orgFileData.format || "?"} → ${field.format}`
                                     : ""
                             }
                             className="w-full"

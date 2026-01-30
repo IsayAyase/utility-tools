@@ -226,7 +226,7 @@ export async function imageTransform(input: ImageTransformInput): Promise<ToolRe
     canvas.width = currentWidth
     canvas.height = currentHeight
     
-    // Apply transformations in order: crop -> rotate -> flip
+    // Apply transformations in order: crop → rotate → flip
     const tempCanvas = document.createElement('canvas')
     const tempCtx = tempCanvas.getContext('2d')
     if (!tempCtx) throw new Error('Could not get temporary canvas context')

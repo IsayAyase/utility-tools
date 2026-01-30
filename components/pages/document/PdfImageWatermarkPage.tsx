@@ -225,7 +225,7 @@ export default function PdfImageWatermarkPage() {
                             </Select>
                         </Field>
 
-                        <Field htmlFor="scale" label="Scale">
+                        <Field htmlFor="scale" label="Scale" rightLabel={`${fields.scale}x`}>
                             <Input
                                 name="scale"
                                 value={fields.scale}
@@ -249,7 +249,7 @@ export default function PdfImageWatermarkPage() {
                             />
                         </Field>
 
-                        <Field htmlFor="rotation" label="Rotation">
+                        <Field htmlFor="rotation" label="Rotation" rightLabel={`${fields.rotation}°`}>
                             <Input
                                 name="rotation"
                                 value={fields.rotation}
