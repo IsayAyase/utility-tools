@@ -173,7 +173,7 @@ function VideoPlayerSlider({
             {/* Timeline Slider */}
             <Field
                 htmlFor="video-progress"
-                label="Timeline Progress"
+                label="Playback Progress"
                 rightLabel={formatDuration(currentTime - startTime)}
             >
                 <Slider

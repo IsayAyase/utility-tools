@@ -193,7 +193,7 @@ function AudioPlayerSlider({
             {/* Timeline Slider */}
             <Field
                 htmlFor="audio-progress"
-                label="Timeline Progress"
+                label="Playback Progress"
                 rightLabel={formatDuration(currentTime - startTime)}
             >
                 <Slider

@@ -91,10 +91,10 @@ export function getRelatedToolsByKeywords(Kws: string[], slugToSkip: string | nu
 
   for (const tool of tools) {
     if (tool.slug === slugToSkip) continue;
-    if (!tool.keywords || tool.keywords.length === 0) continue;
+    if (!tool.tags || tool.tags.length === 0) continue;
 
     let score = 0;
-    for (const tag of tool.keywords) {
+    for (const tag of tool.tags) {
       if (!setOfKws.has(tag)) continue;
       score += 1;
     }

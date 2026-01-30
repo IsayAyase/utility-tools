@@ -66,7 +66,7 @@ function AudioMergePlayer({
 
             <Field
                 htmlFor="merge-progress"
-                label="Timeline Progress"
+                label="Playback Progress"
                 rightLabel={formatDuration(totalDuration)}
             >
                 <Slider
