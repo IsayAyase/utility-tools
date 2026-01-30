@@ -75,6 +75,13 @@ const toolsPageCompObj: Record<
                 loading: () => <LoadingPage />,
             },
         ),
+        burn_subtitle_in_video: dynamic(
+            () => import("./video/BurnSubtitleInVideo"),
+            {
+                ssr: false,
+                loading: () => <LoadingPage />,
+            },
+        )
     },
 };
 

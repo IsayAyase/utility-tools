@@ -158,9 +158,9 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 keywords: ["trim mp4 online", "video cutter", "convert video to webm", "BladeTools video trim"],
                 icon: TbVideo(iconProp)
             },
-            "burn_subtitle": {
+            "burn_subtitle_in_video": {
                 slug: "burn_subtitle",
-                name: "Burn Subtitle to Video",
+                name: "Burn Subtitle In Video",
                 description: "Hardcode subtitles directly into your video files so they play on any device. Fast, local, and permanent subtitle embedding.",
                 category: "video",
                 tags: ["video", "subtitle", "burn", "mp4", "mkv", "webm"],
