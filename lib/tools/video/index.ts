@@ -1,24 +1,16 @@
+import { getFFmpegInstance } from '@/store/ffmpeg'
 import type { ToolResult } from '../helper'
 import type {
-  VideoTrimInput,
-  VideoFormatConvertInput
+  VideoFormatConvertInput,
+  VideoTrimInput
 } from './type'
 
 export async function videoTrim(input: VideoTrimInput): Promise<ToolResult<Uint8Array>> {
   try {
-    const { FFmpeg } = await import('@ffmpeg/ffmpeg')
-    const { fetchFile, toBlobURL } = await import('@ffmpeg/util')
-    
-    const ffmpeg = new FFmpeg()
-    
-    const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm'
-    await ffmpeg.load({
-      coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-      wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm')
-    })
-    
+    const ffmpeg = await getFFmpegInstance()
+
     await ffmpeg.writeFile('input.mp4', new Uint8Array(input.buffer) as unknown as string)
-    
+
     const duration = input.endTime - input.startTime
     await ffmpeg.exec([
       '-i', 'input.mp4',
@@ -27,10 +19,10 @@ export async function videoTrim(input: VideoTrimInput): Promise<ToolResult<Uint8
       '-c', 'copy',
       'output.mp4'
     ])
-    
+
     const data = await ffmpeg.readFile('output.mp4')
-    await ffmpeg.terminate()
-    
+    ffmpeg.terminate()
+
     return {
       success: true,
       data: data as Uint8Array,
@@ -51,40 +43,31 @@ export async function videoTrim(input: VideoTrimInput): Promise<ToolResult<Uint8
 
 export async function videoFormatConvert(input: VideoFormatConvertInput): Promise<ToolResult<Uint8Array>> {
   try {
-    const { FFmpeg } = await import('@ffmpeg/ffmpeg')
-    const { fetchFile, toBlobURL } = await import('@ffmpeg/util')
-    
-    const ffmpeg = new FFmpeg()
-    
-    const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm'
-    await ffmpeg.load({
-      coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-      wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm')
-    })
-    
+    const ffmpeg = await getFFmpegInstance()
+
     const extension = input.format === 'mp4' ? 'mp4' : 'webm'
     await ffmpeg.writeFile(`input.${extension}`, new Uint8Array(input.buffer) as unknown as string)
-    
+
     const args = [
       '-i', `input.${extension}`,
       '-c:v', 'libx264'
     ]
-    
+
     if (input.resolution) {
       args.push('-vf', `scale=${input.resolution.width}:${input.resolution.height}`)
     }
-    
+
     if (input.bitrate) {
       args.push('-b:v', `${input.bitrate}k`)
     }
-    
+
     args.push(`output.${extension}`)
-    
+
     await ffmpeg.exec(args)
-    
+
     const data = await ffmpeg.readFile(`output.${extension}`)
-    await ffmpeg.terminate()
-    
+    ffmpeg.terminate()
+
     return {
       success: true,
       data: data as Uint8Array,
