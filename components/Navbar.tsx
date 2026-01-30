@@ -4,6 +4,7 @@ import { Wrench } from "lucide-react";
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { MdOutlineFeedback } from "react-icons/md";
 import SearchBar from "./SearchBar";
 import ToogleMode from "./ToogleMode";
 import { Button } from "./ui/button";
@@ -39,6 +40,12 @@ export default function Navbar() {
                     <Link target="_blank" href={"https://github.com/IsayAyase"}>
                         <Button size={"icon-sm"} variant="outline">
                             <FaGithub />
+                        </Button>
+                    </Link>
+
+                    <Link target="_blank" href={"/give-feedback"}>
+                        <Button size={"icon-sm"} variant="outline">
+                            <MdOutlineFeedback />
                         </Button>
                     </Link>
 

@@ -11,9 +11,10 @@ export default function LoadFFmpeg() {
         loadingProgress,
         isLoaded,
         isLoading,
+        isProcessing,
         error,
         setLoadingProgress,
-        // resetFFmpeg,
+        setProcessing,
     } = useFFmpegStore((state) => state);
 
     const toastId = useRef<string | number | null>(null);
@@ -27,7 +28,7 @@ export default function LoadFFmpeg() {
 
     // progress toast
     useEffect(() => {
-        if (!loadingProgress)
+        if (!isProcessing)
             return () => {
                 if (toastId.current) toast.dismiss(toastId.current);
                 if (rafId.current) cancelAnimationFrame(rafId.current);
@@ -84,6 +85,8 @@ export default function LoadFFmpeg() {
         }
 
         function handleProgress({ progress }: { progress: number }) {
+            setProcessing(!(progress > 0.9 || progress === 0));
+            
             // Map FFmpeg progress (0-1) to our loading progress (20-90)
             const mappedProgress = 20 + progress * 70;
             setLoadingProgress(mappedProgress >= 90 ? 0 : mappedProgress);

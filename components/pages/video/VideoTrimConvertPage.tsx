@@ -13,14 +13,17 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { audioFormats, audioTrimConvert } from "@/lib/tools/audio";
-import type { AudioFormatType, AudioTrimConvertInput } from "@/lib/tools/audio/type";
 import {
     bufferToBlob,
     downloadBuffer,
     formatDuration,
 } from "@/lib/tools/helper";
 import { ToolResult } from "@/lib/tools/types";
+import { videoFormatList, videoTrimConvert } from "@/lib/tools/video";
+import type {
+    VideoFormatType,
+    VideoTrimConvertInput,
+} from "@/lib/tools/video/type";
 
 import { Pause, Play, Square } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -31,141 +34,109 @@ const init = {
     startTime: 0,
     endTime: 0,
     duration: 0,
-    format: "wav" as AudioFormatType,
-    fadeInDuration: 0,
-    fadeOutDuration: 0,
-    speed: 1,
-    preservePitch: false,
+    format: "mp4" as VideoFormatType,
+    bitrate: undefined as number | undefined,
+    resolution: undefined as { width: number; height: number } | undefined,
 };
 
-// Custom Audio Player Slider Component
-function AudioPlayerSlider({
-    audioUrl,
+// Custom Video Player Slider Component
+function VideoPlayerSlider({
+    videoUrl,
     startTime,
     endTime,
     duration,
     onStartTimeChange,
     onEndTimeChange,
-    fadeInDuration,
-    fadeOutDuration,
-    speed,
-    preservePitch,
     loading,
+    resolution,
 }: {
-    audioUrl: string;
+    videoUrl: string;
     startTime: number;
     endTime: number;
     duration: number;
     onStartTimeChange: (time: number) => void;
     onEndTimeChange: (time: number) => void;
-    fadeInDuration?: number;
-    fadeOutDuration?: number;
-    speed?: number;
-    preservePitch?: boolean;
     loading?: boolean;
+    resolution?: { width: number; height: number } | undefined;
 }) {
-    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const videoRef = useRef<HTMLVideoElement | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
-    // const animationFrameRef = useRef<number>();
 
     useEffect(() => {
-        if (!audioUrl) return;
+        if (!videoUrl || !videoRef.current) return;
 
         setIsPlaying(false);
-        audioRef.current = new Audio(audioUrl);
+        const video = videoRef.current;
+        video.src = videoUrl;
+        video.preload = "metadata";
 
-        const audio = audioRef.current;
-
-        // Apply initial speed and preserve pitch settings
-        audio.playbackRate = speed || 1;
-        if (preservePitch) {
-            audio.preservesPitch = true;
-        }
-
-        const handleAudioEnded = () => {
+        const handleVideoEnded = () => {
             setIsPlaying(false);
             setCurrentTime(startTime);
-            audio.currentTime = startTime;
+            video.currentTime = startTime;
         };
 
-        const handleAudioTimeUpdate = () => {
-            setCurrentTime(audio.currentTime);
+        const handleVideoTimeUpdate = () => {
+            setCurrentTime(video.currentTime);
 
             // Stop playing when reaching endTime
-            if (audio.currentTime >= endTime) {
-                audio.pause();
+            if (video.currentTime >= endTime) {
+                video.pause();
                 setIsPlaying(false);
-                audio.currentTime = startTime;
+                video.currentTime = startTime;
                 setCurrentTime(startTime);
             }
         };
 
-        audio.addEventListener("ended", handleAudioEnded);
-        audio.addEventListener("timeupdate", handleAudioTimeUpdate);
+        video.addEventListener("ended", handleVideoEnded);
+        video.addEventListener("timeupdate", handleVideoTimeUpdate);
 
         return () => {
-            audio.removeEventListener("ended", handleAudioEnded);
-            audio.removeEventListener("timeupdate", handleAudioTimeUpdate);
-            audio.pause();
-            audio.src = "";
+            video.removeEventListener("ended", handleVideoEnded);
+            video.removeEventListener("timeupdate", handleVideoTimeUpdate);
+            video.pause();
+            video.src = "";
         };
-    }, [audioUrl, startTime, endTime, preservePitch]);
-
-    // Separate effect for speed changes
-    useEffect(() => {
-        if (audioRef.current) {
-            audioRef.current.playbackRate = speed || 1;
-            if (preservePitch !== undefined) {
-                audioRef.current.preservesPitch = preservePitch;
-            }
-        }
-    }, [speed, preservePitch]);
+    }, [videoUrl, startTime, endTime]);
 
     const handlePlay = () => {
-        if (!audioRef.current) return;
+        if (!videoRef.current) return;
 
-        const audio = audioRef.current;
+        const video = videoRef.current;
 
         if (isPlaying) {
-            audio.pause();
+            video.pause();
             setIsPlaying(false);
         } else {
             // Start from the current position or from startTime if outside range
-            if (audio.currentTime < startTime || audio.currentTime >= endTime) {
-                audio.currentTime = startTime;
+            if (video.currentTime < startTime || video.currentTime >= endTime) {
+                video.currentTime = startTime;
             }
-            audio.play();
+            video.play();
             setIsPlaying(true);
         }
     };
 
     const handleStop = () => {
-        if (!audioRef.current) return;
+        if (!videoRef.current) return;
 
-        const audio = audioRef.current;
-        audio.pause();
-        audio.currentTime = startTime;
+        const video = videoRef.current;
+        video.pause();
+        video.currentTime = startTime;
         setCurrentTime(startTime);
         setIsPlaying(false);
     };
 
     const handleTimelineClick = (value: number[]) => {
-        if (!audioRef.current) return;
+        if (!videoRef.current) return;
 
         const [newTime] = value;
-        
-        // handling these here as well (already in 'timeupdate' event listener),
-        // so that the seeker doesn't jump around, if click out of range
-        const adjustedStartTime = startTime;
-        const adjustedEndTime = endTime;
 
-        if (
-            newTime >= adjustedStartTime &&
-            newTime <= adjustedEndTime
-        ) {
+        // Ensure the clicked time is within the trim range
+        if (newTime >= startTime && newTime <= endTime) {
             setCurrentTime(newTime);
-            audioRef.current.currentTime = newTime;
+            videoRef.current.currentTime = newTime;
         }
     };
 
@@ -179,25 +150,34 @@ function AudioPlayerSlider({
         <div className="border rounded-lg p-4 space-y-4">
             <div className="flex items-center justify-between">
                 <h3 className="font-medium flex items-center gap-2">
-                    <span>Audio Player</span>{" "}
+                    <span>Video Player</span>{" "}
                     {loading && <LoadingSpinner className="size-3" />}
                 </h3>
                 <div className="text-sm text-muted-foreground">
                     {formatDuration(currentTime)} / {formatDuration(duration)}
-                    {speed && speed !== 1 && (
-                        <span className="ml-1 text-xs">({speed}x)</span>
-                    )}
                 </div>
+            </div>
+
+            {/* Video Preview */}
+            <div className="relative rounded-lg bg-muted w-full overflow-hidden aspect-video max-h-112 lg:max-h-125 xl:max-h-138">
+                <video
+                    ref={videoRef}
+                    className="mx-auto w-fit h-full object-contain bg-black"
+                    style={{
+                        aspectRatio: resolution?.width && resolution?.height ? `${resolution.width}/${resolution.height}` : 'auto'
+                    }}
+                    src={videoUrl}
+                />
             </div>
 
             {/* Timeline Slider */}
             <Field
-                htmlFor="audio-progress"
+                htmlFor="video-progress"
                 label="Timeline Progress"
                 rightLabel={formatDuration(currentTime - startTime)}
             >
                 <Slider
-                    name="audio-progress"
+                    name="video-progress"
                     min={0}
                     max={duration}
                     step={0.01}
@@ -211,7 +191,7 @@ function AudioPlayerSlider({
                 htmlFor="trim-range"
                 label="Trim Range"
                 rightLabel={`${formatDuration(startTime)} - ${formatDuration(endTime)} = ${formatDuration(
-                    endTime - startTime
+                    endTime - startTime,
                 )}`}
             >
                 <Slider
@@ -253,7 +233,7 @@ function AudioPlayerSlider({
     );
 }
 
-export default function AudioTrimConvertPage() {
+export default function VideoTrimConvertPage() {
     const [files, setFiles] = useState<FileList | null>(null);
     const [field, setField] = useState(init);
     const [orgFileData, setOrgFileData] = useState<{
@@ -266,7 +246,7 @@ export default function AudioTrimConvertPage() {
     const [outputData, setOutputData] = useState<ToolResult<Uint8Array> | null>(
         null,
     );
-    const [audioUrl, setAudioUrl] = useState<string>("");
+    const [videoUrl, setVideoUrl] = useState<string>("");
     const [previewLoading, setPreviewLoading] = useState<boolean>(false);
 
     // Generate preview when parameters change
@@ -280,10 +260,10 @@ export default function AudioTrimConvertPage() {
             try {
                 if (!field.buffer) return;
 
-                const audioBlob = bufferToBlob(field.buffer, "audio/wav");
-                setAudioUrl((p) => {
+                const videoBlob = bufferToBlob(field.buffer, "video/mp4");
+                setVideoUrl((p) => {
                     if (p) URL.revokeObjectURL(p);
-                    return URL.createObjectURL(audioBlob);
+                    return URL.createObjectURL(videoBlob);
                 });
             } catch (error) {
                 console.error("Preview generation failed:", error);
@@ -315,60 +295,54 @@ export default function AudioTrimConvertPage() {
 
         const buffer = new Uint8Array(await file.arrayBuffer());
 
-        // Get audio duration
-        const audio = new Audio(URL.createObjectURL(file));
-        audio.addEventListener("loadedmetadata", () => {
+        // Get video duration
+        const video = document.createElement("video");
+        video.src = URL.createObjectURL(file);
+        video.preload = "metadata";
+
+        video.addEventListener("loadedmetadata", () => {
             setField((prev) => ({
                 ...prev,
                 buffer,
-                duration: audio.duration,
-                endTime: audio.duration,
-                format: format?.toLowerCase() as AudioFormatType,
+                duration: video.duration,
+                endTime: video.duration,
+                format: (format?.toLowerCase() || "mp4") as VideoFormatType,
             }));
-            setAudioUrl(URL.createObjectURL(file));
+            setVideoUrl(URL.createObjectURL(file));
         });
 
-        audio.addEventListener("error", () => {
-            toast.error("Failed to load audio file");
+        video.addEventListener("error", () => {
+            toast.error("Failed to load video file");
         });
     }
 
     async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        // Only perform full trim if not already done
-        // if (outputData?.data) {
-        //     // Already processed, just download
-        //     const fileName = `${orgFileData?.name}_trimmed_blade_tools.${field.format}`;
-        //     downloadBuffer(outputData.data, fileName, `audio/${field.format}`);
-        //     toast.success("Successfully downloaded!");
-        //     return;
-        // }
-
         setLoading(true);
         try {
-            const input: AudioTrimConvertInput = {
+            const input: VideoTrimConvertInput = {
                 buffer: field.buffer!,
                 startTime: field.startTime,
                 endTime: field.endTime,
                 format: field.format,
-                fadeInDuration: field.fadeInDuration,
-                fadeOutDuration: field.fadeOutDuration,
-                speed: field.speed,
-                preservePitch: field.preservePitch,
+                bitrate: field.bitrate,
+                resolution: field.resolution,
             };
 
-            const result = await audioTrimConvert(input);
+            const result = await videoTrimConvert(input);
             if (!result.data) {
-                throw new Error("Something went wrong! While trimming.");
+                throw new Error(
+                    "Something went wrong! While processing video.",
+                );
             }
 
             setOutputData(result);
 
             // Auto-download after processing
-            const fileName = `${orgFileData?.name}_trimmed_blade_tools.${field.format}`;
-            downloadBuffer(result.data, fileName, `audio/${field.format}`);
-            toast.success("Successfully trimmed and downloaded!");
+            const fileName = `${orgFileData?.name}_blade_tools.${field.format}`;
+            downloadBuffer(result.data, fileName, `video/${field.format}`);
+            toast.success("Successfully processed and downloaded!");
         } catch (e) {
             toast.error(
                 e instanceof Error ? e.message : "Something went wrong!",
@@ -383,7 +357,7 @@ export default function AudioTrimConvertPage() {
         setField(init);
         setOrgFileData(null);
         setOutputData(null);
-        setAudioUrl("");
+        setVideoUrl("");
     }
 
     return (
@@ -393,18 +367,14 @@ export default function AudioTrimConvertPage() {
         >
             {files && files.length > 0 ? (
                 <div className="space-y-4">
-                    {/* Audio Player with Timeline */}
-                    {audioUrl && (
+                    {/* Video Player with Timeline */}
+                    {videoUrl && (
                         <div className="space-y-2">
-                            <AudioPlayerSlider
-                                audioUrl={audioUrl}
+                            <VideoPlayerSlider
+                                videoUrl={videoUrl}
                                 startTime={field.startTime}
                                 endTime={field.endTime}
                                 duration={field.duration}
-                                fadeInDuration={field.fadeInDuration}
-                                fadeOutDuration={field.fadeOutDuration}
-                                speed={field.speed}
-                                preservePitch={field.preservePitch}
                                 onStartTimeChange={(time) =>
                                     setField((prev) => ({
                                         ...prev,
@@ -418,6 +388,7 @@ export default function AudioTrimConvertPage() {
                                     }))
                                 }
                                 loading={previewLoading}
+                                resolution={field.resolution}
                             />
                         </div>
                     )}
@@ -454,7 +425,7 @@ export default function AudioTrimConvertPage() {
                     onFileSelect={handleFileSelect}
                     label=""
                     name="inputfiles"
-                    accept="audio/*"
+                    accept="video/*"
                     required
                     helperText=""
                     valueFiles={files}
@@ -532,94 +503,88 @@ export default function AudioTrimConvertPage() {
                         </Field>
                     </div>
 
-                    {/* Fade Duration Fields */}
+                    {/* Bitrate Field */}
+                    <Field
+                        htmlFor="bitrate"
+                        label="Bitrate"
+                        rightLabel={field.bitrate ? `${field.bitrate}kbps` : ""}
+                        className="w-full"
+                    >
+                        <Input
+                            name="bitrate"
+                            type="number"
+                            min={0}
+                            step={100}
+                            value={field.bitrate || ""}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                setField((prev) => ({
+                                    ...prev,
+                                    bitrate: value
+                                        ? parseInt(value)
+                                        : undefined,
+                                }));
+                            }}
+                            placeholder="e.g., 1000"
+                        />
+                    </Field>
+
+                    {/* Resolution Fields */}
                     <div className="grid grid-cols-2 gap-4">
                         <Field
-                            htmlFor="fadeInDuration"
-                            label="Fade In Duration"
-                            rightLabel={`${field.fadeInDuration}s`}
+                            htmlFor="width"
+                            label="Width"
+                            rightLabel={field.resolution?.width ? `${field.resolution.width}px` : ""}
                             className="w-full"
                         >
                             <Input
-                                name="fadeInDuration"
+                                name="width"
                                 type="number"
                                 min={0}
-                                step={0.1}
-                                value={field.fadeInDuration}
+                                step={1}
+                                value={field.resolution?.width || ""}
                                 onChange={(e) => {
-                                    const value =
-                                        parseFloat(e.target.value) || 0;
+                                    const value = e.target.value;
                                     setField((prev) => ({
                                         ...prev,
-                                        fadeInDuration: Math.max(0, value),
+                                        resolution: {
+                                            width: value ? parseInt(value) : 0,
+                                            height: prev.resolution?.height || 0,
+                                        },
                                     }));
                                 }}
-                                placeholder="0"
+                                placeholder="e.g., 1920"
                             />
                         </Field>
                         <Field
-                            htmlFor="fadeOutDuration"
-                            label="Fade Out Duration"
-                            rightLabel={`${field.fadeOutDuration}s`}
+                            htmlFor="height"
+                            label="Height"
+                            rightLabel={field.resolution?.height ? `${field.resolution.height}px` : ""}
                             className="w-full"
                         >
                             <Input
-                                name="fadeOutDuration"
+                                name="height"
                                 type="number"
                                 min={0}
-                                step={0.1}
-                                value={field.fadeOutDuration}
+                                step={1}
+                                value={field.resolution?.height || ""}
                                 onChange={(e) => {
-                                    const value =
-                                        parseFloat(e.target.value) || 0;
+                                    const value = e.target.value;
                                     setField((prev) => ({
                                         ...prev,
-                                        fadeOutDuration: Math.max(0, value),
+                                        resolution: {
+                                            width: prev.resolution?.width || 0,
+                                            height: value ? parseInt(value) : 0,
+                                        },
                                     }));
                                 }}
-                                placeholder="0"
+                                placeholder="e.g., 1080"
                             />
                         </Field>
                     </div>
-                    <div className="text-xs text-muted-foreground">
-                        Note: Fade effects are applied during final processing, not in preview
-                    </div>
 
-                    {/* speed slider */}
-                    <div>
-                        <Field
-                            htmlFor="speed"
-                            label="Speed"
-                            rightLabel={`${field.speed.toFixed(2)}x`}
-                        >
-                            <Slider
-                                name="speed"
-                                min={0.25}
-                                max={2}
-                                step={0.25}
-                                value={[field.speed]}
-                                onValueChange={(value) => {
-                                    setField((prev) => ({
-                                        ...prev,
-                                        speed: value[0],
-                                    }));
-                                }}
-                            />
-                        </Field>
-                        <div className="text-xs text-muted-foreground mt-1.5 flex justify-between">
-                            <span>0.25x</span>
-                            <span>0.5x</span>
-                            <span>0.75x</span>
-                            <span>1x</span>
-                            <span>1.25x</span>
-                            <span>1.5x</span>
-                            <span>1.75x</span>
-                            <span>2x</span>
-                        </div>
-                    </div>
-
-                    {/* output format and Preserve Pitch Toggle */}
-                    <div className="w-full grid grid-cols-2 gap-4">
+                    {/* Output Format */}
+                    <div className="w-full">
                         <Field
                             htmlFor="format"
                             label="Format"
@@ -634,7 +599,7 @@ export default function AudioTrimConvertPage() {
                                 onValueChange={(value) =>
                                     setField((prev) => ({
                                         ...prev,
-                                        format: value as AudioFormatType,
+                                        format: value as VideoFormatType,
                                     }))
                                 }
                                 value={field.format}
@@ -643,40 +608,13 @@ export default function AudioTrimConvertPage() {
                                     <SelectValue placeholder="Select format" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {audioFormats.map((format) => (
+                                    {videoFormatList.map((format) => (
                                         <SelectItem key={format} value={format}>
                                             {format}
                                         </SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
-                        </Field>
-
-                        <Field
-                            htmlFor="pitch"
-                            label="Preserve Pitch"
-                            className="w-full"
-                        >
-                            <Button
-                                onClick={() =>
-                                    setField((prev) => ({
-                                        ...prev,
-                                        preservePitch: !prev.preservePitch,
-                                    }))
-                                }
-                                name="pitch"
-                                type="button"
-                                variant={"outline"}
-                                disabled={loading}
-                                className="w-full"
-                            >
-                                <span
-                                    className={`${!field.preservePitch ? "bg-red-500" : "bg-green-500"} w-2 h-2 rounded-full`}
-                                />
-                                <span>
-                                    {field.preservePitch ? "Yes" : "No"}
-                                </span>
-                            </Button>
                         </Field>
                     </div>
                 </div>
