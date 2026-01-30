@@ -1,5 +1,5 @@
+import { ToolResult } from "@/lib/tools/types";
 import { degrees, PDFDocument, rgb, StandardFonts, type Color } from 'pdf-lib';
-import type { ToolResult } from '../helper';
 import type {
     GetPdfInfoInput,
     GetPdfInfoOutput,

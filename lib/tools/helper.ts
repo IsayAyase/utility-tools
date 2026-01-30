@@ -1,20 +1,5 @@
-import { toolsArray, type Tool } from "."
-
-export type ToolResult<T = Uint8Array> = {
-  success: boolean
-  data?: T
-  error?: string
-  metadata?: {
-    originalSize?: number
-    newSize?: number
-    format?: string
-    width?: number
-    height?: number
-    duration?: number
-    pageCount?: number
-    [key: string]: unknown
-  }
-}
+import { toolsArray } from "."
+import type { Tool } from "./types"
 
 export async function fileToBuffer(file: File): Promise<Uint8Array> {
   const arrayBuffer = await file.arrayBuffer()

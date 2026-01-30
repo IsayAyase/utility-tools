@@ -16,10 +16,10 @@ import {
 import {
     bufferToBlob,
     downloadBuffer,
-    type ToolResult,
 } from "@/lib/tools/helper";
 import { imageFitList, imageToPdf, pageSizeList } from "@/lib/tools/image";
 import type { ImageToPdfInput } from "@/lib/tools/image/type";
+import { ToolResult } from "@/lib/tools/types";
 import { Plus, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { RiDraggable } from "react-icons/ri";

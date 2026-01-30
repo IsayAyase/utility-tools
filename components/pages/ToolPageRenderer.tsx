@@ -1,6 +1,6 @@
 "use client";
 
-import { type CategoriesWithoutAll, type Tool } from "@/lib/tools";
+import { type CategoriesWithoutAll, type Tool } from "@/lib/tools/types";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -55,15 +55,27 @@ const toolsPageCompObj: Record<
         }),
     },
     audio: {
-        audio_trim_convert: dynamic(() => import("./audio/AudioTrimConvertPage"), {
-            ssr: false,
-            loading: () => <LoadingPage />,
-        }),
+        audio_trim_convert: dynamic(
+            () => import("./audio/AudioTrimConvertPage"),
+            {
+                ssr: false,
+                loading: () => <LoadingPage />,
+            },
+        ),
         audio_merge: dynamic(() => import("./audio/AudioMergePage"), {
             ssr: false,
             loading: () => <LoadingPage />,
-        })
-    }
+        }),
+    },
+    video: {
+        video_trim_convert: dynamic(
+            () => import("./video/VideoTrimConvertPage"),
+            {
+                ssr: false,
+                loading: () => <LoadingPage />,
+            },
+        ),
+    },
 };
 
 const ToolPageRenderer = ({

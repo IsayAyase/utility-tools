@@ -14,13 +14,13 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { audioFormats, audioTrimConvert } from "@/lib/tools/audio";
-import type { AudioTrimConvertInput } from "@/lib/tools/audio/type";
+import type { AudioFormatType, AudioTrimConvertInput } from "@/lib/tools/audio/type";
 import {
     bufferToBlob,
     downloadBuffer,
     formatDuration,
-    type ToolResult,
 } from "@/lib/tools/helper";
+import { ToolResult } from "@/lib/tools/types";
 
 import { Pause, Play, Square } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -31,7 +31,7 @@ const init = {
     startTime: 0,
     endTime: 0,
     duration: 0,
-    format: "wav",
+    format: "wav" as AudioFormatType,
     fadeInDuration: 0,
     fadeOutDuration: 0,
     speed: 1,
@@ -184,12 +184,6 @@ function AudioPlayerSlider({
         onEndTimeChange(newEndTime);
     };
 
-    const formatTime = (seconds: number): string => {
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins}:${secs.toString().padStart(2, "0")}`;
-    };
-
     return (
         <div className="border rounded-lg p-4 space-y-4">
             <div className="flex items-center justify-between">
@@ -198,7 +192,7 @@ function AudioPlayerSlider({
                     {loading && <LoadingSpinner className="size-3" />}
                 </h3>
                 <div className="text-sm text-muted-foreground">
-                    {formatTime(currentTime)} / {formatTime(duration)}
+                    {formatDuration(currentTime)} / {formatDuration(duration)}
                     {speed && speed !== 1 && (
                         <span className="ml-1 text-xs">({speed}x)</span>
                     )}
@@ -225,7 +219,7 @@ function AudioPlayerSlider({
             <Field
                 htmlFor="trim-range"
                 label="Trim Range"
-                rightLabel={`${formatTime(startTime)} - ${formatTime(endTime)} = ${formatDuration(
+                rightLabel={`${formatDuration(startTime)} - ${formatDuration(endTime)} = ${formatDuration(
                     endTime - startTime
                 )}`}
             >
@@ -338,7 +332,7 @@ export default function AudioTrimConvertPage() {
                 buffer,
                 duration: audio.duration,
                 endTime: audio.duration,
-                format: format?.toLowerCase() || "wav",
+                format: format?.toLowerCase() as AudioFormatType,
             }));
             setAudioUrl(URL.createObjectURL(file));
         });
@@ -638,7 +632,7 @@ export default function AudioTrimConvertPage() {
                                 onValueChange={(value) =>
                                     setField((prev) => ({
                                         ...prev,
-                                        format: value,
+                                        format: value as AudioFormatType,
                                     }))
                                 }
                                 value={field.format}

@@ -7,12 +7,8 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import {
-    type CategoriesWithAll,
-    objectOfTools,
-    toolsArray,
-    type Tool as ToolType,
-} from "@/lib/tools";
+import { objectOfTools, toolsArray } from "@/lib/tools";
+import type { CategoriesWithAll, Tool as ToolType } from "@/lib/tools/types";
 import Link from "next/link";
 import type { JSX } from "react";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";

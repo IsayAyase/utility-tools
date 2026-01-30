@@ -1,11 +1,11 @@
-import type { ToolResult } from '../helper'
+import { ToolResult } from "@/lib/tools/types";
 import type {
   DominantColorResult,
   ImageConvertResizeReduceInput,
   ImageDominantColorInput,
   ImageToPdfInput,
   ImageTransformInput
-} from './type'
+} from './type';
 
 export const imageFormatConvertList = ['png', 'jpg', 'jpeg', 'webp', 'ico'] as const
 export const imageFitList = ['cover', 'contain', 'fill'] as const
