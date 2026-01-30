@@ -133,18 +133,18 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
             keywords: ["audio converter", "audio editor", "audio tools", "audio format converter", "online audio tools"],
         },
         tools: {
-            "audio_trim": {
-                slug: "audio_trim",
-                name: "Audio Trim",
-                description: "Trim audio files to specified start and end times. Supports WAV, MP3, and OGG formats.",
+            "audio_trim_convert": {
+                slug: "audio_trim_convert",
+                name: "Audio Trim & Convert",
+                description: "Trim, fade, speed adjust, and convert audio files. Supports MP3, WAV, OGG, FLAC, and M4A formats.",
                 category: "audio",
-                keywords: ["audio", "trim", "start", "end", "time", "wav", "mp3", "ogg"],
+                keywords: ["audio", "trim", "convert", "start", "end", "time", "wav", "mp3", "ogg"],
                 icon: LuAudioLines(iconProp)
             },
             "audio_merge": {
                 slug: "audio_merge",
                 name: "Audio Merge & Combine",
-                description: "Merge multiple audio files into one. Supports WAV, MP3, and OGG formats.",
+                description: "Merge & Combine multiple audio files into a single track and export to any format. Supports MP3, WAV, OGG, FLAC, and M4A formats.",
                 category: "audio",
                 keywords: ["audio", "merge", "combine", "join", "wav", "mp3", "ogg"],
                 icon: TbArrowMerge(iconProp)

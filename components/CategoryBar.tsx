@@ -17,12 +17,7 @@ function Category({
                 className="rounded-full capitalize"
             >
                 <span>
-                    {name.slice(0, name.length - 1)}
-                    <span
-                        className={`${isSelected ? "text-red-500" : ""} lowercase`}
-                    >
-                        {name.slice(name.length - 1)}
-                    </span>
+                    {name}
                 </span>
             </Button>
         </Link>

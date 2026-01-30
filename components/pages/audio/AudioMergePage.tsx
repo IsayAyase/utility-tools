@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { formatTime } from "@/lib/datetime";
-import { audioMerge } from "@/lib/tools/audio";
+import { audioFormats, audioMerge } from "@/lib/tools/audio";
 import type { AudioMergeInput } from "@/lib/tools/audio/type";
 import {
     downloadBuffer,
@@ -129,7 +129,7 @@ export default function AudioMergePage() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [currentFileIndex, setCurrentFileIndex] = useState(0);
-    
+
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const currentFileIndexRef = useRef(0);
 
@@ -352,7 +352,7 @@ export default function AudioMergePage() {
             setDragIndex(null);
             return;
         }
-        
+
         playerReset();
         const newFiles = [...files];
         const [moved] = newFiles.splice(dragIndex, 1);
@@ -446,12 +446,16 @@ export default function AudioMergePage() {
                                     <div
                                         key={file.id}
                                         draggable
-                                        onDragStart={() => handleDragStart(index)}
+                                        onDragStart={() =>
+                                            handleDragStart(index)
+                                        }
                                         onDragOver={handleDragOver}
                                         onDrop={() => handleDrop(index)}
                                         onDragEnd={handleDragEnd}
                                         className={`flex items-center gap-2 p-3 border rounded-lg bg-muted/50 hover:bg-muted transition-colors cursor-move ${
-                                            dragIndex === index ? "border-blue-500 bg-blue-50" : ""
+                                            dragIndex === index
+                                                ? "border-blue-500 bg-blue-50"
+                                                : ""
                                         }`}
                                     >
                                         {/* Drag Handle */}
@@ -520,66 +524,66 @@ export default function AudioMergePage() {
                     multiple
                     helperText="Select multiple audio files to merge"
                     valueFiles={null}
-                    className="h-48"
+                    className={
+                        files.length > 0
+                            ? "h-36"
+                            : "h-72 md:h-96 lg:h-120 xl:h-150"
+                    }
                 />
             </div>
 
             {/* Right Side - Settings */}
-            <div className="flex flex-col justify-center items-center gap-4 w-full">
-                <div className="w-full border rounded-lg p-4 space-y-4">
-                    {/* Output Format */}
-                    <Field
-                        htmlFor="format"
-                        label="Output Format"
-                        className="w-full"
+            <div className="w-full space-y-4">
+                {/* Output Format */}
+                <Field
+                    htmlFor="format"
+                    label="Output Format"
+                    className="w-full"
+                >
+                    <Select
+                        onValueChange={(value) => setOutputFormat(value)}
+                        value={outputFormat}
                     >
-                        <Select
-                            onValueChange={(value) => setOutputFormat(value)}
-                            value={outputFormat}
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select format" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="mp3">MP3</SelectItem>
-                                <SelectItem value="wav">WAV</SelectItem>
-                                <SelectItem value="ogg">OGG</SelectItem>
-                                <SelectItem value="flac">FLAC</SelectItem>
-                                <SelectItem value="m4a">M4A</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </Field>
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select format" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {audioFormats.map((format) => (
+                                <SelectItem key={format} value={format}>
+                                    {format}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </Field>
 
-                    {/* Merge Info */}
-                    {files.length > 0 && (
-                        <div className="space-y-2 p-3 bg-muted rounded-lg text-sm">
-                            <div className="flex justify-between">
-                                <span className="text-muted-foreground">
-                                    Files to merge:
-                                </span>
-                                <span className="font-medium">
-                                    {files.length}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-muted-foreground">
-                                    Total duration:
-                                </span>
-                                <span className="font-medium">
-                                    {formatDuration(totalDuration)}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-muted-foreground">
-                                    Output format:
-                                </span>
-                                <span className="font-medium uppercase">
-                                    {outputFormat}
-                                </span>
-                            </div>
+                {/* Merge Info */}
+                {files.length > 0 && (
+                    <div className="space-y-2 p-3 bg-muted rounded-lg text-sm w-full">
+                        <div className="flex justify-between">
+                            <span className="text-muted-foreground">
+                                Files to merge:
+                            </span>
+                            <span className="font-medium">{files.length}</span>
                         </div>
-                    )}
-                </div>
+                        <div className="flex justify-between">
+                            <span className="text-muted-foreground">
+                                Total duration:
+                            </span>
+                            <span className="font-medium">
+                                {formatDuration(totalDuration)}
+                            </span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-muted-foreground">
+                                Output format:
+                            </span>
+                            <span className="font-medium uppercase">
+                                {outputFormat}
+                            </span>
+                        </div>
+                    </div>
+                )}
 
                 {/* Action Buttons */}
                 <div className="w-full grid grid-cols-2 items-center gap-2">
