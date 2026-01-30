@@ -1,8 +1,23 @@
 import LayoutWrapper from "@/components/LayoutWrapper";
-import { Button } from "@/components/ui/button";
 import { mainData } from "@/contents/mainData";
 import Link from "next/link";
 import { racingSansOne } from "./fonts";
+
+function HoverEffectText({ text }: { text: string }) {
+    const chars = text.split("");
+    return (
+        <>
+            {chars.map((char, index) => (
+                <span
+                    key={index}
+                    className="hover:text-red-500 transition-colors duration-200"
+                >
+                    {char}
+                </span>
+            ))}
+        </>
+    );
+}
 
 export default function Home() {
     return (
@@ -59,10 +74,10 @@ export default function Home() {
             <div className="py-6 sm:py-10 md:py-16 lg:py-24 flex items-center justify-center">
                 <div>
                     <div className="flex flex-col items-center justify-center sm:gap-1 md:gap-2 lg:gap-4">
-                        <h2 className="font-semibold text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-                            Your files<span className="text-red-500">.</span>{" "}
-                            Your device<span className="text-red-500">.</span>{" "}
-                            Period<span className="text-red-500">.</span>
+                        <h2 className="font-semibold text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl cursor-default">
+                            <HoverEffectText text="Your files" /><span className="text-red-500">.</span>{" "}
+                            <HoverEffectText text="Your device" /><span className="text-red-500">.</span>{" "}
+                            <HoverEffectText text="Period" /><span className="text-red-500">.</span>
                         </h2>
                         <p className="text-center text-sm sm:text-base md:text-lg lg:text-xl">
                             {mainData.subHeroLine}
@@ -71,9 +86,9 @@ export default function Home() {
 
                     <div className="flex flex-col items-center justify-center my-14 md:my-12 lg:my-10">
                         <h1
-                            className={`${racingSansOne.className} text-6xl md:text-7xl lg:text-9xl text-center`}
+                            className={`${racingSansOne.className} text-6xl md:text-7xl lg:text-9xl text-center cursor-default`}
                         >
-                            BladeTool<span className="text-red-500">s</span>
+                            <HoverEffectText text={"BladeTools"} />
                         </h1>
                     </div>
 
@@ -106,22 +121,28 @@ export default function Home() {
 
                     <div className="flex justify-center py-14">
                         <Link href={mainData.ctaBtn.url}>
-                            <Button
-                                size={"lg"}
-                                variant="default"
-                                className={`w-50 md:w-55 lg:w-60 relative`}
+                            <button
+                                className={`w-50 md:w-55 lg:w-60 py-2 relative hover:scale-[102%] transition-all duration-200 border bg-foreground font-medium text-background rounded-lg`}
                             >
-                                <span>{mainData.ctaBtn.text}</span>
+                                <span className="">
+                                    {mainData.ctaBtn.text}
+                                </span>
 
                                 <span className="h-4 w-15 bg-background/20 absolute rotate-125 -left-60 animate-move-l-r" />
                                 <span className="h-4 w-15 bg-background/10 absolute rotate-125 -left-60 animate-move-l-r translate-x-6" />
-                            </Button>
+                            </button>
                         </Link>
                     </div>
 
                     <div className="flex justify-center">
-                        <div className="py-4 px-6 border rounded-lg w-fit text-muted-foreground/50 animate-pulse">
-                            More tools will be added soon!
+                        <div className=" py-4 px-6 border rounded-lg w-fit flex gap-2 items-center">
+                            <div className="relative p-1 w-fit">
+                                <span className="absolute top-1/2 left-0 -translate-y-1/2 p-1 rounded-full bg-blue-500 animate-ping" />
+                                <span className="absolute top-1/2 left-0 -translate-y-1/2 p-1 rounded-full bg-blue-500" />
+                            </div>
+                            <span className="text-muted-foreground animate-pulse">
+                                More tools will be added soon!
+                            </span>
                         </div>
                     </div>
                 </div>

@@ -16,7 +16,7 @@ export default function Navbar() {
                     <h3
                         className={`text-xl italic font-semibold tracking-wide ${racingSansOne.className}`}
                     >
-                        BladeTool<span className="text-red-500">s</span>
+                        BladeTools
                     </h3>
                 </Link>
 
