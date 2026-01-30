@@ -178,11 +178,11 @@ export function isCategory(category: string, checkAll: boolean = false): categor
 
 export const categoryArray = new Array<CategoryType>();
 export const toolsArray = new Array<Tool>();
-for (const [_, tools] of Object.entries(objectOfTools)) {
+for (const [, tools] of Object.entries(objectOfTools)) {
     categoryArray.push({
         ...tools
     });
-    for (const [_, value] of Object.entries(tools.tools)) {
+    for (const [, value] of Object.entries(tools.tools)) {
         toolsArray.push({ ...value });
     }
 }

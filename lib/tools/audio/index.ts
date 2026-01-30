@@ -211,7 +211,7 @@ async function encodeAudioBuffer(audioBuffer: AudioBuffer, format: string): Prom
     const outputName = `output.${outputExt}`
 
     // Build FFmpeg command based on format
-    let command = ['-i', 'input.wav']
+    const command = ['-i', 'input.wav']
 
     switch (format) {
       case 'mp3':

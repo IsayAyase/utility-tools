@@ -1,22 +1,21 @@
-import type { ToolResult } from '../helper'
+import { ToolResult } from "@/lib/tools/types";
 import type {
-  UrlEncoderDecoderInput,
   Base64EncoderDecoderInput,
-  UuidGeneratorInput,
-  SlugGeneratorInput,
-  LoremIpsumGeneratorInput,
-  JsonToCsvInput,
-  CsvToJsonInput,
-  YamlToJsonInput,
-  HashGeneratorSha256Input,
-  RegexTesterInput,
   CronExpressionBuilderInput,
-  JwtDecoderInput,
-  MarkdownPreviewerInput,
-  RegexTesterResult,
   CronExpressionResult,
-  JwtDecoderResult
-} from './type'
+  CsvToJsonInput,
+  HashGeneratorSha256Input,
+  JsonToCsvInput,
+  JwtDecoderInput,
+  JwtDecoderResult,
+  LoremIpsumGeneratorInput,
+  MarkdownPreviewerInput,
+  RegexTesterInput,
+  RegexTesterResult,
+  SlugGeneratorInput,
+  UrlEncoderDecoderInput,
+  YamlToJsonInput
+} from './type';
 
 export async function urlEncoderDecoder(input: UrlEncoderDecoderInput): Promise<ToolResult<string>> {
   try {
@@ -66,7 +65,7 @@ export async function base64EncoderDecoder(input: Base64EncoderDecoderInput): Pr
   }
 }
 
-export function uuidGenerator(_input?: UuidGeneratorInput): ToolResult<string> {
+export function uuidGenerator(): ToolResult<string> {
   try {
     return {
       success: true,

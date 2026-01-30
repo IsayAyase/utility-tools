@@ -330,7 +330,7 @@ export async function wordToPdf(input: WordToPdfInput): Promise<ToolResult<Uint8
             doc.setFont('helvetica', fontStyle)
 
             // Handle list items with bullets
-            let textToRender = text
+            const textToRender = text
             let xOffset = margin
 
             if (element.tagName === 'LI') {
