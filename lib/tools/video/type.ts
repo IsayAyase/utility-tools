@@ -9,4 +9,6 @@ export interface VideoTrimConvertInput {
   resolution?: { width: number; height: number }
   startTime?: number
   endTime?: number
+  subtitleExtension?: string
+  subtitleBuffer?: Uint8Array
 }

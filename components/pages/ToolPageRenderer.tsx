@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { type ComponentType, type JSX } from "react";
+import LoadFFmpeg from "../LoadFFmpeg";
 import LoadingPage from "./LoadingPage";
 
 type ToolComponentPage = ComponentType<JSX.IntrinsicElements["div"]>;
@@ -75,8 +76,8 @@ const toolsPageCompObj: Record<
                 loading: () => <LoadingPage />,
             },
         ),
-        burn_subtitle_in_video: dynamic(
-            () => import("./video/BurnSubtitleInVideo"),
+        add_subtitle_in_video: dynamic(
+            () => import("./video/AddSubtitleInVideo"),
             {
                 ssr: false,
                 loading: () => <LoadingPage />,
@@ -129,6 +130,9 @@ const ToolPageRenderer = ({
             <div className="relative min-h-96 h-full flex items-center justify-center">
                 <Page />
             </div>
+
+            {/* loading ffmpeg wasm */}
+            <LoadFFmpeg />
         </div>
     );
 };

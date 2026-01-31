@@ -1,5 +1,4 @@
 import Footer from "./Footer";
-import LoadFFmpeg from "./LoadFFmpeg";
 import Navbar from "./Navbar";
 
 export default function LayoutWrapper({
@@ -18,9 +17,6 @@ export default function LayoutWrapper({
                 </div>
             </div>
             {footerEnabled && <Footer />}
-            
-            {/* loading ffmpeg wasm */}
-            <LoadFFmpeg />
         </div>
     );
 }

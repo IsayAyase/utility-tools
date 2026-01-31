@@ -2,7 +2,7 @@
 import { BsFileEarmarkRichtext, BsFiletypeDocx } from 'react-icons/bs'
 import { IoDocumentTextOutline } from 'react-icons/io5'
 import { LuAudioLines } from 'react-icons/lu'
-import { PiFilePdf, PiResize, PiSubtitles } from 'react-icons/pi'
+import { PiFilePdf, PiResize } from 'react-icons/pi'
 import { RxTransform } from 'react-icons/rx'
 import { TbArrowMerge, TbArrowsSplit2, TbFileInfo, TbVideo } from 'react-icons/tb'
 import type { CategoriesWithoutAll, CategoryType, Tool } from './types'
@@ -158,15 +158,15 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 keywords: ["trim mp4 online", "video cutter", "convert video to webm", "BladeTools video trim"],
                 icon: TbVideo(iconProp)
             },
-            "burn_subtitle_in_video": {
-                slug: "burn_subtitle",
-                name: "Burn Subtitle In Video",
-                description: "Hardcode subtitles directly into your video files so they play on any device. Fast, local, and permanent subtitle embedding.",
-                category: "video",
-                tags: ["video", "subtitle", "burn", "mp4", "mkv", "webm"],
-                keywords: ["burn srt to video", "hardcode subtitles online", "add subtitles to mp4", "BladeTools subtitle tool"],
-                icon: PiSubtitles(iconProp)
-            }
+            // "add_subtitle_in_video": {
+            //     slug: "add_subtitle_in_video",
+            //     name: "Add Subtitle In Video",
+            //     description: "Hardcode subtitles directly into your video files so they play on any device. Fast, local, and permanent subtitle embedding.",
+            //     category: "video",
+            //     tags: ["video", "subtitle", "burn", "mp4", "mkv", "webm"],
+            //     keywords: ["burn srt to video", "hardcode subtitles online", "add subtitles to mp4", "BladeTools subtitle tool"],
+            //     icon: PiSubtitles(iconProp)
+            // }
         }
     }
 }

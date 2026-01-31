@@ -81,21 +81,30 @@ export async function videoTrimConvert(input: VideoTrimConvertInput): Promise<To
   }
 }
 
-export async function burnSubtitleToVideo(input: VideoTrimConvertInput): Promise<ToolResult<Uint8Array>> {
+export async function addSubtitleToVideo(input: VideoTrimConvertInput & { subtitleExtension?: string; subtitleBuffer?: Uint8Array }): Promise<ToolResult<Uint8Array>> {
   try {
     const ffmpeg = await getFFmpegInstance()
 
     const extension = input.format === 'mp4' || !input.format ? 'mp4' : 'webm'
     await ffmpeg.writeFile(`input.${extension}`, new Uint8Array(input.buffer) as unknown as string)
 
+    // Determine subtitle file extension
+    const subtitleExt = input.subtitleExtension || 'srt'
+
+    // Write subtitle file to FFmpeg virtual file system
+    if (input.subtitleBuffer) {
+      await ffmpeg.writeFile(`subtitle.${subtitleExt}`, input.subtitleBuffer as unknown as string)
+    }
+
+    // Add subtitle processing - burn subtitles into video (hardcode them)
     const args = [
       '-i', `input.${extension}`,
-      '-i', 'subtitle.srt',
+      '-i', `subtitle.${subtitleExt}`,
       '-c:v', 'libx264',
       '-c:a', 'aac',
-      '-map', '0:v:0',
-      '-map', '1:a:0',
-      '-c:s', 'mov_text',
+      '-preset', 'fast',
+      '-crf', '23',
+      '-vf', `subtitles=subtitle.${subtitleExt}`, // Burn subtitles into video
       `output.${extension}`
     ]
 

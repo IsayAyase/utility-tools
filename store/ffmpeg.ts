@@ -8,6 +8,7 @@ interface FFmpegState {
     error: string | null;
     loadingProgress: number;
     isProcessing: boolean;
+    processingMessage: string;
     
     // Actions
     setProcessing: (isProcessing: boolean) => void;
@@ -15,6 +16,7 @@ interface FFmpegState {
     getFFmpeg: () => Promise<FFmpeg>;
     resetFFmpeg: () => void;
     setLoadingProgress: (progress: number) => void;
+    setProcessingMessage: (message: string) => void;
 }
 
 export const useFFmpegStore = create<FFmpegState>((set, get) => ({
@@ -24,13 +26,18 @@ export const useFFmpegStore = create<FFmpegState>((set, get) => ({
     error: null,
     loadingProgress: 0,
     isProcessing: false,
+    processingMessage: '',
 
     setProcessing: (isProcessing: boolean) => {
-        set({ isProcessing: isProcessing });
+        set({ isProcessing: isProcessing, loadingProgress: 0, processingMessage: '' });
     },
 
     setLoadingProgress: (progress: number) => {
         set({ loadingProgress: progress });
+    },
+
+    setProcessingMessage: (message: string) => {
+        set({ processingMessage: message });
     },
 
     loadFFmpeg: async () => {

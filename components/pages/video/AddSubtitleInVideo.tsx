@@ -12,16 +12,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import {
-    bufferToBlob,
-    downloadBuffer,
-} from "@/lib/tools/helper";
+import { bufferToBlob, downloadBuffer } from "@/lib/tools/helper";
 import { ToolResult } from "@/lib/tools/types";
-import { videoFormatList, burnSubtitleToVideo } from "@/lib/tools/video";
+import { addSubtitleToVideo, videoFormatList } from "@/lib/tools/video";
 import type { VideoFormatType } from "@/lib/tools/video/type";
 
-import { Play, Pause } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const init = {
@@ -32,7 +28,7 @@ const init = {
     resolution: undefined as { width: number; height: number } | undefined,
 };
 
-export default function BurnSubtitleInVideo() {
+export default function AddSubtitleInVideo() {
     const [files, setFiles] = useState<{
         video: FileList | null;
         subtitle: FileList | null;
@@ -45,7 +41,9 @@ export default function BurnSubtitleInVideo() {
         subtitleName: string;
     } | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
-    const [outputData, setOutputData] = useState<ToolResult<Uint8Array> | null>(null);
+    const [outputData, setOutputData] = useState<ToolResult<Uint8Array> | null>(
+        null,
+    );
     const [videoUrl, setVideoUrl] = useState<string>("");
     const [previewLoading, setPreviewLoading] = useState<boolean>(false);
 
@@ -136,21 +134,26 @@ export default function BurnSubtitleInVideo() {
 
         setLoading(true);
         try {
-            // Write subtitle file to FFmpeg instance
-            const { getFFmpegInstance } = await import('@/store/ffmpeg');
-            const ffmpeg = await getFFmpegInstance();
-            await ffmpeg.writeFile('subtitle.srt', field.subtitleBuffer! as unknown as string);
+            // Determine subtitle file extension from original file
+            const subtitleFileName = files.subtitle?.[0]?.name || "";
+            const subtitleExtension = subtitleFileName.endsWith(".vtt")
+                ? "vtt"
+                : "srt";
 
             const input = {
                 buffer: field.videoBuffer,
                 format: field.format,
                 bitrate: field.bitrate,
                 resolution: field.resolution,
+                subtitleExtension,
+                subtitleBuffer: field.subtitleBuffer,
             };
 
-            const result = await burnSubtitleToVideo(input);
+            const result = await addSubtitleToVideo(input);
             if (!result.data) {
-                throw new Error("Something went wrong! While burning subtitle to video.");
+                throw new Error(
+                    "Something went wrong! While burning subtitle to video.",
+                );
             }
 
             setOutputData(result);
@@ -190,7 +193,9 @@ export default function BurnSubtitleInVideo() {
                                 <div className="flex items-center justify-between">
                                     <h3 className="font-medium flex items-center gap-2">
                                         <span>Video Preview</span>
-                                        {previewLoading && <LoadingSpinner className="size-3" />}
+                                        {previewLoading && (
+                                            <LoadingSpinner className="size-3" />
+                                        )}
                                     </h3>
                                 </div>
 
@@ -210,59 +215,65 @@ export default function BurnSubtitleInVideo() {
                         <h3 className="font-medium">File Info</h3>
                         <div className="text-sm text-muted-foreground space-y-1">
                             <p>
-                                <strong>Video Name:</strong> {orgFileData?.videoName}
+                                <strong>Video Name:</strong>{" "}
+                                {orgFileData?.videoName}
                             </p>
                             <p>
-                                <strong>Format:</strong> {orgFileData?.videoFormat || "unknown"}
+                                <strong>Format:</strong>{" "}
+                                {orgFileData?.videoFormat || "unknown"}
                             </p>
                             <p>
                                 <strong>Size:</strong>{" "}
                                 {orgFileData?.videoSize
-                                    ? (orgFileData.videoSize / (1024 * 1024)).toFixed(2) + " MB"
+                                    ? (
+                                          orgFileData.videoSize /
+                                          (1024 * 1024)
+                                      ).toFixed(2) + " MB"
                                     : "Unknown"}
                             </p>
                             <p>
-                                <strong>Subtitle Name:</strong> {orgFileData?.subtitleName || "No subtitle selected"}
+                                <strong>Subtitle Name:</strong>{" "}
+                                {orgFileData?.subtitleName ||
+                                    "No subtitle selected"}
                             </p>
                         </div>
                     </div>
                 </div>
             ) : (
-                <div className="space-y-4">
-                    {/* Video File Upload */}
-                    <div>
-                        <h3 className="font-medium mb-2">Video File</h3>
-                        <FileUpload
-                            onFileSelect={handleVideoFileSelect}
-                            label=""
-                            name="videoFiles"
-                            accept="video/*"
-                            required
-                            helperText="Select video file (MP4, WebM, etc.)"
-                            valueFiles={files?.video}
-                            className="h-48 md:h-64"
-                        />
-                    </div>
+                <FileUpload
+                    onFileSelect={handleVideoFileSelect}
+                    label=""
+                    name="videoFiles"
+                    accept="video/*"
+                    required
+                    helperText="Select video file (MP4, WebM, etc.)"
+                    valueFiles={files?.video}
+                    className="h-72 md:h-96 lg:h-120 xl:h-150"
+                />
+            )}
 
-                    {/* Subtitle File Upload */}
-                    <div>
-                        <h3 className="font-medium mb-2">Subtitle File</h3>
+            <div className="flex flex-col justify-center items-center gap-4 w-full">
+                {/* Subtitle File Upload - Full width at top */}
+                <div className="w-full border rounded-lg p-4 space-y-4">
+                    <Field
+                        htmlFor="subtitleFiles"
+                        label="Subtitle File"
+                        className="w-full"
+                    >
                         <FileUpload
                             onFileSelect={handleSubtitleFileSelect}
                             label=""
                             name="subtitleFiles"
-                            accept=".srt"
-                            required
-                            helperText="Select subtitle file (SRT format)"
+                            accept=".srt,.vtt"
+                            required={
+                                !files.subtitle || files.subtitle.length === 0
+                            }
+                            helperText="Select subtitle file (SRT or VTT format)"
                             valueFiles={files?.subtitle}
                             className="h-32 md:h-40"
                         />
-                    </div>
-                </div>
-            )}
+                    </Field>
 
-            <div className="flex flex-col justify-center items-center gap-4 w-full">
-                <div className="w-full border rounded-lg p-4 space-y-4">
                     {/* Bitrate Field */}
                     <Field
                         htmlFor="bitrate"
@@ -280,7 +291,9 @@ export default function BurnSubtitleInVideo() {
                                 const value = e.target.value;
                                 setField((prev) => ({
                                     ...prev,
-                                    bitrate: value ? parseInt(value) : undefined,
+                                    bitrate: value
+                                        ? parseInt(value)
+                                        : undefined,
                                 }));
                             }}
                             placeholder="e.g., 1000"
@@ -292,7 +305,11 @@ export default function BurnSubtitleInVideo() {
                         <Field
                             htmlFor="width"
                             label="Width"
-                            rightLabel={field.resolution?.width ? `${field.resolution.width}px` : ""}
+                            rightLabel={
+                                field.resolution?.width
+                                    ? `${field.resolution.width}px`
+                                    : ""
+                            }
                             className="w-full"
                         >
                             <Input
@@ -307,7 +324,8 @@ export default function BurnSubtitleInVideo() {
                                         ...prev,
                                         resolution: {
                                             width: value ? parseInt(value) : 0,
-                                            height: prev.resolution?.height || 0,
+                                            height:
+                                                prev.resolution?.height || 0,
                                         },
                                     }));
                                 }}
@@ -317,7 +335,11 @@ export default function BurnSubtitleInVideo() {
                         <Field
                             htmlFor="height"
                             label="Height"
-                            rightLabel={field.resolution?.height ? `${field.resolution.height}px` : ""}
+                            rightLabel={
+                                field.resolution?.height
+                                    ? `${field.resolution.height}px`
+                                    : ""
+                            }
                             className="w-full"
                         >
                             <Input
