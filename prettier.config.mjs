@@ -1,3 +1,5 @@
-export default {
+const config =  {
   tabWidth: 4,
 }
+
+export default config;

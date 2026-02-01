@@ -7,12 +7,16 @@ interface FFmpegState {
     isLoaded: boolean;
     error: string | null;
     loadingProgress: number;
+    isProcessing: boolean;
+    processingMessage: string;
     
     // Actions
+    setProcessing: (isProcessing: boolean) => void;
     loadFFmpeg: () => Promise<FFmpeg>;
     getFFmpeg: () => Promise<FFmpeg>;
     resetFFmpeg: () => void;
     setLoadingProgress: (progress: number) => void;
+    setProcessingMessage: (message: string) => void;
 }
 
 export const useFFmpegStore = create<FFmpegState>((set, get) => ({
@@ -21,9 +25,19 @@ export const useFFmpegStore = create<FFmpegState>((set, get) => ({
     isLoaded: false,
     error: null,
     loadingProgress: 0,
+    isProcessing: false,
+    processingMessage: '',
+
+    setProcessing: (isProcessing: boolean) => {
+        set({ isProcessing: isProcessing, loadingProgress: 0, processingMessage: '' });
+    },
 
     setLoadingProgress: (progress: number) => {
         set({ loadingProgress: progress });
+    },
+
+    setProcessingMessage: (message: string) => {
+        set({ processingMessage: message });
     },
 
     loadFFmpeg: async () => {
@@ -96,6 +110,9 @@ export const useFFmpegStore = create<FFmpegState>((set, get) => ({
     },
 
     resetFFmpeg: () => {
+        const ffmpeg = get().instance;
+        if (ffmpeg) ffmpeg.terminate();
+        
         set({ 
             instance: null, 
             isLoaded: false, 

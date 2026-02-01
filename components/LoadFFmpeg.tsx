@@ -11,8 +11,12 @@ export default function LoadFFmpeg() {
         loadingProgress,
         isLoaded,
         isLoading,
+        isProcessing,
         error,
         setLoadingProgress,
+        setProcessing,
+        processingMessage,
+        setProcessingMessage,
     } = useFFmpegStore((state) => state);
 
     const toastId = useRef<string | number | null>(null);
@@ -26,7 +30,7 @@ export default function LoadFFmpeg() {
 
     // progress toast
     useEffect(() => {
-        if (!loadingProgress)
+        if (!isProcessing)
             return () => {
                 if (toastId.current) toast.dismiss(toastId.current);
                 if (rafId.current) cancelAnimationFrame(rafId.current);
@@ -40,13 +44,16 @@ export default function LoadFFmpeg() {
             const value = Math.min(100, Math.round(displayedProgress.current));
             toastId.current = toast.loading(
                 `${isLoading ? "Loading ffmpeg" : "Processing"} ${value}%`,
-                { id: toastId.current || undefined },
+                {
+                    id: toastId.current || undefined,
+                    description: processingMessage,
+                },
             );
 
             // Keep animating until close enough
             if (Math.abs(target - displayedProgress.current) > 0.1) {
                 rafId.current = requestAnimationFrame(animate);
-            } else { 
+            } else {
                 if (rafId.current) cancelAnimationFrame(rafId.current);
             }
         };
@@ -79,13 +86,16 @@ export default function LoadFFmpeg() {
         if (!instance) return;
 
         function handleLog({ message }: { message: string }) {
-            console.log("[FFmpeg]", message);
+            const msg = `[FFmpeg]: ${message}`;
+            console.log(msg);
+            setProcessingMessage(msg);
         }
 
         function handleProgress({ progress }: { progress: number }) {
-            // Map FFmpeg progress (0-1) to our loading progress (20-90)
-            const mappedProgress = 20 + progress * 70;
-            setLoadingProgress(mappedProgress >= 90 ? 0 : mappedProgress);
+            // Map FFmpeg progress (0-1) to our loading progress (1-99)
+            const mappedProgress = 1 + progress * 98;
+            setLoadingProgress(mappedProgress);
+            setProcessing(!(progress > 0.9 || progress === 0));
         }
 
         instance.on("log", handleLog);

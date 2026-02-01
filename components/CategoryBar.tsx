@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { categoryArray, type CategoriesWithAll } from "@/lib/tools";
+import { categoryArray } from "@/lib/tools";
+import type { CategoriesWithAll } from "@/lib/tools/types";
 import Link from "next/link";
 
 function Category({

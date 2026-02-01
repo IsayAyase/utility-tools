@@ -43,10 +43,9 @@ export default function PdfTextWaterMarkPage() {
             const ops = async () => {
                 setLoading(true);
                 try {
-                    const outputBuffer =
-                        await pdfAddTextWatermark({
-                            ...fields,
-                        });
+                    const outputBuffer = await pdfAddTextWatermark({
+                        ...fields,
+                    });
                     if (!outputBuffer.data) {
                         throw new Error(
                             "Something went wrong! While generating.",
@@ -187,17 +186,29 @@ export default function PdfTextWaterMarkPage() {
                                     <SelectItem value="top-left">
                                         Top Left
                                     </SelectItem>
+                                    <SelectItem value="top-center">
+                                        Top Center
+                                    </SelectItem>
                                     <SelectItem value="top-right">
                                         Top Right
+                                    </SelectItem>
+                                    <SelectItem value="center-left">
+                                        Center Left
+                                    </SelectItem>
+                                    <SelectItem value="center">
+                                        Center
+                                    </SelectItem>
+                                    <SelectItem value="center-right">
+                                        Center Right
                                     </SelectItem>
                                     <SelectItem value="bottom-left">
                                         Bottom Left
                                     </SelectItem>
+                                    <SelectItem value="bottom-center">
+                                        Bottom Center
+                                    </SelectItem>
                                     <SelectItem value="bottom-right">
                                         Bottom Right
-                                    </SelectItem>
-                                    <SelectItem value="center">
-                                        Center
                                     </SelectItem>
                                 </SelectContent>
                             </Select>

@@ -43,7 +43,7 @@ export default function TermsOfServicePage() {
                 <div>
                     <h2 className="text-lg md:text-xl lg:text-2xl">Disclaimers</h2>
                     <p className="text-sm md:text-base">
-                        The service is provided on an "as is" basis. We do not
+                        The service is provided on an &ldquo;as is&ldquo; basis. We do not
                         warrant that service will be error-free or
                         uninterrupted.
                     </p>

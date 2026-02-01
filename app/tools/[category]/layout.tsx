@@ -16,8 +16,7 @@ export async function generateMetadata({
         };
     }
 
-    const toolsForGivenCategorySlug =
-        toolsForGivenCategory.metadata;
+    const toolsForGivenCategorySlug = toolsForGivenCategory.metadata;
     if (!toolsForGivenCategorySlug) {
         return {
             title: `"${mainData.title} | Tool Not Found`,
@@ -31,7 +30,7 @@ export async function generateMetadata({
     const category = toolsForGivenCategorySlug.category;
 
     return {
-        title: `${title} | ${mainData.title}`,
+        title,
         description,
         keywords,
         category,
@@ -41,21 +40,17 @@ export async function generateMetadata({
             telephone: false,
         },
         openGraph: {
-            title: `${title} | ${mainData.title}`,
+            title,
             description,
             type: "website",
-            images: [
-                "/preview_image_convert_blade_tools.webp",
-            ],
+            images: ["/preview_image_convert_blade_tools.webp"],
             siteName: mainData.title,
         },
         twitter: {
             card: "summary_large_image",
-            title: `${title} | ${mainData.title}`,
+            title,
             description,
-            images: [
-                "/preview_image_convert_blade_tools.webp",
-            ],
+            images: ["/preview_image_convert_blade_tools.webp"],
             site: "@prabhatlabs",
         },
         alternates: {

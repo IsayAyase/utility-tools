@@ -50,7 +50,7 @@ export interface PdfAddTextWatermarkInput {
   opacity?: number
   rotation?: number
   color?: string
-  position?: 'center' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+  position?: 'center' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'top-center' | 'bottom-center' | 'center-left' | 'center-right'
 }
 
 export interface PdfAddImageWatermarkInput {
@@ -59,7 +59,7 @@ export interface PdfAddImageWatermarkInput {
   opacity?: number
   rotation?: number
   scale?: number
-  position?: 'center' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+  position?: 'center' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'top-center' | 'bottom-center' | 'center-left' | 'center-right'
 }
 
 export interface PdfMetadataUpdaterInput {

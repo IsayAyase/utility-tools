@@ -1,13 +1,13 @@
 // "use client"
 
+import { ToolResult } from "@/lib/tools/types";
 import { getFFmpegInstance } from '@/store/ffmpeg';
-import type { ToolResult } from '../helper';
 import type {
   AudioMergeInput,
   AudioTrimConvertInput
 } from './type';
 
-export const audioFormats = ['wav', 'mp3', 'ogg', 'flac', 'm4a']
+export const audioFormats = ['wav', 'mp3', 'ogg', 'flac', 'm4a'] as const
 
 export async function audioTrimConvert(input: AudioTrimConvertInput): Promise<ToolResult<Uint8Array>> {
   try {
@@ -211,7 +211,7 @@ async function encodeAudioBuffer(audioBuffer: AudioBuffer, format: string): Prom
     const outputName = `output.${outputExt}`
 
     // Build FFmpeg command based on format
-    let command = ['-i', 'input.wav']
+    const command = ['-i', 'input.wav']
 
     switch (format) {
       case 'mp3':

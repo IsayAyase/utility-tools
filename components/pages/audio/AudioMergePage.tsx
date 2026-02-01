@@ -12,14 +12,13 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { formatTime } from "@/lib/datetime";
 import { audioFormats, audioMerge } from "@/lib/tools/audio";
-import type { AudioMergeInput } from "@/lib/tools/audio/type";
+import type { AudioFormatType, AudioMergeInput } from "@/lib/tools/audio/type";
 import {
     downloadBuffer,
     formatDuration,
-    type ToolResult,
 } from "@/lib/tools/helper";
+import { ToolResult } from "@/lib/tools/types";
 
 import { Pause, Play, Square, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -61,13 +60,13 @@ function AudioMergePlayer({
             <div className="flex items-center justify-between">
                 <h3 className="font-medium">Merge Preview Player</h3>
                 <div className="text-sm text-muted-foreground">
-                    {formatTime(currentTime)} / {formatTime(totalDuration)}
+                    {formatDuration(currentTime)} / {formatDuration(totalDuration)}
                 </div>
             </div>
 
             <Field
                 htmlFor="merge-progress"
-                label="Timeline Progress"
+                label="Playback Progress"
                 rightLabel={formatDuration(totalDuration)}
             >
                 <Slider
@@ -377,7 +376,7 @@ export default function AudioMergePage() {
         try {
             const input: AudioMergeInput = {
                 buffers: files.map((f) => f.buffer),
-                format: outputFormat,
+                format: outputFormat as AudioFormatType,
             };
 
             const result = await audioMerge(input);
