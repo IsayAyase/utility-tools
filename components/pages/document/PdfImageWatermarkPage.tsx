@@ -37,13 +37,17 @@ export default function PdfImageWatermarkPage() {
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        if (!fields.buffer || !fields.watermarkBuffer) return;
+        if (!fields.buffer) return;
 
         let cancelled = false; // Add cancellation flag
 
         const timer = setTimeout(() => {
             const ops = async () => {
                 if (cancelled) return;
+                if (!fields.watermarkBuffer) {
+                    setOutputBuffer(fields.buffer);
+                    return;
+                }
 
                 setLoading(true);
 
@@ -209,17 +213,29 @@ export default function PdfImageWatermarkPage() {
                                     <SelectItem value="top-left">
                                         Top Left
                                     </SelectItem>
+                                    <SelectItem value="top-center">
+                                        Top Center
+                                    </SelectItem>
                                     <SelectItem value="top-right">
                                         Top Right
+                                    </SelectItem>
+                                    <SelectItem value="center-left">
+                                        Center Left
+                                    </SelectItem>
+                                    <SelectItem value="center">
+                                        Center
+                                    </SelectItem>
+                                    <SelectItem value="center-right">
+                                        Center Right
                                     </SelectItem>
                                     <SelectItem value="bottom-left">
                                         Bottom Left
                                     </SelectItem>
+                                    <SelectItem value="bottom-center">
+                                        Bottom Center
+                                    </SelectItem>
                                     <SelectItem value="bottom-right">
                                         Bottom Right
-                                    </SelectItem>
-                                    <SelectItem value="center">
-                                        Center
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
