@@ -43,7 +43,7 @@ export default function Navbar() {
                         </Button>
                     </Link>
 
-                    <Link target="_blank" href={"/give-feedback"}>
+                    <Link href={"/give-feedback"}>
                         <Button size={"icon-sm"} variant="outline">
                             <MdOutlineFeedback />
                         </Button>
