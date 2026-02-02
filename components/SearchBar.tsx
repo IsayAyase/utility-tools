@@ -8,7 +8,7 @@ import {
     ComboboxItem,
     ComboboxList,
 } from "@/components/ui/combobox";
-import type { Tool } from "@/lib/tools";
+import type { Tool } from "@/lib/tools/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
