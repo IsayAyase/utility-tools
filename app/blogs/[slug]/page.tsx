@@ -29,7 +29,7 @@ export default async function page({ params }: { params: Promise<paramType> }) {
     return (
         <LayoutWrapper>
             <div className="relative">
-                <Button variant={'outline'} size={'sm'}>
+                <Button variant={"outline"} size={"sm"}>
                     <Link href="/blogs">More Blogs</Link>
                 </Button>
                 <div className="mt-4 grid grid-cols-1 lg:grid-cols-[15rem_48rem] xl:grid-cols-[15rem_48rem_15rem] gap-6 mx-auto">

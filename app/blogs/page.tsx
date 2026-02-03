@@ -1,5 +1,7 @@
 import LayoutWrapper from "@/components/LayoutWrapper";
+import LoadingPage from "@/components/pages/LoadingPage";
 import { getAllBlogs } from "@/lib/blogs";
+import { Suspense } from "react";
 import BlogsPage from "./_components/BlogsPage";
 
 export default function Page() {
@@ -9,7 +11,9 @@ export default function Page() {
     ];
     return (
         <LayoutWrapper className="max-w-4xl">
-            <BlogsPage blogs={blogs} tags={tags} />
+            <Suspense fallback={<LoadingPage />}>
+                <BlogsPage blogs={blogs} tags={tags} />
+            </Suspense>
         </LayoutWrapper>
     );
 }
