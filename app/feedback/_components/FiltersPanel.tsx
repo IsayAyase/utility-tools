@@ -1,8 +1,13 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import { feedbackTypes } from "@/lib/db/feedback/types";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -17,21 +22,21 @@ export function FiltersPanel() {
 
     const updateFilters = (newParams: Record<string, string | undefined>) => {
         const params = new URLSearchParams(searchParams);
-        params.set('key', key);
-        params.set('page', '1'); // Reset to page 1 when filters change
-        
+        params.set("key", key);
+        params.set("page", "1"); // Reset to page 1 when filters change
+
         if (newParams.type) {
-            params.set('type', newParams.type);
+            params.set("type", newParams.type);
         } else {
-            params.delete('type');
+            params.delete("type");
         }
-        
+
         if (newParams.markAsRead !== undefined) {
-            params.set('markAsRead', newParams.markAsRead);
+            params.set("markAsRead", newParams.markAsRead);
         } else {
-            params.delete('markAsRead');
+            params.delete("markAsRead");
         }
-        
+
         router.push(`/feedback?${params.toString()}`);
     };
 
@@ -39,12 +44,14 @@ export function FiltersPanel() {
         <div className="flex items-center gap-4">
             {/* Type Filter */}
             <div className="flex-1">
-                <Select 
-                    value={type || "all"} 
-                    onValueChange={(value) => updateFilters({ 
-                        type: value === "all" ? undefined : value, 
-                        markAsRead: markAsRead || undefined 
-                    })}
+                <Select
+                    value={type || "all"}
+                    onValueChange={(value) =>
+                        updateFilters({
+                            type: value === "all" ? undefined : value,
+                            markAsRead: markAsRead || undefined,
+                        })
+                    }
                 >
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder="Type" />
@@ -52,8 +59,8 @@ export function FiltersPanel() {
                     <SelectContent>
                         <SelectItem value="all">All Types</SelectItem>
                         {feedbackTypes.map((feedbackType) => (
-                            <SelectItem 
-                                key={feedbackType} 
+                            <SelectItem
+                                key={feedbackType}
                                 value={feedbackType}
                                 className="capitalize"
                             >
@@ -66,19 +73,22 @@ export function FiltersPanel() {
 
             {/* Marked Status Filter */}
             <div className="flex-1">
-                <div className="flex items-center space-x-2">
-                    <Checkbox
-                        id="marked-filter"
-                        checked={markAsRead === "true"}
-                        onCheckedChange={(checked) => updateFilters({ 
-                            type: type || undefined, 
-                            markAsRead: checked ? "true" : undefined 
-                        })}
+                <Button
+                    onClick={() =>
+                        updateFilters({
+                            type: type || undefined,
+                            markAsRead: markAsRead !== "true" ? "true" : undefined,
+                        })
+                    }
+                    type="button"
+                    className="flex gap-2 justify-center items-center w-full"
+                    variant={"outline"}
+                >
+                    <span
+                        className={`${markAsRead !== "true" ? "bg-red-500" : "bg-green-500"} w-2 h-2 rounded-full`}
                     />
-                    <Label htmlFor="marked-filter" className="text-sm font-normal whitespace-nowrap">
-                        Show Marked
-                    </Label>
-                </div>
+                    Show Marked
+                </Button>
             </div>
         </div>
     );
