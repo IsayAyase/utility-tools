@@ -6,8 +6,8 @@ import { pdfMerge } from "@/lib/tools/document";
 import {
     bufferToBlob,
     downloadBuffer,
-    type ToolResult,
 } from "@/lib/tools/helper";
+import { ToolResult } from "@/lib/tools/types";
 import { useEffect, useState } from "react";
 import { RiDraggable } from "react-icons/ri";
 import { toast } from "sonner";

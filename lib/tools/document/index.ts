@@ -1,5 +1,6 @@
+import { ToolResult } from "@/lib/tools/types";
 import { degrees, PDFDocument, rgb, StandardFonts, type Color } from 'pdf-lib';
-import type { ToolResult } from '../helper';
+import { imageConvertResizeReduce } from "@/lib/tools/image";
 import type {
     GetPdfInfoInput,
     GetPdfInfoOutput,
@@ -330,7 +331,7 @@ export async function wordToPdf(input: WordToPdfInput): Promise<ToolResult<Uint8
             doc.setFont('helvetica', fontStyle)
 
             // Handle list items with bullets
-            let textToRender = text
+            const textToRender = text
             let xOffset = margin
 
             if (element.tagName === 'LI') {
@@ -491,6 +492,14 @@ export async function pdfAddTextWatermark(
                     cx = 50 + textWidth / 2; cy = 50; break
                 case "bottom-right":
                     cx = width - textWidth / 2 - 50; cy = 50; break
+                case "top-center":
+                    cx = width / 2; cy = height - 80; break
+                case "bottom-center":
+                    cx = width / 2; cy = 50; break
+                case "center-left":
+                    cx = 50 + textWidth / 2; cy = height / 2; break
+                case "center-right":
+                    cx = width - textWidth / 2 - 50; cy = height / 2; break
                 default:
                     break
             }
@@ -552,6 +561,7 @@ export async function pdfAddImageWatermark(input: PdfAddImageWatermarkInput): Pr
         const pages = pdfDoc.getPages()
 
         let embeddedImage
+        let watermarkBuffer = input.watermarkBuffer
         const imageType = getImageType(input.watermarkBuffer)
 
         if (imageType === 'png') {
@@ -559,10 +569,21 @@ export async function pdfAddImageWatermark(input: PdfAddImageWatermarkInput): Pr
         } else if (imageType === 'jpg') {
             embeddedImage = await pdfDoc.embedJpg(input.watermarkBuffer)
         } else {
-            return {
-                success: false,
-                error: 'Unsupported image type'
+            // Fallback: convert unsupported image type to PNG
+            const conversionResult = await imageConvertResizeReduce({
+                buffer: input.watermarkBuffer,
+                format: 'png'
+            })
+            
+            if (!conversionResult.success || !conversionResult.data) {
+                return {
+                    success: false,
+                    error: `Unsupported image type and conversion failed: ${conversionResult.error || 'Unknown error'}`
+                }
             }
+            
+            watermarkBuffer = conversionResult.data
+            embeddedImage = await pdfDoc.embedPng(watermarkBuffer)
         }
 
         const opacity = input.opacity || 0.5
@@ -580,13 +601,21 @@ export async function pdfAddImageWatermark(input: PdfAddImageWatermarkInput): Pr
 
             switch (input.position) {
                 case 'top-left':
-                    cx = 20; cy = height - dims.height - 20; break
+                    cx = dims.width / 2 + 20; cy = height - dims.height / 2 - 20; break
                 case 'top-right':
-                    cx = width - dims.width - 20; cy = height - dims.height - 20; break
+                    cx = width - dims.width / 2 - 20; cy = height - dims.height / 2 - 20; break
                 case 'bottom-left':
-                    cx = 20; cy = 20; break
+                    cx = dims.width / 2 + 20; cy = dims.height / 2 + 20; break
                 case 'bottom-right':
-                    cx = width - dims.width - 20; cy = 20; break
+                    cx = width - dims.width / 2 - 20; cy = dims.height / 2 + 20; break
+                case 'top-center':
+                    cx = width / 2; cy = height - dims.height / 2 - 20; break
+                case 'bottom-center':
+                    cx = width / 2; cy = dims.height / 2 + 20; break
+                case 'center-left':
+                    cx = dims.width / 2 + 20; cy = height / 2; break
+                case 'center-right':
+                    cx = width - dims.width / 2 - 20; cy = height / 2; break
                 default:
                     break
             }

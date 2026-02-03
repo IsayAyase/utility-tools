@@ -1,12 +1,14 @@
-export interface VideoTrimInput {
-  buffer: Uint8Array
-  startTime: number
-  endTime: number
-}
+import { videoFormatList } from "@/lib/tools/video/index"
 
-export interface VideoFormatConvertInput {
+export type VideoFormatType = typeof videoFormatList[number]
+
+export interface VideoTrimConvertInput {
   buffer: Uint8Array
-  format: 'mp4' | 'webm'
+  format?: VideoFormatType
   bitrate?: number
   resolution?: { width: number; height: number }
+  startTime?: number
+  endTime?: number
+  subtitleExtension?: string
+  subtitleBuffer?: Uint8Array
 }

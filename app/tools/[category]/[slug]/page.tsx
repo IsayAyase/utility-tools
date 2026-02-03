@@ -27,7 +27,7 @@ export default async function page({ params }: { params: Promise<paramType> }) {
     const toolInfo = objectOfTools[category].tools[slug];
     if (!toolInfo) return notFound();
     
-    const relatedTools = getRelatedToolsByKeywords(toolInfo.keywords, toolInfo.slug, 6);
+    const relatedTools = getRelatedToolsByKeywords(toolInfo.tags, toolInfo.slug, 6);
     return (
         <LayoutWrapper >
             <ToolPageRenderer toolInfo={toolInfo} relatedTools={relatedTools} />

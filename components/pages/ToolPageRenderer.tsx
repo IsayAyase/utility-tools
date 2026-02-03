@@ -1,10 +1,11 @@
 "use client";
 
-import { type CategoriesWithoutAll, type Tool } from "@/lib/tools";
+import { type CategoriesWithoutAll, type Tool } from "@/lib/tools/types";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { type ComponentType, type JSX } from "react";
+import LoadFFmpeg from "../LoadFFmpeg";
 import LoadingPage from "./LoadingPage";
 
 type ToolComponentPage = ComponentType<JSX.IntrinsicElements["div"]>;
@@ -55,15 +56,34 @@ const toolsPageCompObj: Record<
         }),
     },
     audio: {
-        audio_trim: dynamic(() => import("./audio/AudioTrimPage"), {
-            ssr: false,
-            loading: () => <LoadingPage />,
-        }),
+        audio_trim_convert: dynamic(
+            () => import("./audio/AudioTrimConvertPage"),
+            {
+                ssr: false,
+                loading: () => <LoadingPage />,
+            },
+        ),
         audio_merge: dynamic(() => import("./audio/AudioMergePage"), {
             ssr: false,
             loading: () => <LoadingPage />,
-        })
-    }
+        }),
+    },
+    video: {
+        video_trim_convert: dynamic(
+            () => import("./video/VideoTrimConvertPage"),
+            {
+                ssr: false,
+                loading: () => <LoadingPage />,
+            },
+        ),
+        add_subtitle_in_video: dynamic(
+            () => import("./video/AddSubtitleInVideo"),
+            {
+                ssr: false,
+                loading: () => <LoadingPage />,
+            },
+        )
+    },
 };
 
 const ToolPageRenderer = ({
@@ -110,6 +130,9 @@ const ToolPageRenderer = ({
             <div className="relative min-h-96 h-full flex items-center justify-center">
                 <Page />
             </div>
+
+            {/* loading ffmpeg wasm */}
+            <LoadFFmpeg />
         </div>
     );
 };

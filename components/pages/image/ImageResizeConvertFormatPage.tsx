@@ -17,10 +17,10 @@ import { Slider } from "@/components/ui/slider";
 import {
     bytesToSize,
     downloadBuffer,
-    type ToolResult,
 } from "@/lib/tools/helper";
 import { imageConvertResizeReduce, imageFitList, imageFormatConvertList, loadImage } from "@/lib/tools/image";
 import { type ImageConvertResizeReduceInput } from "@/lib/tools/image/type";
+import { ToolResult } from "@/lib/tools/types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -194,7 +194,7 @@ export default function ImageResizeConvertFormatPage() {
                             label="Format"
                             rightLabel={
                                 orgFileData
-                                    ? `${orgFileData.format || "?"} -> ${outputData?.metadata?.format || "?"}`
+                                    ? `${orgFileData.format || "?"} → ${outputData?.metadata?.format || "?"}`
                                     : ""
                             }
                             className="w-full"

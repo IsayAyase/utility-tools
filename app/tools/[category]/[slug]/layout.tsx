@@ -7,10 +7,11 @@ export async function generateMetadata({
 }: {
     params: Promise<{ slug: string; category: string }>;
 }): Promise<Metadata> {
+    const mainTitle = mainData.title;
     const { category: givenCategory, slug } = await params;
     if (!givenCategory || !slug || !isCategory(givenCategory)) {
         return {
-            title: `${mainData.title} | Tool Not Found`,
+            title: `${mainTitle} | Tool Not Found`,
         };
     }
     
@@ -20,17 +21,17 @@ export async function generateMetadata({
         toolsForGivenCategory.tools[slug];
     if (!toolsForGivenCategorySlug) {
         return {
-            title: `${mainData.title} | Tool Not Found`,
+            title: `${mainTitle} | Tool Not Found`,
         };
     }
 
-    const title = toolsForGivenCategorySlug.name;
+    const title = `${toolsForGivenCategorySlug.name} | ${mainTitle}`;
     const description = toolsForGivenCategorySlug.description;
     const keywords = toolsForGivenCategorySlug.keywords;
     const category = toolsForGivenCategorySlug.category;
 
     return {
-        title: `${title} | ${mainData.title}`,
+        title,
         description,
         keywords,
         category,
@@ -40,15 +41,15 @@ export async function generateMetadata({
             telephone: false,
         },
         openGraph: {
-            title: `${title} | ${mainData.title}`,
+            title,
             description,
             type: "website",
             images: ["/preview_image_convert_blade_tools.webp"],
-            siteName: mainData.title,
+            siteName: mainTitle,
         },
         twitter: {
             card: "summary_large_image",
-            title: `${title} | ${mainData.title}`,
+            title,
             description,
             images: ["/preview_image_convert_blade_tools.webp"],
             site: "@prabhatlabs",

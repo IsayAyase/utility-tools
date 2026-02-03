@@ -1,20 +1,5 @@
-import { toolsArray, type Tool } from "."
-
-export type ToolResult<T = Uint8Array> = {
-  success: boolean
-  data?: T
-  error?: string
-  metadata?: {
-    originalSize?: number
-    newSize?: number
-    format?: string
-    width?: number
-    height?: number
-    duration?: number
-    pageCount?: number
-    [key: string]: unknown
-  }
-}
+import { toolsArray } from "."
+import type { Tool } from "./types"
 
 export async function fileToBuffer(file: File): Promise<Uint8Array> {
   const arrayBuffer = await file.arrayBuffer()
@@ -22,7 +7,9 @@ export async function fileToBuffer(file: File): Promise<Uint8Array> {
 }
 
 export function bufferToBlob(buffer: Uint8Array, mimeType: string): Blob {
-  return new Blob([buffer.buffer as ArrayBuffer], { type: mimeType })
+  // Create a new Uint8Array copy to ensure we have a regular ArrayBuffer
+  const uint8Array = new Uint8Array(buffer)
+  return new Blob([uint8Array], { type: mimeType })
 }
 
 export function bufferToBase64(buffer: Uint8Array): string {
@@ -72,6 +59,33 @@ export function bytesToSize(bytes: number): string {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
 }
 
+export function detectImageMimeType(buffer: Uint8Array): string {
+  if (!buffer || buffer.length < 4) return 'image/jpeg'
+  
+  // Check for PNG signature
+  if (buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4E && buffer[3] === 0x47) {
+    return 'image/png'
+  }
+  
+  // Check for JPEG signature
+  if (buffer[0] === 0xFF && buffer[1] === 0xD8 && buffer[2] === 0xFF) {
+    return 'image/jpeg'
+  }
+  
+  // Check for WebP signature
+  if (buffer[8] === 0x57 && buffer[9] === 0x45 && buffer[10] === 0x42 && buffer[11] === 0x50) {
+    return 'image/webp'
+  }
+  
+  // Check for GIF signature
+  if (buffer[0] === 0x47 && buffer[1] === 0x49 && buffer[2] === 0x46) {
+    return 'image/gif'
+  }
+  
+  // Default to JPEG
+  return 'image/jpeg'
+}
+
 export function parseTimeToSeconds(time: string | number): number {
   if (typeof time === 'number') return time
   if (time.includes(':')) {
@@ -106,10 +120,10 @@ export function getRelatedToolsByKeywords(Kws: string[], slugToSkip: string | nu
 
   for (const tool of tools) {
     if (tool.slug === slugToSkip) continue;
-    if (!tool.keywords || tool.keywords.length === 0) continue;
+    if (!tool.tags || tool.tags.length === 0) continue;
 
     let score = 0;
-    for (const tag of tool.keywords) {
+    for (const tag of tool.tags) {
       if (!setOfKws.has(tag)) continue;
       score += 1;
     }

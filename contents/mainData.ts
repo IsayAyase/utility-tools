@@ -1,3 +1,55 @@
+const keywords = [
+    // Brand Keywords
+    "BladeTools",
+    "BladeTools online",
+    "BladeTools official",
+
+    // Core USP (Unique Selling Proposition) - High Value
+    "client-side file processing",
+    "private online tools",
+    "no-upload file converter",
+    "secure document editor",
+    "browser-based file tools",
+    "offline-capable online tools",
+    "privacy-first PDF tools",
+    "secure image resizer",
+    "local video processing",
+
+    // Document & PDF Keywords
+    "online PDF toolkit",
+    "merge PDF without upload",
+    "secure Word to PDF converter",
+    "split PDF pages online",
+    "edit PDF metadata privately",
+    "add watermark to PDF online",
+    "convert DOCX to PDF safely",
+
+    // Image Keywords
+    "online image resizer",
+    "private image converter",
+    "convert JPG to WebP",
+    "batch image to PDF",
+    "crop images in browser",
+    "secure photo editor online",
+
+    // Audio & Video Keywords
+    "online audio cutter",
+    "merge MP3 files privately",
+    "trim video in browser",
+    "hardcode subtitles online",
+    "convert MP4 to WebM",
+    "audio format converter",
+    "secure video trimmer",
+
+    // General & Utility Keywords
+    "all-in-one file toolkit",
+    "free online utilities",
+    "web-based file editor",
+    "no registration file tools",
+    "fast file converter",
+    "multimedia processing suite"
+];
+
 const features = [
     {
         line: "Your files never leave your device",
@@ -93,6 +145,7 @@ export const mainData = {
     heroLine: "Your files. Your device. Period.",
     subHeroLine: "Convert, merge, trim, compress, and edit. All processed locally in your browser.",
     description: "A secure suite of tools for documents, images, audio, and video—built to keep your data safe and private.",
+    keywords,
     features,
     ctaBtn: {
         text: "Use Blade Tools",

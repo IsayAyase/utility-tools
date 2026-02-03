@@ -8,10 +8,6 @@ export interface Base64EncoderDecoderInput {
   mode?: 'encode' | 'decode'
 }
 
-export interface UuidGeneratorInput {
-  version?: 4
-}
-
 export interface SlugGeneratorInput {
   text: string
   lowercase?: boolean

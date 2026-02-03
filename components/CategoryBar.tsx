@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { categoryArray, type CategoriesWithAll } from "@/lib/tools";
+import { categoryArray } from "@/lib/tools";
+import type { CategoriesWithAll } from "@/lib/tools/types";
 import Link from "next/link";
 
 function Category({
@@ -17,12 +18,7 @@ function Category({
                 className="rounded-full capitalize"
             >
                 <span>
-                    {name.slice(0, name.length - 1)}
-                    <span
-                        className={`${isSelected ? "text-red-500" : ""} lowercase`}
-                    >
-                        {name.slice(name.length - 1)}
-                    </span>
+                    {name}
                 </span>
             </Button>
         </Link>

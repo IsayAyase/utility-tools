@@ -1,11 +1,11 @@
-import type { ToolResult } from '../helper'
+import { ToolResult } from "@/lib/tools/types";
 import type {
   DominantColorResult,
   ImageConvertResizeReduceInput,
   ImageDominantColorInput,
   ImageToPdfInput,
   ImageTransformInput
-} from './type'
+} from './type';
 
 export const imageFormatConvertList = ['png', 'jpg', 'jpeg', 'webp', 'ico'] as const
 export const imageFitList = ['cover', 'contain', 'fill'] as const
@@ -216,8 +216,8 @@ export async function imageTransform(input: ImageTransformInput): Promise<ToolRe
     if (!input.buffer) throw new Error('No image buffer provided')
     
     const img = await loadImage(input.buffer)
-    let canvas = document.createElement('canvas')
-    let ctx = canvas.getContext('2d')
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
     if (!ctx) throw new Error('Could not get canvas context')
     
     // Start with original image dimensions
@@ -226,9 +226,9 @@ export async function imageTransform(input: ImageTransformInput): Promise<ToolRe
     canvas.width = currentWidth
     canvas.height = currentHeight
     
-    // Apply transformations in order: crop -> rotate -> flip
-    let tempCanvas = document.createElement('canvas')
-    let tempCtx = tempCanvas.getContext('2d')
+    // Apply transformations in order: crop → rotate → flip
+    const tempCanvas = document.createElement('canvas')
+    const tempCtx = tempCanvas.getContext('2d')
     if (!tempCtx) throw new Error('Could not get temporary canvas context')
     
     // Step 1: Start with original image
@@ -440,7 +440,7 @@ export async function imageToPdf(input: ImageToPdfInput): Promise<ToolResult<Uin
     const pdf = new jsPDF({
       orientation: 'portrait',
       unit: 'pt',
-      format: pageSize.toLowerCase() as any,
+      format: pageSize.toLowerCase(),
       compress: input.compress
     })
 
@@ -450,8 +450,8 @@ export async function imageToPdf(input: ImageToPdfInput): Promise<ToolResult<Uin
       }
 
       const img = await loadImage(input.buffers[i])
-      let imgWidth = img.width
-      let imgHeight = img.height
+      const imgWidth = img.width
+      const imgHeight = img.height
       let drawX = margin
       let drawY = margin
       let drawWidth = contentWidth

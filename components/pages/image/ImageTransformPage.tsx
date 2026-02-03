@@ -17,7 +17,6 @@ import { Slider } from "@/components/ui/slider";
 import {
     bytesToSize,
     downloadBuffer,
-    type ToolResult,
 } from "@/lib/tools/helper";
 import { flipDirectionList, imageTransform, loadImage } from "@/lib/tools/image";
 import {
@@ -25,6 +24,7 @@ import {
     type ImageFormatType,
     type ImageTransformInput,
 } from "@/lib/tools/image/type";
+import { ToolResult } from "@/lib/tools/types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 

@@ -225,7 +225,7 @@
                 "format": "png",
                 "mimeType": "image/png"
             },
-            "notes": "Unified function for crop, rotate, and flip. Apply multiple transformations in sequence: crop -> rotate -> flip. Uses Canvas API"
+            "notes": "Unified function for crop, rotate, and flip. Apply multiple transformations in sequence: crop → rotate → flip. Uses Canvas API"
         },
         "image_strip_exif": {
             "priority": 5,
