@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -9,7 +10,6 @@ import {
 } from "@/components/ui/dialog";
 import { markAsRead } from "@/lib/db/feedback/functions";
 import { useState } from "react";
-import { Badge } from "./Badge";
 
 interface FeedbackDialogProps {
     feedbacks: Array<{
