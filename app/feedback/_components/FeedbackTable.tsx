@@ -1,10 +1,10 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { deleteFeedback } from "@/lib/db/feedback/functions";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
-import { Badge } from "./Badge";
 import { FeedbackDialog } from "./FeedbackDialog";
 
 interface FeedbackTableProps {
