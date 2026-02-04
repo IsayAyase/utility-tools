@@ -26,14 +26,14 @@ export const metadata: Metadata = {
         title: mainData.title,
         description: mainData.description,
         type: "website",
-        images: ["/preview_image_convert_blade_tools.webp"],
+        images: ["/preview.webp"],
         siteName: mainData.title,
     },
     twitter: {
         card: "summary_large_image",
         title: mainData.title,
         description: mainData.description,
-        images: ["/preview_image_convert_blade_tools.webp"],
+        images: ["/preview.webp"],
         site: "@prabhatlabs",
     },
     robots: {
