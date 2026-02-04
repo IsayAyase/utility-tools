@@ -1,12 +1,27 @@
 "use client";
 
 import type { Tool } from "@/lib/tools/types";
-import { motion, useAnimation } from "framer-motion";
+import { motion, useAnimation, type AnimationDefinition } from "framer-motion";
 import Link from "next/link";
+import { useEffect } from "react";
+
+const marquee: AnimationDefinition = {
+    x: ["0%", "-50%"],
+    transition: {
+        repeat: Infinity,
+        repeatType: "loop",
+        duration: 20,
+        ease: "linear",
+    },
+};
 
 export default function MarqueeTools({ tools }: { tools: Tool[] }) {
     const controls = useAnimation();
     const duplicatedCategories = [...tools, ...tools];
+
+    useEffect(() => {
+        controls.start(marquee);
+    }, [controls]);
 
     return (
         <div className="relative w-full overflow-hidden py-4">
@@ -21,17 +36,7 @@ export default function MarqueeTools({ tools }: { tools: Tool[] }) {
                     animate={controls}
                     initial={{ x: 0 }}
                     onHoverStart={() => controls.stop()}
-                    onHoverEnd={() =>
-                        controls.start({
-                            x: ["current", "-50%"],
-                            transition: {
-                                repeat: Infinity,
-                                repeatType: "loop",
-                                duration: 20,
-                                ease: "linear",
-                            },
-                        })
-                    }
+                    onHoverEnd={() => controls.start(marquee)}
                 >
                     {duplicatedCategories.map((t, index) => (
                         <Link
@@ -47,7 +52,9 @@ export default function MarqueeTools({ tools }: { tools: Tool[] }) {
                                     {t.name}
                                 </span>
                             </div>
-                            <p className="line-clamp-2 text-muted-foreground text-sm">{t.description}</p>
+                            <p className="line-clamp-2 text-muted-foreground text-sm">
+                                {t.description}
+                            </p>
                         </Link>
                     ))}
                 </motion.div>
