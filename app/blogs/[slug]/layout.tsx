@@ -50,7 +50,7 @@ export async function generateMetadata({
             tags: blog.metadata.tags || [],
             images: blog.metadata.imageUrl
                 ? [blog.metadata.imageUrl]
-                : ["/preview_image_convert_blade_tools.webp"],
+                : ["/preview.webp"],
             siteName: mainData.title,
         },
         twitter: {
@@ -59,7 +59,7 @@ export async function generateMetadata({
             description,
             images: blog.metadata.imageUrl
                 ? [blog.metadata.imageUrl]
-                : ["/preview_image_convert_blade_tools.webp"],
+                : ["/preview.webp"],
             site: "@prabhatlabs",
         },
         alternates: {
