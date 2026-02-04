@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import BlogItemCard from "./BlogItemCard";
 
 const PAGE_SIZE = 10;
 
@@ -113,7 +114,7 @@ export default function BlogsPage({
                     <p className="text-muted-foreground">No posts found.</p>
                 ) : (
                     blogsToRender.map((post) => (
-                        <Blog
+                        <BlogItemCard
                             key={post.slug}
                             post={post}
                             onTagClick={handleSearchTag}
@@ -148,42 +149,3 @@ export default function BlogsPage({
     );
 }
 
-function Blog({
-    post,
-    onTagClick,
-}: {
-    post: ListOfBlogPostsItem;
-    onTagClick: (tag: string | null) => void;
-}) {
-    const url = `/blogs/${post.slug}`;
-    return (
-        <div>
-            <Link href={url}>
-                <h3 className="text-lg font-medium">{post.metadata.title}</h3>
-                <div className="flex flex-wrap gap-2 items-center text-muted-foreground text-sm">
-                    <span>
-                        {post.metadata.date
-                            ? new Date(post.metadata.date).toLocaleDateString()
-                            : ""}
-                    </span>
-                    <span>•</span>
-                    <span>{post.metadata.author?.join(", ")}</span>
-                    <span>•</span>
-                    <span className="italic">{post.metadata.readTime}</span>
-                </div>
-            </Link>
-            <div className="flex flex-wrap gap-2 mt-1">
-                {post.metadata.tags?.map((tag) => (
-                    <Badge
-                        key={tag}
-                        className="cursor-pointer"
-                        onClick={() => onTagClick(tag)}
-                        variant={"outline"}
-                    >
-                        {tag}
-                    </Badge>
-                ))}
-            </div>
-        </div>
-    );
-}

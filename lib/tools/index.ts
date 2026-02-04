@@ -143,7 +143,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
     },
     video: {
         metadata: {
-            title: "BladeTools | Browser-Based Video Editor & Subtitle Tools",
+            title: "BladeTools | Browser-Based Video Tools",
             description: "Edit video files privately. Trim clips and burn subtitles into videos using BladeTools' secure local processing technology.",
             category: "video",
             keywords: ["BladeTools video", "trim video online", "hardcode subtitles", "video converter no upload", "secure video editor"],
