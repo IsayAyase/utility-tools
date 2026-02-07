@@ -33,8 +33,8 @@ const init: ImageTransformInput = {
     crop: {
         left: 0,
         top: 0,
-        width: 0,
-        height: 0,
+        right: 0,
+        bottom: 0,
     },
     rotate: {
         angle: 0,
@@ -55,7 +55,7 @@ export default function ImageTransformPage() {
         size: number;
         type: string;
     } | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
+        const [loading, setLoading] = useState<boolean>(false);
     const [outputData, setOutputData] = useState<ToolResult<Uint8Array> | null>(
         null,
     );
@@ -140,8 +140,8 @@ export default function ImageTransformPage() {
             format: format as ImageFormatType,
             crop: {
                 ...prev.crop!,
-                width: imageLoaded.width,
-                height: imageLoaded.height,
+                right: imageLoaded.width,
+                bottom: imageLoaded.height,
             },
         }));
     }
@@ -225,20 +225,20 @@ export default function ImageTransformPage() {
                             />
                         </Field>
                         <Field
-                            htmlFor="cropWidth"
-                            label="Width"
-                            rightLabel={`${field.crop?.width || 0} px`}
+                            htmlFor="cropRight"
+                            label="Right"
+                            rightLabel={`${field.crop?.right || 0} px`}
                         >
                             <Input
-                                name="cropWidth"
+                                name="cropRight"
                                 type="number"
-                                value={field.crop?.width || 0}
+                                value={field.crop?.right || 0}
                                 onChange={(e) =>
                                     setField((prev) => ({
                                         ...prev,
                                         crop: {
                                             ...prev.crop!,
-                                            width:
+                                            right:
                                                 parseInt(e.target.value, 10) ||
                                                 0,
                                         },
@@ -248,20 +248,20 @@ export default function ImageTransformPage() {
                             />
                         </Field>
                         <Field
-                            htmlFor="cropHeight"
-                            label="Height"
-                            rightLabel={`${field.crop?.height || 0} px`}
+                            htmlFor="cropBottom"
+                            label="Bottom"
+                            rightLabel={`${field.crop?.bottom || 0} px`}
                         >
                             <Input
-                                name="cropHeight"
+                                name="cropBottom"
                                 type="number"
-                                value={field.crop?.height || 0}
+                                value={field.crop?.bottom || 0}
                                 onChange={(e) =>
                                     setField((prev) => ({
                                         ...prev,
                                         crop: {
                                             ...prev.crop!,
-                                            height:
+                                            bottom:
                                                 parseInt(e.target.value, 10) ||
                                                 0,
                                         },

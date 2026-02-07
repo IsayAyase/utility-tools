@@ -238,13 +238,17 @@ export async function imageTransform(input: ImageTransformInput): Promise<ToolRe
     
     // Step 2: Apply crop if specified
     if (input.crop) {
-      const { left, top, width, height } = input.crop
+      const { left, top, right, bottom } = input.crop
+      
+      // Calculate width and height from bounds
+      const width = right - left
+      const height = bottom - top
       
       // Validate crop dimensions
-      if (left < 0 || top < 0 || width <= 0 || height <= 0) {
+      if (left < 0 || top < 0 || right <= left || bottom <= top) {
         throw new Error('Invalid crop dimensions')
       }
-      if (left + width > img.width || top + height > img.height) {
+      if (right > img.width || bottom > img.height) {
         throw new Error('Crop area exceeds image boundaries')
       }
       
@@ -345,6 +349,7 @@ export async function imageTransform(input: ImageTransformInput): Promise<ToolRe
       }
     }
   } catch (error) {
+    console.log(error)
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Failed to transform image'

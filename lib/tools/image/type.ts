@@ -31,8 +31,8 @@ export interface ImageTransformInput {
   crop?: {
     left: number
     top: number
-    width: number
-    height: number
+    right: number
+    bottom: number
   }
   
   // Rotate parameters
