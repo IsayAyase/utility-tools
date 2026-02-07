@@ -1,4 +1,6 @@
+import { Button } from "@/components/ui/button";
 import { getAllBlogs } from "@/lib/blogs";
+import Link from "next/link";
 import BlogItemCard from "../blogs/_components/BlogItemCard";
 import FloatingIcons from "./FloatingIcons";
 
@@ -13,6 +15,9 @@ export default function BlogSection() {
                         <BlogItemCard key={post.slug} post={post} />
                     ))}
                 </div>
+                <Link href="/blogs">
+                    <Button variant={"outline"}>More Blogs</Button>
+                </Link>
             </div>
 
             <FloatingIcons />

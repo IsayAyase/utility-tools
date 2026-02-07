@@ -8,9 +8,9 @@ export default function BlogPageRenderer({ blog }: { blog: BlogPost }) {
         <div className="space-y-6">
             <div className="space-y-4">
                 <div className="">
-                    <h1 className="text-2xl md:text-3xl font-semibold mb-2">
+                    <h4 className="text-lg md:text-xl font-semibold mb-2">
                         {blog.metadata.title}
-                    </h1>
+                    </h4>
                     <p className="text-muted-foreground">
                         {blog.metadata.description}
                     </p>

@@ -16,15 +16,15 @@ function generateId(text: string): string {
 export const mdxComponentsBlog: MDXComponents = {
     h1: (props) => {
         const id = generateId(props.children?.toString() || "");
-        return <h1 id={id} className="font-semibold text-4xl" {...props} />;
+        return <h1 id={id} className="font-semibold text-3xl md:text-5xl" {...props} />;
     },
     h2: (props) => {
         const id = generateId(props.children?.toString() || "");
-        return <h2 id={id} className="font-semibold text-2xl" {...props} />;
+        return <h2 id={id} className="font-semibold text-xl md:text-2xl" {...props} />;
     },
     h3: (props) => {
         const id = generateId(props.children?.toString() || "");
-        return <h3 id={id} className="font-medium text-xl" {...props} />;
+        return <h3 id={id} className="font-medium text-lg md:text-xl" {...props} />;
     },
     p: (props) => <p {...props} />,
     code: (props) => (
