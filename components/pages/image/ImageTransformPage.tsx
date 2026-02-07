@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import CropPreview from "@/components/ui/crop-preview";
 import FileUpload from "@/components/ui/file-upload";
 import ImagePreview from "@/components/ui/image-preview";
 import { Input } from "@/components/ui/input";
@@ -14,11 +15,12 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
+import { bytesToSize, downloadBuffer } from "@/lib/tools/helper";
 import {
-    bytesToSize,
-    downloadBuffer,
-} from "@/lib/tools/helper";
-import { flipDirectionList, imageTransform, loadImage } from "@/lib/tools/image";
+    flipDirectionList,
+    imageTransform,
+    loadImage,
+} from "@/lib/tools/image";
 import {
     type ImageDirectionType,
     type ImageFormatType,
@@ -54,10 +56,15 @@ export default function ImageTransformPage() {
         format: string;
         size: number;
         type: string;
+        width: number;
+        height: number;
     } | null>(null);
-        const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const [outputData, setOutputData] = useState<ToolResult<Uint8Array> | null>(
         null,
+    );
+    const [previewMode, setPreviewMode] = useState<"Interactive" | "Normal">(
+        "Interactive",
     );
 
     async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -124,22 +131,25 @@ export default function ImageTransformPage() {
         const fileName = fileNameSplit[0];
         const format = fileNameSplit.pop();
 
+        const buffer = new Uint8Array(await file.arrayBuffer());
+        const imageLoaded = await loadImage(buffer);
+
         setOrgFileData({
             name: fileName,
             format: format || "",
             size: file.size,
             type: file.type,
+            width: imageLoaded.width,
+            height: imageLoaded.height,
         });
-
-        const buffer = new Uint8Array(await file.arrayBuffer());
-        const imageLoaded = await loadImage(buffer);
 
         setField((prev) => ({
             ...prev,
             buffer,
             format: format as ImageFormatType,
             crop: {
-                ...prev.crop!,
+                left: 0,
+                top: 0,
                 right: imageLoaded.width,
                 bottom: imageLoaded.height,
             },
@@ -159,7 +169,31 @@ export default function ImageTransformPage() {
             className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-4 items-start lg:gap-6 w-full"
         >
             {files && files.length > 0 ? (
-                <ImagePreview loading={loading} buffer={outputData?.data} />
+                <>
+                    {previewMode === "Interactive" ? (
+                        <CropPreview
+                            key={`crop-preview-${previewMode}`}
+                            buffer={field.buffer}
+                            left={field.crop?.left || 0}
+                            top={field.crop?.top || 0}
+                            right={field.crop?.right || orgFileData?.width || 0}
+                            bottom={field.crop?.bottom || orgFileData?.height || 0}
+                            onCropChange={(left, top, right, bottom) =>
+                                setField((prev) => ({
+                                    ...prev,
+                                    crop: { left, top, right, bottom },
+                                }))
+                            }
+                            imageWidth={orgFileData?.width || 0}
+                            imageHeight={orgFileData?.height || 0}
+                        />
+                    ) : (
+                        <ImagePreview
+                            loading={loading}
+                            buffer={outputData?.data}
+                        />
+                    )}
+                </>
             ) : (
                 <FileUpload
                     onFileSelect={handleFileSelect}
@@ -176,7 +210,24 @@ export default function ImageTransformPage() {
             <div className="flex flex-col justify-center items-center gap-4 w-full">
                 {/* Crop Settings */}
                 <div className="w-full border rounded-lg p-4 space-y-4">
-                    <h3 className="text-sm font-medium">Crop Settings</h3>
+                    <div className="flex items-center justify-between gap-4">
+                        <h3 className="text-sm font-medium">Crop Settings</h3>
+                        <Button
+                            onClick={() =>
+                                setPreviewMode((p) =>
+                                    p === "Interactive"
+                                        ? "Normal"
+                                        : "Interactive",
+                                )
+                            }
+                            size='sm'
+                            type="button"
+                        >
+                            {previewMode === "Interactive"
+                                ? "Normal"
+                                : "Interactive"}
+                        </Button>
+                    </div>
                     <div className="w-full grid grid-cols-2 gap-4">
                         <Field
                             htmlFor="cropLeft"
