@@ -223,7 +223,6 @@ export default function ImageToPdfPage() {
                                     label=""
                                     name="inputfiles"
                                     accept="image/*"
-                                    required
                                     helperText=""
                                     valueFiles={files}
                                     multiple
