@@ -12,6 +12,7 @@ export interface ImageConvertResizeReduceInput {
   quality?: number
 
   /* ---------- resize ---------- */
+  lockDimension?: 'width' | 'height' | 'none'
   width?: number
   height?: number
   maintainAspectRatio?: boolean
@@ -26,22 +27,22 @@ export interface ImageConvertResizeReduceInput {
 export interface ImageTransformInput {
   buffer: Uint8Array | null
   format?: ImageFormatType
-  
+
   // Crop parameters
   crop?: {
     left: number
     top: number
-    width: number
-    height: number
+    right: number
+    bottom: number
   }
-  
+
   // Rotate parameters
   rotate?: {
     angle: number
     background?: string
     expand?: boolean
   }
-  
+
   // Flip parameters
   flip?: {
     direction: ImageDirectionType
@@ -65,7 +66,6 @@ export interface ImageToPdfInput {
   pageSize?: PageSizeType
   fit?: ImageFitType
   margin?: number
-  compress?: boolean
 }
 
 export interface DominantColorResult {

@@ -13,11 +13,10 @@ import type {
     IGetFeedbackInput,
 } from "@/lib/db/feedback/types";
 import { redirect } from "next/navigation";
-import { FeedbackTable } from "./_components/FeedbackTable";
-import { FiltersPanel } from "./_components/FiltersPanel";
-import { PaginationControls } from "./_components/PaginationControls";
 
-async function FeedbackPage({
+import FeedbackPage from "./_components/FeedbackPage";
+
+async function Page({
     searchParams,
 }: {
     searchParams: Promise<{
@@ -41,8 +40,8 @@ async function FeedbackPage({
     const feedbackData: IGetFeedbackInput = {
         page: currentPage,
         limit: currentPageLimit,
+        markAsRead: markAsRead === "true",
         ...(type && { type: type as FeedbackTypesType }),
-        ...(markAsRead && { markAsRead: markAsRead === "true" }),
     };
 
     const feedbacks = await getFeedback(feedbackData);
@@ -51,40 +50,23 @@ async function FeedbackPage({
         <LayoutWrapper>
             <Card>
                 <CardHeader>
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <CardTitle className="text-3xl">
-                                Feedback Management
-                            </CardTitle>
-                            <CardDescription>
-                                View and manage user feedback submissions
-                            </CardDescription>
-                        </div>
-                        <div className="w-64">
-                            <FiltersPanel />
-                        </div>
+                    <div>
+                        <CardTitle className="text-xl md:text-3xl">
+                            Feedback Management
+                        </CardTitle>
+                        <CardDescription>
+                            View and manage user feedback submissions
+                        </CardDescription>
                     </div>
                 </CardHeader>
                 <CardContent>
-                    {feedbacks.length > 0 ? (
-                        <>
-                            <FeedbackTable feedbacks={feedbacks} />
-                            <PaginationControls
-                                currentPage={currentPage}
-                                currentPageLimit={currentPageLimit}
-                                hasMore={feedbacks.length === currentPageLimit}
-                                totalItems={feedbacks.length}
-                            />
-                        </>
-                    ) : (
-                        <div className="text-center py-8 text-muted-foreground">
-                            No feedback found.
-                        </div>
-                    )}
+                    <FeedbackPage
+                        feedbacks={JSON.parse(JSON.stringify(feedbacks))}
+                    />
                 </CardContent>
             </Card>
         </LayoutWrapper>
     );
 }
 
-export default FeedbackPage;
+export default Page;

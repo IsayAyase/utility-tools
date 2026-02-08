@@ -88,55 +88,42 @@ export function TableOfContentsRenderer({
     );
 }
 
-export function useActiveHeading(headings: Heading[]): string | undefined {
+export function useActiveHeading(
+    headings: Heading[],
+    offset = 80,
+): string | undefined {
     const [activeId, setActiveId] = useState<string>();
 
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                const visibleHeadings = entries
-                    .filter((entry) => entry.isIntersecting)
-                    .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        const elements = headings
+            .map((h) => document.getElementById(h.id))
+            .filter(Boolean) as HTMLElement[];
 
-                if (visibleHeadings.length > 0) {
-                    setActiveId(visibleHeadings[0].target.id);
-                    return;
+        if (elements.length === 0) return;
+
+        const onScroll = () => {
+            let current: HTMLElement | undefined;
+
+            for (const el of elements) {
+                const top = el.getBoundingClientRect().top;
+                if (top <= offset) {
+                    current = el;
+                } else {
+                    break;
                 }
+            }
 
-                // Fallback: if no headings are visible, find the one that just passed
-                const allHeadings = entries.map(entry => ({
-                    id: entry.target.id,
-                    top: entry.boundingClientRect.top
-                })).filter(entry => entry.top < 80); // Above the top margin
-
-                if (allHeadings.length > 0) {
-                    const lastPassed = allHeadings.reduce((last, current) => 
-                        current.top > last.top ? current : last
-                    );
-                    setActiveId(lastPassed.id);
-                }
-            },
-            {
-                rootMargin: "-80px 0px -50% 0px",
-                threshold: [0, 0.1],
-            },
-        );
-
-        // Small delay to ensure DOM is ready
-        const timeoutId = setTimeout(() => {
-            headings.forEach((heading) => {
-                const element = document.getElementById(heading.id);
-                if (element) {
-                    observer.observe(element);
-                }
-            });
-        }, 100);
-
-        return () => {
-            clearTimeout(timeoutId);
-            observer.disconnect();
+            if (current && current.id !== activeId) {
+                setActiveId(current.id);
+            }
         };
-    }, [headings]);
+
+        // Run once on mount
+        onScroll();
+
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, [headings, offset, activeId]);
 
     return activeId;
 }

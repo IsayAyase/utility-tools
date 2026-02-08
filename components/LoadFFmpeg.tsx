@@ -20,8 +20,6 @@ export default function LoadFFmpeg() {
     } = useFFmpegStore((state) => state);
 
     const toastId = useRef<string | number | null>(null);
-    const displayedProgress = useRef(0);
-    const rafId = useRef<number | null>(null);
 
     // Load FFmpeg
     useEffect(() => {
@@ -30,41 +28,26 @@ export default function LoadFFmpeg() {
 
     // progress toast
     useEffect(() => {
-        if (!isProcessing)
-            return () => {
-                if (toastId.current) toast.dismiss(toastId.current);
-                if (rafId.current) cancelAnimationFrame(rafId.current);
-            };
-
-        const animate = () => {
-            const target = loadingProgress;
-            displayedProgress.current +=
-                (target - displayedProgress.current) * 0.15;
-
-            const value = Math.min(100, Math.round(displayedProgress.current));
-            toastId.current = toast.loading(
-                `${isLoading ? "Loading ffmpeg" : "Processing"} ${value}%`,
-                {
-                    id: toastId.current || undefined,
-                    description: processingMessage,
-                },
-            );
-
-            // Keep animating until close enough
-            if (Math.abs(target - displayedProgress.current) > 0.1) {
-                rafId.current = requestAnimationFrame(animate);
-            } else {
-                if (rafId.current) cancelAnimationFrame(rafId.current);
+        if (!isProcessing) {
+            // Clean up when processing stops
+            if (toastId.current) {
+                toast.dismiss(toastId.current);
+                toastId.current = null;
             }
-        };
+            return;
+        }
 
-        rafId.current = requestAnimationFrame(animate);
-
-        return () => {
-            if (rafId.current) cancelAnimationFrame(rafId.current);
-        };
-    }, [loadingProgress, isLoading]);
-
+        const value = Math.min(100, loadingProgress);
+        
+        toastId.current = toast.loading(
+            `${isLoading ? "Loading ffmpeg" : "Processing"} ${value.toFixed(0)}%`,
+            {
+                id: toastId.current || undefined,
+                description: processingMessage,
+            },
+        );
+    }, [loadingProgress, isLoading, isProcessing, processingMessage]);
+    
     useEffect(() => {
         if (isLoaded && toastId.current) {
             toast.success("Successfully loaded ffmpeg!", {
@@ -91,11 +74,10 @@ export default function LoadFFmpeg() {
             setProcessingMessage(msg);
         }
 
-        function handleProgress({ progress }: { progress: number }) {
-            // Map FFmpeg progress (0-1) to our loading progress (1-99)
-            const mappedProgress = 1 + progress * 98;
+        function handleProgress({ progress, time }: { progress: number, time: number }) {
+            const mappedProgress = progress * 100;
             setLoadingProgress(mappedProgress);
-            setProcessing(!(progress > 0.9 || progress === 0));
+            setProcessing(!(progress > 0.99 || progress === 0));
         }
 
         instance.on("log", handleLog);
@@ -105,7 +87,7 @@ export default function LoadFFmpeg() {
             instance.off("log", handleLog);
             instance.off("progress", handleProgress);
         };
-    }, [instance]);
+    }, [instance, setLoadingProgress, setProcessing, setProcessingMessage]);
 
     return null;
 }

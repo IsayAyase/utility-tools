@@ -36,7 +36,7 @@ async function getFeedback(d: IGetFeedbackInput) {
         const matchConditions: any[] = [];
         if (d.id) matchConditions.push({ _id: { $eq: d.id } });
         if (d.type) matchConditions.push({ type: { $eq: d.type } });
-        if (d.markAsRead !== undefined) matchConditions.push({ markAsRead: { $eq: d.markAsRead } });
+        matchConditions.push({ markAsRead: { $eq: d.markAsRead || false } });
 
         const feedbacks = await FeedBackModel.aggregate([
             {
@@ -53,9 +53,20 @@ async function getFeedback(d: IGetFeedbackInput) {
             {
                 $limit: limit,
             },
+            {
+                $project: {
+                    _id: 1,
+                    id: "$_id",
+                    name: 1,
+                    email: 1,
+                    type: 1,
+                    message: 1,
+                    markAsRead: 1,
+                    createdAt: 1,
+                    updatedAt: 1,
+                },
+            }
         ]);
-
-        console.log("feedbacks:", feedbacks);
 
         return feedbacks as IFeedback[];
     } catch (error) {

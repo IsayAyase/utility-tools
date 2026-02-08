@@ -9,7 +9,7 @@ interface FFmpegState {
     loadingProgress: number;
     isProcessing: boolean;
     processingMessage: string;
-    
+
     // Actions
     setProcessing: (isProcessing: boolean) => void;
     loadFFmpeg: () => Promise<FFmpeg>;
@@ -29,7 +29,7 @@ export const useFFmpegStore = create<FFmpegState>((set, get) => ({
     processingMessage: '',
 
     setProcessing: (isProcessing: boolean) => {
-        set({ isProcessing: isProcessing, loadingProgress: 0, processingMessage: '' });
+        set({ isProcessing });
     },
 
     setLoadingProgress: (progress: number) => {
@@ -73,27 +73,27 @@ export const useFFmpegStore = create<FFmpegState>((set, get) => ({
             const ffmpeg = new FFmpeg();
             await ffmpeg.load();
 
-            set({ 
-                instance: ffmpeg, 
-                isLoaded: true, 
+            set({
+                instance: ffmpeg,
+                isLoaded: true,
                 isLoading: false,
-                error: null 
+                error: null
             });
 
             return ffmpeg;
         } catch (error) {
-            const errorMessage = error instanceof Error 
-                ? error.message 
+            const errorMessage = error instanceof Error
+                ? error.message
                 : 'Failed to initialize FFmpeg';
-            
-            set({ 
-                error: errorMessage, 
+
+            set({
+                error: errorMessage,
                 isLoading: false,
                 loadingProgress: 0,
                 instance: null,
                 isLoaded: false
             });
-            
+
             console.error('Failed to load FFmpeg:', error);
             throw new Error(errorMessage);
         }
@@ -101,22 +101,22 @@ export const useFFmpegStore = create<FFmpegState>((set, get) => ({
 
     getFFmpeg: async () => {
         const state = get();
-        
+
         if (state.instance && state.isLoaded) {
             return state.instance;
         }
-        
+
         return state.loadFFmpeg();
     },
 
     resetFFmpeg: () => {
         const ffmpeg = get().instance;
         if (ffmpeg) ffmpeg.terminate();
-        
-        set({ 
-            instance: null, 
-            isLoaded: false, 
-            isLoading: false, 
+
+        set({
+            instance: null,
+            isLoaded: false,
+            isLoading: false,
             error: null,
             loadingProgress: 0
         });

@@ -27,7 +27,6 @@ import { toast } from "sonner";
 
 const init: ImageToPdfInput = {
     buffers: [],
-    compress: false,
     fit: "contain",
     margin: 20,
     pageSize: "A4",
@@ -96,7 +95,7 @@ export default function ImageToPdfPage() {
         return () => clearTimeout(timer);
     }, [
         fields.buffers,
-        fields.compress,
+        // fields.compress,
         fields.pageSize,
         fields.fit,
         fields.margin,
@@ -320,7 +319,7 @@ export default function ImageToPdfPage() {
                                 min={1}
                             />
                         </Field>
-                        <Field htmlFor="compress" label="Compress">
+                        {/* <Field htmlFor="compress" label="Compress">
                             <Button
                                 name="compress"
                                 onClick={() =>
@@ -343,7 +342,7 @@ export default function ImageToPdfPage() {
                                 />
                                 {fields.compress ? "Yes" : "No"}
                             </Button>
-                        </Field>
+                        </Field> */}
                     </div>
                 </div>
 
