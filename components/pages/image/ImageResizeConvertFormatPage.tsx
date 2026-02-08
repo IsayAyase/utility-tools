@@ -14,11 +14,13 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
+import { bytesToSize, downloadBuffer } from "@/lib/tools/helper";
 import {
-    bytesToSize,
-    downloadBuffer,
-} from "@/lib/tools/helper";
-import { imageConvertResizeReduce, imageFitList, imageFormatConvertList, loadImage } from "@/lib/tools/image";
+    imageConvertResizeReduce,
+    imageFitList,
+    imageFormatConvertList,
+    loadImage,
+} from "@/lib/tools/image";
 import { type ImageConvertResizeReduceInput } from "@/lib/tools/image/type";
 import { ToolResult } from "@/lib/tools/types";
 import { useEffect, useState } from "react";
@@ -34,6 +36,7 @@ const init: ImageConvertResizeReduceInput = {
     width: 0,
     height: 0,
     maxSizeMB: 4.0,
+    lockDimension: "none",
     // maxWidthOrHeight: 0,
 };
 
@@ -82,10 +85,9 @@ export default function ImageResizeConvertFormatPage() {
             const ops = async () => {
                 setLoading(true);
                 try {
-                    const outputBuffer =
-                        await imageConvertResizeReduce({
-                            ...field,
-                        });
+                    const outputBuffer = await imageConvertResizeReduce({
+                        ...field,
+                    });
                     if (!outputBuffer.data) {
                         throw new Error(
                             "Something went wrong! While generating.",
@@ -166,6 +168,40 @@ export default function ImageResizeConvertFormatPage() {
         setUserDimensions(null);
     }
 
+    function handleWidthChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const newWidth = parseInt(e.target.value, 10);
+        setField((prev) => ({
+            ...prev,
+            width: newWidth,
+            lockDimension: "width",
+        }));
+        setUserDimensions((prev) =>
+            prev
+                ? { ...prev, width: newWidth }
+                : {
+                      width: newWidth,
+                      height: field.height || 0,
+                  },
+        );
+    }
+
+    function handleHeightChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const newHeight = parseInt(e.target.value, 10);
+        setField((prev) => ({
+            ...prev,
+            height: newHeight,
+            lockDimension: "height",
+        }));
+        setUserDimensions((prev) =>
+            prev
+                ? { ...prev, height: newHeight }
+                : {
+                      width: field.width || 0,
+                      height: newHeight,
+                  },
+        );
+    }
+
     return (
         <form
             onSubmit={onSubmit}
@@ -243,24 +279,7 @@ export default function ImageResizeConvertFormatPage() {
                                 name="width"
                                 type="number"
                                 value={field.width}
-                                onChange={(e) => {
-                                    const newWidth = parseInt(
-                                        e.target.value,
-                                        10,
-                                    );
-                                    setField((prev) => ({
-                                        ...prev,
-                                        width: newWidth,
-                                    }));
-                                    setUserDimensions((prev) =>
-                                        prev
-                                            ? { ...prev, width: newWidth }
-                                            : {
-                                                  width: newWidth,
-                                                  height: field.height || 0,
-                                              },
-                                    );
-                                }}
+                                onChange={handleWidthChange}
                                 min={1}
                                 max={field.format === "ico" ? 300 : undefined}
                             />
@@ -274,24 +293,7 @@ export default function ImageResizeConvertFormatPage() {
                                 name="height"
                                 type="number"
                                 value={field.height}
-                                onChange={(e) => {
-                                    const newHeight = parseInt(
-                                        e.target.value,
-                                        10,
-                                    );
-                                    setField((prev) => ({
-                                        ...prev,
-                                        height: newHeight,
-                                    }));
-                                    setUserDimensions((prev) =>
-                                        prev
-                                            ? { ...prev, height: newHeight }
-                                            : {
-                                                  width: field.width || 0,
-                                                  height: newHeight,
-                                              },
-                                    );
-                                }}
+                                onChange={handleHeightChange}
                                 min={1}
                                 max={field.format === "ico" ? 300 : undefined}
                             />

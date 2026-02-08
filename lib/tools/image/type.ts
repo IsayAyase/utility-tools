@@ -12,6 +12,7 @@ export interface ImageConvertResizeReduceInput {
   quality?: number
 
   /* ---------- resize ---------- */
+  lockDimension?: 'width' | 'height' | 'none'
   width?: number
   height?: number
   maintainAspectRatio?: boolean
@@ -26,7 +27,7 @@ export interface ImageConvertResizeReduceInput {
 export interface ImageTransformInput {
   buffer: Uint8Array | null
   format?: ImageFormatType
-  
+
   // Crop parameters
   crop?: {
     left: number
@@ -34,14 +35,14 @@ export interface ImageTransformInput {
     right: number
     bottom: number
   }
-  
+
   // Rotate parameters
   rotate?: {
     angle: number
     background?: string
     expand?: boolean
   }
-  
+
   // Flip parameters
   flip?: {
     direction: ImageDirectionType
