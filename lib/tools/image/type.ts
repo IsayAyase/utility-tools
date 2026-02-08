@@ -65,7 +65,6 @@ export interface ImageToPdfInput {
   pageSize?: PageSizeType
   fit?: ImageFitType
   margin?: number
-  compress?: boolean
 }
 
 export interface DominantColorResult {

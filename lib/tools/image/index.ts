@@ -214,36 +214,36 @@ export async function imageConvertResizeReduce(
 export async function imageTransform(input: ImageTransformInput): Promise<ToolResult<Uint8Array>> {
   try {
     if (!input.buffer) throw new Error('No image buffer provided')
-    
+
     const img = await loadImage(input.buffer)
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')
     if (!ctx) throw new Error('Could not get canvas context')
-    
+
     // Start with original image dimensions
     let currentWidth = img.width
     let currentHeight = img.height
     canvas.width = currentWidth
     canvas.height = currentHeight
-    
+
     // Apply transformations in order: crop → rotate → flip
     const tempCanvas = document.createElement('canvas')
     const tempCtx = tempCanvas.getContext('2d')
     if (!tempCtx) throw new Error('Could not get temporary canvas context')
-    
+
     // Step 1: Start with original image
     tempCanvas.width = img.width
     tempCanvas.height = img.height
     tempCtx.drawImage(img, 0, 0)
-    
+
     // Step 2: Apply crop if specified
     if (input.crop) {
       const { left, top, right, bottom } = input.crop
-      
+
       // Calculate width and height from bounds
       const width = right - left
       const height = bottom - top
-      
+
       // Validate crop dimensions
       if (left < 0 || top < 0 || right <= left || bottom <= top) {
         throw new Error('Invalid crop dimensions')
@@ -251,11 +251,11 @@ export async function imageTransform(input: ImageTransformInput): Promise<ToolRe
       if (right > img.width || bottom > img.height) {
         throw new Error('Crop area exceeds image boundaries')
       }
-      
+
       canvas.width = width
       canvas.height = height
       ctx.drawImage(tempCanvas, left, top, width, height, 0, 0, width, height)
-      
+
       // Update temp canvas for next transformation
       tempCanvas.width = width
       tempCanvas.height = height
@@ -263,14 +263,14 @@ export async function imageTransform(input: ImageTransformInput): Promise<ToolRe
       currentWidth = width
       currentHeight = height
     }
-    
+
     // Step 3: Apply rotation if specified
     if (input.rotate) {
       const { angle, background, expand } = input.rotate
       const radians = (angle * Math.PI) / 180
       const cos = Math.abs(Math.cos(radians))
       const sin = Math.abs(Math.sin(radians))
-      
+
       let newWidth: number, newHeight: number
       if (expand !== false) {
         newWidth = Math.round(currentWidth * cos + currentHeight * sin)
@@ -279,19 +279,19 @@ export async function imageTransform(input: ImageTransformInput): Promise<ToolRe
         newWidth = currentWidth
         newHeight = currentHeight
       }
-      
+
       canvas.width = newWidth
       canvas.height = newHeight
-      
+
       if (background) {
         ctx.fillStyle = background
         ctx.fillRect(0, 0, newWidth, newHeight)
       }
-      
+
       ctx.translate(newWidth / 2, newHeight / 2)
       ctx.rotate(radians)
       ctx.drawImage(tempCanvas, -currentWidth / 2, -currentHeight / 2)
-      
+
       // Update temp canvas for next transformation
       tempCanvas.width = newWidth
       tempCanvas.height = newHeight
@@ -299,16 +299,16 @@ export async function imageTransform(input: ImageTransformInput): Promise<ToolRe
       currentWidth = newWidth
       currentHeight = newHeight
     }
-    
+
     // Step 4: Apply flip if specified
     if (input.flip) {
       const { direction } = input.flip
-      
+
       canvas.width = currentWidth
       canvas.height = currentHeight
-      
+
       ctx.save()
-      
+
       if (direction === 'horizontal' || direction === 'both') {
         ctx.translate(currentWidth, 0)
         ctx.scale(-1, 1)
@@ -317,20 +317,20 @@ export async function imageTransform(input: ImageTransformInput): Promise<ToolRe
         ctx.translate(0, currentHeight)
         ctx.scale(1, -1)
       }
-      
+
       ctx.drawImage(tempCanvas, 0, 0)
       ctx.restore()
     }
-    
+
     const mimeType = `image/${input.format || "png"}`
     const quality = 0.92
-    
+
     const blob = await new Promise<Blob | null>(resolve => {
       canvas.toBlob(resolve, mimeType, quality)
     })
-    
+
     if (!blob) throw new Error('Failed to transform image')
-    
+
     const arrayBuffer = await blob.arrayBuffer()
     return {
       success: true,
@@ -446,7 +446,6 @@ export async function imageToPdf(input: ImageToPdfInput): Promise<ToolResult<Uin
       orientation: 'portrait',
       unit: 'pt',
       format: pageSize.toLowerCase(),
-      compress: input.compress
     })
 
     for (let i = 0; i < input.buffers.length; i++) {
@@ -488,16 +487,31 @@ export async function imageToPdf(input: ImageToPdfInput): Promise<ToolResult<Uin
           break
       }
 
+      // 1. Use original image dimensions for canvas (maintain resolution)
+      // 2. Scale up if image is smaller than target size
+      const scale = Math.min(
+        drawWidth / imgWidth,
+        drawHeight / imgHeight,
+        2 // Cap at 2x to avoid over-scaling
+      )
+
+      const canvasWidth = Math.floor(imgWidth * scale)
+      const canvasHeight = Math.floor(imgHeight * scale)
+
       const canvas = document.createElement('canvas')
-      canvas.width = drawWidth
-      canvas.height = drawHeight
+      canvas.width = canvasWidth
+      canvas.height = canvasHeight
       const ctx = canvas.getContext('2d')
       if (!ctx) throw new Error('Could not get canvas context')
 
-      ctx.drawImage(img, 0, 0, drawWidth, drawHeight)
+      // Enable image smoothing for better quality
+      ctx.imageSmoothingEnabled = true
+      ctx.imageSmoothingQuality = 'high'
 
-      const imgData = canvas.toDataURL('image/jpeg', 0.95)
-      pdf.addImage(imgData, 'JPEG', drawX, drawY, drawWidth, drawHeight)
+      ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight)
+      const imgData = canvas.toDataURL('image/jpeg', 1.0)
+
+      pdf.addImage(imgData, 'JPEG', drawX, drawY, drawWidth, drawHeight, undefined, 'FAST')
     }
 
     const pdfBytes = pdf.output('arraybuffer')
