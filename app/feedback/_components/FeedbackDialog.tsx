@@ -8,40 +8,20 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { markAsRead } from "@/lib/db/feedback/functions";
-import { useState } from "react";
 
 interface FeedbackDialogProps {
-    feedbacks: Array<{
-        id: string | any;
-        name: string;
-        email: string;
-        type: string;
-        message: string;
-        createdAt: Date;
-        markAsRead: boolean;
-    }>;
     selectedFeedback: any;
     onClose: () => void;
+    handleMarkAsRead: (feedbackId: string) => Promise<void>;
+    loading: boolean;
 }
 
 export function FeedbackDialog({
     selectedFeedback,
     onClose,
+    handleMarkAsRead,
+    loading
 }: FeedbackDialogProps) {
-    const [loading, setLoading] = useState(false);
-
-    const handleMarkAsRead = async (feedbackId: string) => {
-        try {
-            setLoading(true);
-            await markAsRead(feedbackId);
-            window.location.reload(); // Simple refresh since we're on server side
-        } catch (error) {
-            console.error("Error marking as read:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     if (!selectedFeedback) return null;
 
