@@ -14,18 +14,16 @@ export async function generateMetadata({
             title: `${mainTitle} | Tool Not Found`,
         };
     }
-    
-    const toolsForGivenCategory =
-        objectOfTools[givenCategory];
-    const toolsForGivenCategorySlug =
-        toolsForGivenCategory.tools[slug];
+
+    const toolsForGivenCategory = objectOfTools[givenCategory];
+    const toolsForGivenCategorySlug = toolsForGivenCategory.tools[slug];
     if (!toolsForGivenCategorySlug) {
         return {
             title: `${mainTitle} | Tool Not Found`,
         };
     }
 
-    const title = `${toolsForGivenCategorySlug.name} | ${mainTitle}`;
+    const title = `${toolsForGivenCategorySlug.name} Online for Free | ${mainTitle}`;
     const description = toolsForGivenCategorySlug.description;
     const keywords = toolsForGivenCategorySlug.keywords;
     const category = toolsForGivenCategorySlug.category;
@@ -35,6 +33,9 @@ export async function generateMetadata({
         description,
         keywords,
         category,
+        applicationName: mainData.title,
+        creator: "Prabhat Labs",
+        publisher: "Prabhat Labs",
         formatDetection: {
             email: false,
             address: false,
@@ -44,18 +45,34 @@ export async function generateMetadata({
             title,
             description,
             type: "website",
-            images: ["/preview.webp"],
+            images: [
+                {
+                    url: "https://bladetools.prabhatlabs.dev/preview.webp",
+                    width: 978,
+                    height: 550,
+                    alt: `${title} | ${mainData.title}`,
+                },
+            ],
+
             siteName: mainTitle,
         },
         twitter: {
             card: "summary_large_image",
             title,
             description,
-            images: ["/preview.webp"],
+            images: [
+                {
+                    url: "https://bladetools.prabhatlabs.dev/preview.webp",
+                    width: 978,
+                    height: 550,
+                    alt: `${title} | ${mainData.title}`,
+                },
+            ],
+
             site: "@prabhatlabs",
         },
         alternates: {
-            canonical: `/tools/${category}/${slug}`,
+            canonical: `https://bladetools.prabhatlabs.dev/tools/${category}/${slug}`,
         },
         robots: {
             index: true,

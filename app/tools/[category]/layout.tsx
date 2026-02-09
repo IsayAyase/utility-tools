@@ -34,6 +34,9 @@ export async function generateMetadata({
         description,
         keywords,
         category,
+        applicationName: mainData.title,
+        creator: "Prabhat Labs",
+        publisher: "Prabhat Labs",
         formatDetection: {
             email: false,
             address: false,
@@ -43,18 +46,34 @@ export async function generateMetadata({
             title,
             description,
             type: "website",
-            images: ["/preview.webp"],
+            images: [
+                {
+                    url: "https://bladetools.prabhatlabs.dev/preview.webp",
+                    width: 978,
+                    height: 550,
+                    alt: `${title} | ${mainData.title}`,
+                },
+            ],
+
             siteName: mainData.title,
         },
         twitter: {
             card: "summary_large_image",
             title,
             description,
-            images: ["/preview.webp"],
+            images: [
+                {
+                    url: "https://bladetools.prabhatlabs.dev/preview.webp",
+                    width: 978,
+                    height: 550,
+                    alt: `${title} | ${mainData.title}`,
+                },
+            ],
+
             site: "@prabhatlabs",
         },
         alternates: {
-            canonical: `/tools/${category}`,
+            canonical: `https://bladetools.prabhatlabs.dev/tools/${category}`,
         },
         robots: {
             index: true,

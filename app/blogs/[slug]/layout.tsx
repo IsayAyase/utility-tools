@@ -36,6 +36,9 @@ export async function generateMetadata({
         keywords,
         authors: author ? [{ name: author }] : [],
         category: blog.metadata.category || "blog",
+        applicationName: mainData.title,
+        creator: "Prabhat Labs",
+        publisher: "Prabhat Labs",
         formatDetection: {
             email: false,
             address: false,
@@ -63,7 +66,7 @@ export async function generateMetadata({
             site: "@prabhatlabs",
         },
         alternates: {
-            canonical: `/blogs/${slug}`,
+            canonical: `https://bladetools.prabhatlabs.dev/blogs/${slug}`,
         },
         robots: {
             index: true,
