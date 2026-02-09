@@ -10,6 +10,9 @@ export const metadata: Metadata = {
     description: mainData.description,
     category: "productivity",
     metadataBase: "https://bladetools.prabhatlabs.dev",
+    applicationName: mainData.title,
+    creator: "Prabhat Labs",
+    publisher: "Prabhat Labs",
     keywords: [
         "free pdf tools",
         "online image converter",
@@ -26,14 +29,30 @@ export const metadata: Metadata = {
         title: mainData.title,
         description: mainData.description,
         type: "website",
-        images: ["/preview.webp"],
+        images: [
+            {
+                url: "https://bladetools.prabhatlabs.dev/preview.webp",
+                width: 978,
+                height: 550,
+                alt: `${mainData.title}`,
+            },
+        ],
+
         siteName: mainData.title,
     },
     twitter: {
         card: "summary_large_image",
         title: mainData.title,
         description: mainData.description,
-        images: ["/preview.webp"],
+        images: [
+            {
+                url: "https://bladetools.prabhatlabs.dev/preview.webp",
+                width: 978,
+                height: 550,
+                alt: `${mainData.title}`,
+            },
+        ],
+
         site: "@prabhatlabs",
     },
     robots: {
