@@ -248,7 +248,7 @@ function FloatingIcon({
                     ease: "easeInOut",
                     delay,
                 }}
-                className="text-5xl text-foreground drop-shadow-lg [&>svg]:size-8 [&_svg]:size-8"
+                className="text-5xl text-foreground drop-shadow-lg [&>svg]:size-8 [&_svg]:size-8 opacity-40"
             >
                 {icon}
             </motion.div>
