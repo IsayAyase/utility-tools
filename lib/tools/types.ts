@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-export type CategoriesWithAll = "all" | "document" | "image" | "audio" | "video"
+export type CategoriesWithAll = "all" | "document" | "image" | "audio" | "video" | "developer"
 export type CategoriesWithoutAll = Exclude<CategoriesWithAll, "all">
 
 export type Tool = {

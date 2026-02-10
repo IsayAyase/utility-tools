@@ -14,6 +14,56 @@ const toolsPageCompObj: Record<
     CategoriesWithoutAll,
     Record<string, ToolComponentPage>
 > = {
+    developer: {
+        url_encoder_decoder: dynamic(
+            () => import("./developer/UrlEncoderDecoderPage"),
+            { ssr: false, loading: () => <LoadingPage /> },
+        ),
+        base64_encoder_decoder: dynamic(
+            () => import("./developer/Base64EncoderDecoderPage"),
+            { ssr: false, loading: () => <LoadingPage /> },
+        ),
+        uuid_generator: dynamic(
+            () => import("./developer/UuidGeneratorPage"),
+            { ssr: false, loading: () => <LoadingPage /> },
+        ),
+        slug_generator: dynamic(
+            () => import("./developer/SlugGeneratorPage"),
+            { ssr: false, loading: () => <LoadingPage /> },
+        ),
+        lorem_ipsum_generator: dynamic(
+            () => import("./developer/LoremIpsumGeneratorPage"),
+            { ssr: false, loading: () => <LoadingPage /> },
+        ),
+        json_to_csv: dynamic(
+            () => import("./developer/JsonToCsvPage"),
+            { ssr: false, loading: () => <LoadingPage /> },
+        ),
+        csv_to_json: dynamic(
+            () => import("./developer/CsvToJsonPage"),
+            { ssr: false, loading: () => <LoadingPage /> },
+        ),
+        yaml_to_json: dynamic(
+            () => import("./developer/YamlToJsonPage"),
+            { ssr: false, loading: () => <LoadingPage /> },
+        ),
+        hash_generator: dynamic(
+            () => import("./developer/HashGeneratorPage"),
+            { ssr: false, loading: () => <LoadingPage /> },
+        ),
+        regex_tester: dynamic(
+            () => import("./developer/RegexTesterPage"),
+            { ssr: false, loading: () => <LoadingPage /> },
+        ),
+        cron_expression_builder: dynamic(
+            () => import("./developer/CronExpressionBuilderPage"),
+            { ssr: false, loading: () => <LoadingPage /> },
+        ),
+        jwt_decoder: dynamic(
+            () => import("./developer/JwtDecoderPage"),
+            { ssr: false, loading: () => <LoadingPage /> },
+        ),
+    },
     document: {
         word_to_pdf: dynamic(() => import("./document/WordToPdfPage"), {
             ssr: false,
