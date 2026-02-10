@@ -5,6 +5,10 @@ import { LuAudioLines } from 'react-icons/lu'
 import { PiFilePdf, PiResize } from 'react-icons/pi'
 import { RxTransform } from 'react-icons/rx'
 import { TbArrowMerge, TbArrowsSplit2, TbFileInfo, TbVideo } from 'react-icons/tb'
+import { FaCode, FaKey, FaLink, FaRegClock, FaShieldAlt, FaTerminal } from 'react-icons/fa'
+import { VscRegex } from 'react-icons/vsc'
+import { BiData, BiTransfer } from 'react-icons/bi'
+import { MdPassword, MdDataObject } from 'react-icons/md'
 import type { CategoriesWithoutAll, CategoryType, Tool } from './types'
 
 const iconProp = {
@@ -167,6 +171,124 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
             //     keywords: ["burn srt to video", "hardcode subtitles online", "add subtitles to mp4", "BladeTools subtitle tool"],
             //     icon: PiSubtitles(iconProp)
             // }
+        }
+    },
+    developer: {
+        metadata: {
+            category: "developer",
+            title: "BladeTools | Developer & Code Utilities",
+            description: "Essential developer tools including encoders, hash generators, and format converters. Process code and data locally in your browser.",
+            keywords: ["BladeTools developer tools", "code utilities", "URL encoder", "Base64 decoder", "UUID generator", "regex tester", "JWT decoder"],
+        },
+        tools: {
+            "url_encoder_decoder": {
+                slug: "url_encoder_decoder",
+                name: "URL Encoder/Decoder",
+                description: "Encode or decode URLs and query parameters. Handle special characters safely with this essential web development tool.",
+                category: "developer",
+                tags: ["url", "encode", "decode", "uri", "percent-encoding", "web"],
+                keywords: ["URL encoder online", "decode URL parameters", "BladeTools URL tool", "percent encoding decoder"],
+                icon: FaLink(iconProp)
+            },
+            "base64_encoder_decoder": {
+                slug: "base64_encoder_decoder",
+                name: "Base64 Encoder/Decoder",
+                description: "Convert text to Base64 and back. Essential for encoding binary data for transmission over text-based protocols.",
+                category: "developer",
+                tags: ["base64", "encode", "decode", "binary", "text", "conversion"],
+                keywords: ["Base64 encoder", "Base64 decoder online", "BladeTools base64", "convert to base64"],
+                icon: BiTransfer(iconProp)
+            },
+            "uuid_generator": {
+                slug: "uuid_generator",
+                name: "UUID Generator",
+                description: "Generate version 4 UUIDs (Universally Unique Identifiers) instantly. Perfect for database keys, session IDs, and unique identifiers.",
+                category: "developer",
+                tags: ["uuid", "guid", "generate", "id", "identifier", "unique"],
+                keywords: ["UUID generator", "generate GUID", "BladeTools UUID", "random ID generator"],
+                icon: FaKey(iconProp)
+            },
+            "slug_generator": {
+                slug: "slug_generator",
+                name: "URL Slug Generator",
+                description: "Convert text to URL-friendly slugs. Perfect for blog posts, product names, and creating clean, readable URLs.",
+                category: "developer",
+                tags: ["slug", "url", "seo", "friendly", "permalink", "clean"],
+                keywords: ["URL slug generator", "create URL friendly strings", "BladeTools slug maker", "permalink generator"],
+                icon: FaTerminal(iconProp)
+            },
+            "lorem_ipsum_generator": {
+                slug: "lorem_ipsum_generator",
+                name: "Lorem Ipsum Generator",
+                description: "Generate placeholder text for your designs and layouts. Choose between words, sentences, or paragraphs.",
+                category: "developer",
+                tags: ["lorem", "ipsum", "placeholder", "text", "dummy", "content"],
+                keywords: ["Lorem ipsum generator", "placeholder text", "BladeTools dummy text", "fake content generator"],
+                icon: FaCode(iconProp)
+            },
+            "json_to_csv": {
+                slug: "json_to_csv",
+                name: "JSON to CSV Converter",
+                description: "Convert JSON arrays to CSV format with customizable delimiters. Perfect for data export and spreadsheet integration.",
+                category: "developer",
+                tags: ["json", "csv", "convert", "export", "data", "spreadsheet"],
+                keywords: ["JSON to CSV converter", "convert JSON to Excel", "BladeTools data converter", "export JSON as CSV"],
+                icon: BiData(iconProp)
+            },
+            "csv_to_json": {
+                slug: "csv_to_json",
+                name: "CSV to JSON Converter",
+                description: "Transform CSV data into JSON format. Supports headers, custom delimiters, and automatic number parsing.",
+                category: "developer",
+                tags: ["csv", "json", "convert", "import", "data", "parse"],
+                keywords: ["CSV to JSON converter", "convert Excel to JSON", "BladeTools CSV parser", "parse CSV data"],
+                icon: MdDataObject(iconProp)
+            },
+            "yaml_to_json": {
+                slug: "yaml_to_json",
+                name: "YAML to JSON Converter",
+                description: "Convert YAML configuration files to JSON format. Useful for DevOps, Docker Compose, and Kubernetes configurations.",
+                category: "developer",
+                tags: ["yaml", "json", "convert", "config", "docker", "kubernetes"],
+                keywords: ["YAML to JSON converter", "convert YAML online", "BladeTools config converter", "YAML parser"],
+                icon: FaCode(iconProp)
+            },
+            "hash_generator": {
+                slug: "hash_generator",
+                name: "Hash Generator (SHA)",
+                description: "Generate cryptographic hashes using SHA-256, SHA-384, or SHA-512. Verify file integrity and create secure checksums.",
+                category: "developer",
+                tags: ["hash", "sha", "cryptography", "checksum", "security", "digest"],
+                keywords: ["SHA-256 generator", "hash calculator online", "BladeTools hash tool", "create checksum"],
+                icon: FaShieldAlt(iconProp)
+            },
+            "regex_tester": {
+                slug: "regex_tester",
+                name: "Regex Tester",
+                description: "Test and debug regular expressions with real-time matching. Supports flags, groups, and replacement operations.",
+                category: "developer",
+                tags: ["regex", "regular expression", "test", "pattern", "match", "validate"],
+                keywords: ["regex tester online", "test regular expressions", "BladeTools regex tool", "regex debugger"],
+                icon: VscRegex(iconProp)
+            },
+            "cron_expression_builder": {
+                slug: "cron_expression_builder",
+                name: "Cron Expression Parser",
+                description: "Parse and understand cron expressions. See human-readable descriptions and upcoming execution times.",
+                category: "developer",
+                tags: ["cron", "schedule", "expression", "parser", "job", "automation"],
+                keywords: ["cron expression parser", "understand cron syntax", "BladeTools cron tool", "schedule parser"],
+                icon: FaRegClock(iconProp)
+            },
+            "jwt_decoder": {
+                slug: "jwt_decoder",
+                name: "JWT Decoder",
+                description: "Decode JSON Web Tokens to inspect headers and payloads. Useful for debugging authentication and API tokens.",
+                category: "developer",
+                tags: ["jwt", "token", "decode", "auth", "authentication", "json"],
+                keywords: ["JWT decoder online", "decode JSON web token", "BladeTools JWT tool", "inspect JWT payload"],
+                icon: MdPassword(iconProp)
+            },
         }
     }
 }
