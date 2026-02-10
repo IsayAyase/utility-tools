@@ -53,7 +53,7 @@ export default function CronExpressionBuilderPage() {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center gap-4 max-w-xl w-full m-auto">
+        <div className="flex flex-col gap-4 max-w-xl w-full m-auto">
             <Field label="Cron Expression" htmlFor="expression" className="w-full">
                 <Input
                     id="expression"
@@ -64,7 +64,7 @@ export default function CronExpressionBuilderPage() {
                 />
             </Field>
 
-            <div className="w-full text-xs text-muted-foreground">
+            <div className="text-xs text-muted-foreground">
                 Format: minute hour day-of-month month day-of-week
             </div>
 
@@ -79,48 +79,50 @@ export default function CronExpressionBuilderPage() {
                 />
             </Field>
 
-            <Button onClick={handleParse} className="w-full">
-                Parse Expression
-            </Button>
-
+            {/* Output Section - Always visible */}
             {error && (
-                <div className="w-full p-3 bg-red-100 text-red-800 rounded-md text-sm">
+                <div className="p-3 bg-red-100 text-red-800 rounded-md text-sm">
                     Error: {error}
                 </div>
             )}
 
-            {humanReadable && (
-                <Field label="Description" htmlFor="description" className="w-full">
-                    <Textarea
-                        id="description"
-                        value={humanReadable}
-                        readOnly
-                        rows={2}
-                        className="bg-secondary"
-                    />
-                </Field>
-            )}
+            <Field label="Description" htmlFor="description" className="w-full">
+                <Textarea
+                    id="description"
+                    value={humanReadable || ""}
+                    readOnly
+                    placeholder="Description will appear here..."
+                    rows={2}
+                    className="bg-secondary"
+                />
+            </Field>
 
-            {nextRuns.length > 0 && (
-                <div className="w-full space-y-2">
-                    <div className="text-sm font-medium">
-                        Next {nextRuns.length} Run{nextRuns.length !== 1 ? "s" : ""}:
-                    </div>
-                    <div className="bg-secondary p-3 rounded-md font-mono text-sm max-h-48 overflow-auto">
-                        {nextRuns.map((run, i) => (
+            <div className="w-full">
+                <div className="text-sm font-medium mb-2">
+                    Next Run Times
+                </div>
+                <div className="bg-secondary p-3 rounded-md font-mono text-sm h-48 overflow-auto">
+                    {nextRuns.length > 0 ? (
+                        nextRuns.map((run, i) => (
                             <div key={i} className="py-1">
                                 {i + 1}. {formatDate(run)}
                             </div>
-                        ))}
-                    </div>
+                        ))
+                    ) : (
+                        <span className="text-muted-foreground">Next run times will appear here...</span>
+                    )}
                 </div>
-            )}
+            </div>
 
-            {(humanReadable || error) && (
-                <Button onClick={handleClear} variant="outline" className="w-full">
+            {/* Action Buttons */}
+            <div className="flex gap-2">
+                <Button onClick={handleParse} className="flex-1">
+                    Parse Expression
+                </Button>
+                <Button onClick={handleClear} variant="outline" className="flex-1">
                     Clear
                 </Button>
-            )}
+            </div>
         </div>
     );
 }

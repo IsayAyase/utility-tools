@@ -57,47 +57,46 @@ export default function YamlToJsonPage() {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center gap-4 max-w-xl w-full m-auto">
+        <div className="flex flex-col gap-4 max-w-xl w-full m-auto">
             <Field label="YAML Input" htmlFor="input" className="w-full">
                 <Textarea
                     id="input"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder={`name: John Doe&#10;age: 30&#10;email: john@example.com&#10;address:&#10;  street: 123 Main St&#10;  city: New York`}
+                    placeholder={`name: John Doe\nage: 30\nemail: john@example.com\naddress:\n  street: 123 Main St\n  city: New York`}
                     rows={10}
                     className="font-mono"
                 />
             </Field>
 
+            {/* Output - Always visible */}
+            <Field label="JSON Output" htmlFor="output" className="w-full">
+                <Textarea
+                    id="output"
+                    value={output}
+                    readOnly
+                    placeholder="Converted JSON will appear here..."
+                    rows={10}
+                    className="font-mono bg-secondary"
+                />
+            </Field>
+
+            {/* Action Buttons */}
+            <div className="grid grid-cols-3 gap-2">
+                <Button onClick={handleDownload} variant="outline" disabled={!output}>
+                    Download JSON
+                </Button>
+                <Button onClick={handleCopy} variant="outline" disabled={!output}>
+                    Copy
+                </Button>
+                <Button onClick={handleClear} variant="outline">
+                    Clear
+                </Button>
+            </div>
+
             <Button onClick={handleConvert} className="w-full">
                 Convert to JSON
             </Button>
-
-            {output && (
-                <Field label="JSON Output" htmlFor="output" className="w-full">
-                    <Textarea
-                        id="output"
-                        value={output}
-                        readOnly
-                        rows={10}
-                        className="font-mono bg-secondary"
-                    />
-                </Field>
-            )}
-
-            {output && (
-                <div className="w-full grid grid-cols-3 items-center gap-2">
-                    <Button onClick={handleDownload} variant="outline" className="w-full">
-                        Download JSON
-                    </Button>
-                    <Button onClick={handleCopy} variant="outline" className="w-full">
-                        Copy
-                    </Button>
-                    <Button onClick={handleClear} variant="outline" className="w-full">
-                        Clear
-                    </Button>
-                </div>
-            )}
         </div>
     );
 }

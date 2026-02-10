@@ -49,7 +49,7 @@ export default function JwtDecoderPage() {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center gap-4 max-w-xl w-full m-auto">
+        <div className="flex flex-col gap-4 max-w-xl w-full m-auto">
             <Field label="JWT Token" htmlFor="token" className="w-full">
                 <Textarea
                     id="token"
@@ -61,57 +61,55 @@ export default function JwtDecoderPage() {
                 />
             </Field>
 
-            <Button onClick={handleDecode} className="w-full">
-                Decode Token
-            </Button>
-
+            {/* Output Section - Always visible */}
             {error && (
-                <div className="w-full p-3 bg-red-100 text-red-800 rounded-md text-sm">
+                <div className="p-3 bg-red-100 text-red-800 rounded-md text-sm">
                     Error: {error}
                 </div>
             )}
 
-            {header && (
-                <Field label="Header" htmlFor="header" className="w-full">
-                    <Textarea
-                        id="header"
-                        value={JSON.stringify(header, null, 2)}
-                        readOnly
-                        rows={4}
-                        className="font-mono bg-secondary text-xs"
-                    />
-                </Field>
-            )}
+            <Field label="Header" htmlFor="header" className="w-full">
+                <Textarea
+                    id="header"
+                    value={header ? JSON.stringify(header, null, 2) : ""}
+                    readOnly
+                    placeholder="Header will appear here..."
+                    rows={4}
+                    className="font-mono bg-secondary text-xs"
+                />
+            </Field>
 
-            {payload && (
-                <Field label="Payload" htmlFor="payload" className="w-full">
-                    <Textarea
-                        id="payload"
-                        value={JSON.stringify(payload, null, 2)}
-                        readOnly
-                        rows={8}
-                        className="font-mono bg-secondary text-xs"
-                    />
-                </Field>
-            )}
+            <Field label="Payload" htmlFor="payload" className="w-full">
+                <Textarea
+                    id="payload"
+                    value={payload ? JSON.stringify(payload, null, 2) : ""}
+                    readOnly
+                    placeholder="Payload will appear here..."
+                    rows={8}
+                    className="font-mono bg-secondary text-xs"
+                />
+            </Field>
 
-            {signature && (
-                <Field label="Signature" htmlFor="signature" className="w-full">
-                    <Textarea
-                        id="signature"
-                        value={signature}
-                        readOnly
-                        rows={2}
-                        className="font-mono bg-secondary text-xs"
-                    />
-                </Field>
-            )}
+            <Field label="Signature" htmlFor="signature" className="w-full">
+                <Textarea
+                    id="signature"
+                    value={signature}
+                    readOnly
+                    placeholder="Signature will appear here..."
+                    rows={2}
+                    className="font-mono bg-secondary text-xs"
+                />
+            </Field>
 
-            {(header || error) && (
-                <Button onClick={handleClear} variant="outline" className="w-full">
+            {/* Action Buttons */}
+            <div className="flex gap-2">
+                <Button onClick={handleDecode} className="flex-1">
+                    Decode Token
+                </Button>
+                <Button onClick={handleClear} variant="outline" className="flex-1">
                     Clear
                 </Button>
-            )}
+            </div>
         </div>
     );
 }
