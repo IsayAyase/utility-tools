@@ -24,7 +24,9 @@ export default function Footer() {
             const effectiveWidth = Math.min(parent.offsetWidth, 1280); // cap
             const length = el.innerText.length || 1;
 
-            el.style.fontSize = `${(effectiveWidth / length) * 2}px`;
+            const fontsize = (effectiveWidth / length) * 2;
+            el.style.fontSize = `${fontsize}px`;
+            el.style.height = `${fontsize - 50}px`;
         };
 
         resize();
@@ -34,10 +36,10 @@ export default function Footer() {
 
     return (
         <div
-            className="relative w-full mt-8 p-4 h-full border-t"
+            className="relative w-full mt-8 p-4 pb-20 h-full border-t bg-background"
             id="footer"
         >
-            <div className="relative z-10 h-full w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center md:gap-4 mt-2 md:mt-6 md:mb-10">
+            <div className="relative z-10 h-full w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center md:gap-4 mt-2 md:mt-6">
                 <div className="text-sm text-muted-foreground">
                     {"Build by "}{" "}
                     <Link
@@ -75,7 +77,7 @@ export default function Footer() {
                 </div>
             </div>
 
-            <div className="absolute bottom-0 left-0 w-full h-36 md:h-40 lg:h-52 xl:h-60">
+            <div className="absolute bottom-0 left-0 w-full h-full">
                 <div
                     className="absolute inset-0 pointer-events-none"
                     style={{
@@ -123,7 +125,7 @@ export default function Footer() {
                         text-muted-foreground
                         whitespace-nowrap
                         tracking-tighter
-                        leading-20 sm:leading-28 md:leading-36
+                        leading-none
                     `}
                 >
                     Blade Tools

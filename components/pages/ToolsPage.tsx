@@ -35,6 +35,7 @@ export default function ToolsPage({
                   .map(([, tool]) => <ToolCard key={tool.slug} data={tool} />);
     return (
         <div className="space-y-6">
+            {/* <AnimatedGridBg /> */}
             <CategoryBar selectedCategory={selectedCategory} />
             <ToolCardGrid renderTools={renderTools} />
         </div>
