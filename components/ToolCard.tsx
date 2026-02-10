@@ -130,7 +130,7 @@ export default function ToolCard({
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
-                <Card className="h-full hover:scale-[101%] hover:shadow-md transition-all duration-300 justify-between relative overflow-hidden">
+                <Card className="h-full hover:scale-[101%] shadow-md transition-all duration-300 justify-between relative overflow-hidden bg-card/5 backdrop-blur-[2px] gap-0">
                     {/* Light mode background overlay */}
                     <div
                         className="absolute inset-0 pointer-events-none dark:hidden"
@@ -148,7 +148,7 @@ export default function ToolCard({
                         }}
                     />
                     {/* Content layer */}
-                    <div className="relative z-10">
+                    <div className="relative z-10 flex flex-col justify-between h-full gap-6">
                         {render()}
                     </div>
                 </Card>
