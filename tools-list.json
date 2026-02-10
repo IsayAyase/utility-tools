@@ -5,11 +5,17 @@
             "status": "DONE",
             "description": "Convert Word document (DOCX) to PDF format - Client-side",
             "clientSide": true,
-            "dependencies": ["mammoth", "jspdf", "html2canvas"],
+            "dependencies": [
+                "mammoth",
+                "jspdf",
+                "html2canvas"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "docx",
-                "required": ["buffer"]
+                "required": [
+                    "buffer"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -23,11 +29,16 @@
             "status": "ON_HOLD",
             "description": "Extract text from PDF to create a basic Word document - Client-side",
             "clientSide": true,
-            "dependencies": ["pdf-lib", "docx"],
+            "dependencies": [
+                "pdf-lib",
+                "docx"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "pdf",
-                "required": ["buffer"]
+                "required": [
+                    "buffer"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -41,11 +52,15 @@
             "status": "DONE",
             "description": "Merge multiple PDF documents into a single PDF",
             "clientSide": true,
-            "dependencies": ["pdf-lib"],
+            "dependencies": [
+                "pdf-lib"
+            ],
             "input": {
                 "type": "buffer[]",
                 "format": "pdf",
-                "required": ["buffers"],
+                "required": [
+                    "buffers"
+                ],
                 "minItems": 2
             },
             "output": {
@@ -60,12 +75,18 @@
             "status": "DONE",
             "description": "Split PDF document into individual pages or ranges",
             "clientSide": true,
-            "dependencies": ["pdf-lib"],
+            "dependencies": [
+                "pdf-lib"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "pdf",
-                "required": ["buffer"],
-                "optional": ["pages"]
+                "required": [
+                    "buffer"
+                ],
+                "optional": [
+                    "pages"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -79,12 +100,23 @@
             "status": "DONE",
             "description": "Add text watermark to PDF document",
             "clientSide": true,
-            "dependencies": ["pdf-lib"],
+            "dependencies": [
+                "pdf-lib"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "pdf",
-                "required": ["buffer", "text"],
-                "optional": ["fontSize", "opacity", "rotation", "color", "position"]
+                "required": [
+                    "buffer",
+                    "text"
+                ],
+                "optional": [
+                    "fontSize",
+                    "opacity",
+                    "rotation",
+                    "color",
+                    "position"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -98,12 +130,22 @@
             "status": "DONE",
             "description": "Add image watermark to PDF document",
             "clientSide": true,
-            "dependencies": ["pdf-lib"],
+            "dependencies": [
+                "pdf-lib"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "pdf",
-                "required": ["buffer", "watermarkBuffer"],
-                "optional": ["opacity", "rotation", "scale", "position"]
+                "required": [
+                    "buffer",
+                    "watermarkBuffer"
+                ],
+                "optional": [
+                    "opacity",
+                    "rotation",
+                    "scale",
+                    "position"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -117,11 +159,15 @@
             "status": "TESTING_LEFT",
             "description": "Updates metadata of a PDF document",
             "clientSide": true,
-            "dependencies": ["pdf-lib"],
+            "dependencies": [
+                "pdf-lib"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "pdf",
-                "required": ["buffer"]
+                "required": [
+                    "buffer"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -135,12 +181,19 @@
             "status": "ON_HOLD",
             "description": "Compress PDF document to reduce file size",
             "clientSide": true,
-            "dependencies": ["pdf-lib"],
+            "dependencies": [
+                "pdf-lib"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "pdf",
-                "required": ["buffer"],
-                "optional": ["quality", "compressImages"]
+                "required": [
+                    "buffer"
+                ],
+                "optional": [
+                    "quality",
+                    "compressImages"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -156,12 +209,20 @@
             "status": "TESTING_LEFT",
             "description": "Convert image between different formats using Canvas API",
             "clientSide": true,
-            "dependencies": ["native-canvas"],
+            "dependencies": [
+                "native-canvas"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer", "format"],
-                "optional": ["quality", "icoSize"]
+                "required": [
+                    "buffer",
+                    "format"
+                ],
+                "optional": [
+                    "quality",
+                    "icoSize"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -175,12 +236,19 @@
             "status": "TESTING_LEFT",
             "description": "Compress image to reduce file size",
             "clientSide": true,
-            "dependencies": ["native-canvas"],
+            "dependencies": [
+                "native-canvas"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer"],
-                "optional": ["quality", "format"]
+                "required": [
+                    "buffer"
+                ],
+                "optional": [
+                    "quality",
+                    "format"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -194,12 +262,21 @@
             "status": "TESTING_LEFT",
             "description": "Resize image to specified dimensions",
             "clientSide": true,
-            "dependencies": ["native-canvas"],
+            "dependencies": [
+                "native-canvas"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer", "width", "height"],
-                "optional": ["maintainAspectRatio", "background"]
+                "required": [
+                    "buffer",
+                    "width",
+                    "height"
+                ],
+                "optional": [
+                    "maintainAspectRatio",
+                    "background"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -213,12 +290,20 @@
             "status": "TESTING_LEFT",
             "description": "Apply crop, rotate, and/or flip transformations to image",
             "clientSide": true,
-            "dependencies": ["native-canvas"],
+            "dependencies": [
+                "native-canvas"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer"],
-                "optional": ["crop", "rotate", "flip"]
+                "required": [
+                    "buffer"
+                ],
+                "optional": [
+                    "crop",
+                    "rotate",
+                    "flip"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -232,11 +317,15 @@
             "status": "TESTING_LEFT",
             "description": "Remove EXIF metadata from image",
             "clientSide": true,
-            "dependencies": ["native-canvas"],
+            "dependencies": [
+                "native-canvas"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer"]
+                "required": [
+                    "buffer"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -250,11 +339,15 @@
             "status": "TESTING_LEFT",
             "description": "Extract dominant color from image",
             "clientSide": true,
-            "dependencies": ["native-canvas"],
+            "dependencies": [
+                "native-canvas"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer"]
+                "required": [
+                    "buffer"
+                ]
             },
             "output": {
                 "type": "object",
@@ -270,11 +363,17 @@
             "status": "TESTING_LEFT",
             "description": "Trim audio to specified start and end times - Client-side",
             "clientSide": true,
-            "dependencies": ["native-web-audio-api"],
+            "dependencies": [
+                "native-web-audio-api"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer", "startTime", "endTime"]
+                "required": [
+                    "buffer",
+                    "startTime",
+                    "endTime"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -288,11 +387,15 @@
             "status": "TESTING_LEFT",
             "description": "Merge multiple audio files into one - Client-side",
             "clientSide": true,
-            "dependencies": ["native-web-audio-api"],
+            "dependencies": [
+                "native-web-audio-api"
+            ],
             "input": {
                 "type": "buffer[]",
                 "format": "any",
-                "required": ["buffers"]
+                "required": [
+                    "buffers"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -306,11 +409,15 @@
             "status": "TESTING_LEFT",
             "description": "Convert audio to WAV format - Client-side",
             "clientSide": true,
-            "dependencies": ["native-web-audio-api"],
+            "dependencies": [
+                "native-web-audio-api"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer"]
+                "required": [
+                    "buffer"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -324,12 +431,19 @@
             "status": "TESTING_LEFT",
             "description": "Adjust audio volume",
             "clientSide": true,
-            "dependencies": ["native-web-audio-api"],
+            "dependencies": [
+                "native-web-audio-api"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer"],
-                "optional": ["volume", "volumeDb"]
+                "required": [
+                    "buffer"
+                ],
+                "optional": [
+                    "volume",
+                    "volumeDb"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -343,12 +457,19 @@
             "status": "TESTING_LEFT",
             "description": "Add fade in and/or fade out effects to audio",
             "clientSide": true,
-            "dependencies": ["native-web-audio-api"],
+            "dependencies": [
+                "native-web-audio-api"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer"],
-                "optional": ["fadeInDuration", "fadeOutDuration"]
+                "required": [
+                    "buffer"
+                ],
+                "optional": [
+                    "fadeInDuration",
+                    "fadeOutDuration"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -362,12 +483,19 @@
             "status": "TESTING_LEFT",
             "description": "Change audio playback speed - Client-side",
             "clientSide": true,
-            "dependencies": ["native-web-audio-api"],
+            "dependencies": [
+                "native-web-audio-api"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer", "speed"],
-                "optional": ["preservePitch"]
+                "required": [
+                    "buffer",
+                    "speed"
+                ],
+                "optional": [
+                    "preservePitch"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -381,11 +509,15 @@
             "status": "TESTING_LEFT",
             "description": "Reverse audio playback - Client-side",
             "clientSide": true,
-            "dependencies": ["native-web-audio-api"],
+            "dependencies": [
+                "native-web-audio-api"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer"]
+                "required": [
+                    "buffer"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -399,12 +531,18 @@
             "status": "TESTING_LEFT",
             "description": "Normalize audio levels - Client-side",
             "clientSide": true,
-            "dependencies": ["native-web-audio-api"],
+            "dependencies": [
+                "native-web-audio-api"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer"],
-                "optional": ["targetPeak"]
+                "required": [
+                    "buffer"
+                ],
+                "optional": [
+                    "targetPeak"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -420,11 +558,17 @@
             "status": "TESTING_LEFT",
             "description": "Trim video to specified start and end times - Client-side",
             "clientSide": true,
-            "dependencies": ["ffmpeg.wasm"],
+            "dependencies": [
+                "ffmpeg.wasm"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer", "startTime", "endTime"]
+                "required": [
+                    "buffer",
+                    "startTime",
+                    "endTime"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -438,12 +582,20 @@
             "status": "TESTING_LEFT",
             "description": "Convert video between different formats - Client-side",
             "clientSide": true,
-            "dependencies": ["ffmpeg.wasm"],
+            "dependencies": [
+                "ffmpeg.wasm"
+            ],
             "input": {
                 "type": "buffer",
                 "format": "any",
-                "required": ["buffer", "format"],
-                "optional": ["bitrate", "resolution"]
+                "required": [
+                    "buffer",
+                    "format"
+                ],
+                "optional": [
+                    "bitrate",
+                    "resolution"
+                ]
             },
             "output": {
                 "type": "buffer",
@@ -459,12 +611,18 @@
             "status": "TESTING_LEFT",
             "description": "Encode or decode URL strings",
             "clientSide": true,
-            "dependencies": ["native"],
+            "dependencies": [
+                "native"
+            ],
             "input": {
                 "type": "string",
                 "format": "string",
-                "required": ["text"],
-                "optional": ["mode"]
+                "required": [
+                    "text"
+                ],
+                "optional": [
+                    "mode"
+                ]
             },
             "output": {
                 "type": "string",
@@ -478,12 +636,18 @@
             "status": "TESTING_LEFT",
             "description": "Encode or decode base64 strings",
             "clientSide": true,
-            "dependencies": ["native"],
+            "dependencies": [
+                "native"
+            ],
             "input": {
                 "type": "string|buffer",
                 "format": "string|buffer",
-                "required": ["data"],
-                "optional": ["mode"]
+                "required": [
+                    "data"
+                ],
+                "optional": [
+                    "mode"
+                ]
             },
             "output": {
                 "type": "string",
@@ -497,7 +661,9 @@
             "status": "TESTING_LEFT",
             "description": "Generate UUID (v4) strings",
             "clientSide": true,
-            "dependencies": ["native"],
+            "dependencies": [
+                "native"
+            ],
             "input": {
                 "type": "object",
                 "format": "object",
@@ -515,12 +681,20 @@
             "status": "TESTING_LEFT",
             "description": "Generate URL-friendly slugs from text",
             "clientSide": true,
-            "dependencies": ["native"],
+            "dependencies": [
+                "native"
+            ],
             "input": {
                 "type": "string",
                 "format": "string",
-                "required": ["text"],
-                "optional": ["lowercase", "strict", "replacement"]
+                "required": [
+                    "text"
+                ],
+                "optional": [
+                    "lowercase",
+                    "strict",
+                    "replacement"
+                ]
             },
             "output": {
                 "type": "string",
@@ -534,12 +708,18 @@
             "status": "TESTING_LEFT",
             "description": "Generate lorem ipsum dummy text",
             "clientSide": true,
-            "dependencies": ["native"],
+            "dependencies": [
+                "native"
+            ],
             "input": {
                 "type": "object",
                 "format": "object",
                 "required": [],
-                "optional": ["count", "units", "startWithLorem"]
+                "optional": [
+                    "count",
+                    "units",
+                    "startWithLorem"
+                ]
             },
             "output": {
                 "type": "string",
@@ -553,12 +733,19 @@
             "status": "TESTING_LEFT",
             "description": "Convert JSON data to CSV format",
             "clientSide": true,
-            "dependencies": ["native"],
+            "dependencies": [
+                "native"
+            ],
             "input": {
                 "type": "object[]",
                 "format": "json",
-                "required": ["data"],
-                "optional": ["delimiter", "headers"]
+                "required": [
+                    "data"
+                ],
+                "optional": [
+                    "delimiter",
+                    "headers"
+                ]
             },
             "output": {
                 "type": "string",
@@ -572,12 +759,20 @@
             "status": "TESTING_LEFT",
             "description": "Convert CSV data to JSON format",
             "clientSide": true,
-            "dependencies": ["native"],
+            "dependencies": [
+                "native"
+            ],
             "input": {
                 "type": "string",
                 "format": "csv",
-                "required": ["data"],
-                "optional": ["delimiter", "header", "parseNumbers"]
+                "required": [
+                    "data"
+                ],
+                "optional": [
+                    "delimiter",
+                    "header",
+                    "parseNumbers"
+                ]
             },
             "output": {
                 "type": "object[]",
@@ -591,12 +786,18 @@
             "status": "TESTING_LEFT",
             "description": "Convert YAML data to JSON format",
             "clientSide": true,
-            "dependencies": ["js-yaml"],
+            "dependencies": [
+                "js-yaml"
+            ],
             "input": {
                 "type": "string",
                 "format": "yaml",
-                "required": ["data"],
-                "optional": ["safeLoad"]
+                "required": [
+                    "data"
+                ],
+                "optional": [
+                    "safeLoad"
+                ]
             },
             "output": {
                 "type": "object",
@@ -610,12 +811,18 @@
             "status": "TESTING_LEFT",
             "description": "Generate SHA256 hash from string or buffer",
             "clientSide": true,
-            "dependencies": ["native-subtlecrypto"],
+            "dependencies": [
+                "native-subtlecrypto"
+            ],
             "input": {
                 "type": "string|buffer",
                 "format": "string|buffer",
-                "required": ["data"],
-                "optional": ["encoding"]
+                "required": [
+                    "data"
+                ],
+                "optional": [
+                    "encoding"
+                ]
             },
             "output": {
                 "type": "string",
@@ -629,12 +836,20 @@
             "status": "TESTING_LEFT",
             "description": "Test regex patterns against input strings",
             "clientSide": true,
-            "dependencies": ["native"],
+            "dependencies": [
+                "native"
+            ],
             "input": {
                 "type": "object",
                 "format": "object",
-                "required": ["pattern", "flags", "testString"],
-                "optional": ["replaceString"]
+                "required": [
+                    "pattern",
+                    "flags",
+                    "testString"
+                ],
+                "optional": [
+                    "replaceString"
+                ]
             },
             "output": {
                 "type": "object",
@@ -648,12 +863,18 @@
             "status": "TESTING_LEFT",
             "description": "Build and validate cron expressions",
             "clientSide": true,
-            "dependencies": ["native"],
+            "dependencies": [
+                "native"
+            ],
             "input": {
                 "type": "object",
                 "format": "object",
-                "required": ["expression"],
-                "optional": ["interval"]
+                "required": [
+                    "expression"
+                ],
+                "optional": [
+                    "interval"
+                ]
             },
             "output": {
                 "type": "object",
@@ -667,12 +888,18 @@
             "status": "TESTING_LEFT",
             "description": "Decode JWT tokens (payload only, no verify)",
             "clientSide": true,
-            "dependencies": ["native"],
+            "dependencies": [
+                "native"
+            ],
             "input": {
                 "type": "string",
                 "format": "jwt",
-                "required": ["token"],
-                "optional": ["complete"]
+                "required": [
+                    "token"
+                ],
+                "optional": [
+                    "complete"
+                ]
             },
             "output": {
                 "type": "object",
@@ -680,25 +907,6 @@
                 "mimeType": null
             },
             "notes": "Base64 decode payload. No signature verification. Native JS atob."
-        },
-        "markdown_previewer": {
-            "priority": 13,
-            "status": "TESTING_LEFT",
-            "description": "Convert Markdown to HTML",
-            "clientSide": true,
-            "dependencies": ["marked"],
-            "input": {
-                "type": "string",
-                "format": "markdown",
-                "required": ["markdown"],
-                "optional": ["options"]
-            },
-            "output": {
-                "type": "string",
-                "format": "html",
-                "mimeType": null
-            },
-            "notes": "marked works in browser. Supports GitHub Flavored Markdown."
         }
     }
 }
