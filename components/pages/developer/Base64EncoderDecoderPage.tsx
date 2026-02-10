@@ -42,8 +42,9 @@ export default function Base64EncoderDecoderPage() {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center gap-4 max-w-xl w-full m-auto">
-            <div className="flex gap-2 w-full">
+        <div className="flex flex-col gap-4 max-w-xl w-full m-auto">
+            {/* Mode Toggle */}
+            <div className="flex gap-2">
                 <Button
                     type="button"
                     variant={mode === "encode" ? "default" : "outline"}
@@ -62,6 +63,7 @@ export default function Base64EncoderDecoderPage() {
                 </Button>
             </div>
 
+            {/* Input */}
             <Field label="Input" htmlFor="input" className="w-full">
                 <Textarea
                     id="input"
@@ -73,32 +75,31 @@ export default function Base64EncoderDecoderPage() {
                 />
             </Field>
 
+            {/* Output - Always visible */}
+            <Field label="Output" htmlFor="output" className="w-full">
+                <Textarea
+                    id="output"
+                    value={output}
+                    readOnly
+                    placeholder="Result will appear here..."
+                    rows={6}
+                    className="font-mono bg-secondary"
+                />
+            </Field>
+
+            {/* Action Buttons */}
+            <div className="flex gap-2">
+                <Button onClick={handleCopy} variant="outline" className="flex-1" disabled={!output}>
+                    Copy to Clipboard
+                </Button>
+                <Button onClick={handleClear} variant="outline" className="flex-1">
+                    Clear
+                </Button>
+            </div>
+
             <Button onClick={handleProcess} className="w-full">
                 {mode === "encode" ? "Encode" : "Decode"}
             </Button>
-
-            {output && (
-                <Field label="Output" htmlFor="output" className="w-full">
-                    <Textarea
-                        id="output"
-                        value={output}
-                        readOnly
-                        rows={6}
-                        className="font-mono bg-secondary"
-                    />
-                </Field>
-            )}
-
-            {output && (
-                <div className="w-full grid grid-cols-2 items-center gap-2">
-                    <Button onClick={handleCopy} variant="outline" className="w-full">
-                        Copy to Clipboard
-                    </Button>
-                    <Button onClick={handleClear} variant="outline" className="w-full">
-                        Clear
-                    </Button>
-                </div>
-            )}
         </div>
     );
 }

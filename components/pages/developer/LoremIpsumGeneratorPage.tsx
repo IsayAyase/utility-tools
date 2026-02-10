@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/label";
 import {
     Select,
@@ -18,7 +19,9 @@ import { toast } from "sonner";
 export default function LoremIpsumGeneratorPage() {
     const [output, setOutput] = useState<string>("");
     const [count, setCount] = useState<number>(5);
-    const [units, setUnits] = useState<"words" | "sentences" | "paragraphs">("paragraphs");
+    const [units, setUnits] = useState<"words" | "sentences" | "paragraphs">(
+        "paragraphs",
+    );
     const [startWithLorem, setStartWithLorem] = useState<boolean>(true);
 
     function handleGenerate() {
@@ -51,15 +54,25 @@ export default function LoremIpsumGeneratorPage() {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center gap-4 max-w-xl w-full m-auto">
-            <Field label={`Number of ${units}`} htmlFor="count" className="w-full">
+        <div className="flex flex-col gap-4 max-w-xl w-full m-auto">
+            <Field
+                label={`Number of ${units}`}
+                htmlFor="count"
+                className="w-full"
+            >
                 <div className="flex items-center gap-4">
                     <Slider
                         id="count"
                         value={[count]}
                         onValueChange={(value) => setCount(value[0])}
                         min={1}
-                        max={units === "words" ? 100 : units === "sentences" ? 20 : 10}
+                        max={
+                            units === "words"
+                                ? 100
+                                : units === "sentences"
+                                  ? 20
+                                  : 10
+                        }
                         step={1}
                         className="flex-1"
                     />
@@ -67,66 +80,89 @@ export default function LoremIpsumGeneratorPage() {
                 </div>
             </Field>
 
-            <Field label="Units" htmlFor="units" className="w-full">
-                <Select
-                    value={units}
-                    onValueChange={(value) => {
-                        setUnits(value as "words" | "sentences" | "paragraphs");
-                        setCount(value === "words" ? 20 : value === "sentences" ? 5 : 3);
-                    }}
-                >
-                    <SelectTrigger id="units">
-                        <SelectValue placeholder="Select units" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="words">Words</SelectItem>
-                        <SelectItem value="sentences">Sentences</SelectItem>
-                        <SelectItem value="paragraphs">Paragraphs</SelectItem>
-                    </SelectContent>
-                </Select>
+            <div className="grid grid-cols-2 gap-4">
+                <Field label="Units" htmlFor="units" className="w-full">
+                    <Select
+                        value={units}
+                        onValueChange={(value) => {
+                            setUnits(
+                                value as "words" | "sentences" | "paragraphs",
+                            );
+                            setCount(
+                                value === "words"
+                                    ? 20
+                                    : value === "sentences"
+                                      ? 5
+                                      : 3,
+                            );
+                        }}
+                    >
+                        <SelectTrigger id="units">
+                            <SelectValue placeholder="Select units" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="words">Words</SelectItem>
+                            <SelectItem value="sentences">Sentences</SelectItem>
+                            <SelectItem value="paragraphs">
+                                Paragraphs
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
+                </Field>
+
+                {units === "paragraphs" && (
+                    <div className="flex items-end mb-3 gap-2">
+                        <Checkbox
+                            id="startWithLorem"
+                            checked={startWithLorem}
+                            onCheckedChange={(checked) =>
+                                setStartWithLorem(checked === true)
+                            }
+                        />
+                        <label
+                            htmlFor="startWithLorem"
+                            className="text-sm cursor-pointer"
+                        >
+                            Start with &quot;Lorem ipsum...&quot;
+                        </label>
+                    </div>
+                )}
+            </div>
+
+            {/* Output - Always visible */}
+            <Field label="Generated Text" htmlFor="output" className="w-full">
+                <Textarea
+                    id="output"
+                    value={output}
+                    readOnly
+                    placeholder="Generated Lorem Ipsum will appear here..."
+                    rows={10}
+                    className="bg-secondary"
+                />
             </Field>
 
-            {units === "paragraphs" && (
-                <div className="flex items-center gap-2 w-full">
-                    <input
-                        type="checkbox"
-                        id="startWithLorem"
-                        checked={startWithLorem}
-                        onChange={(e) => setStartWithLorem(e.target.checked)}
-                        className="rounded border-gray-300"
-                    />
-                    <label htmlFor="startWithLorem" className="text-sm cursor-pointer">
-                        Start with &quot;Lorem ipsum dolor sit amet&quot;
-                    </label>
-                </div>
-            )}
+            {/* Action Buttons */}
+            <div className="flex gap-2">
+                <Button
+                    onClick={handleCopy}
+                    variant="outline"
+                    className="flex-1"
+                    disabled={!output}
+                >
+                    Copy to Clipboard
+                </Button>
+                <Button
+                    onClick={handleClear}
+                    variant="outline"
+                    className="flex-1"
+                >
+                    Clear
+                </Button>
+            </div>
 
             <Button onClick={handleGenerate} className="w-full">
                 Generate
             </Button>
-
-            {output && (
-                <Field label="Output" htmlFor="output" className="w-full">
-                    <Textarea
-                        id="output"
-                        value={output}
-                        readOnly
-                        rows={10}
-                        className="bg-secondary"
-                    />
-                </Field>
-            )}
-
-            {output && (
-                <div className="w-full grid grid-cols-2 items-center gap-2">
-                    <Button onClick={handleCopy} variant="outline" className="w-full">
-                        Copy to Clipboard
-                    </Button>
-                    <Button onClick={handleClear} variant="outline" className="w-full">
-                        Clear
-                    </Button>
-                </div>
-            )}
         </div>
     );
 }

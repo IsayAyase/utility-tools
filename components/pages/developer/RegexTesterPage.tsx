@@ -58,26 +58,28 @@ export default function RegexTesterPage() {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center gap-4 max-w-xl w-full m-auto">
-            <Field label="Regex Pattern" htmlFor="pattern" className="w-full">
-                <Input
-                    id="pattern"
-                    value={pattern}
-                    onChange={(e) => setPattern(e.target.value)}
-                    placeholder="e.g., \\d+ or [a-zA-Z]+"
-                    className="font-mono"
-                />
-            </Field>
+        <div className="flex flex-col gap-4 max-w-xl w-full m-auto">
+            <div className="grid grid-cols-2 gap-4">
+                <Field label="Regex Pattern" htmlFor="pattern" className="w-full">
+                    <Input
+                        id="pattern"
+                        value={pattern}
+                        onChange={(e) => setPattern(e.target.value)}
+                        placeholder="e.g., \\d+ or [a-zA-Z]+"
+                        className="font-mono"
+                    />
+                </Field>
 
-            <Field label="Flags" htmlFor="flags" className="w-full">
-                <Input
-                    id="flags"
-                    value={flags}
-                    onChange={(e) => setFlags(e.target.value)}
-                    placeholder="g, i, m, etc."
-                    className="font-mono"
-                />
-            </Field>
+                <Field label="Flags" htmlFor="flags" className="w-full">
+                    <Input
+                        id="flags"
+                        value={flags}
+                        onChange={(e) => setFlags(e.target.value)}
+                        placeholder="g, i, m, etc."
+                        className="font-mono"
+                    />
+                </Field>
+            </div>
 
             <Field label="Test String" htmlFor="testString" className="w-full">
                 <Textarea
@@ -98,48 +100,50 @@ export default function RegexTesterPage() {
                 />
             </Field>
 
-            <Button onClick={handleTest} className="w-full">
-                Test Regex
-            </Button>
-
+            {/* Output Section - Always visible */}
             {error && (
-                <div className="w-full p-3 bg-red-100 text-red-800 rounded-md text-sm">
+                <div className="p-3 bg-red-100 text-red-800 rounded-md text-sm">
                     Error: {error}
                 </div>
             )}
 
-            {matchCount > 0 && (
-                <div className="w-full space-y-2">
-                    <div className="text-sm font-medium">
-                        Matches ({matchCount}):
-                    </div>
-                    <div className="bg-secondary p-3 rounded-md font-mono text-sm max-h-32 overflow-auto">
-                        {matches.map((match, i) => (
-                            <div key={i} className="text-green-600">
+            <div className="w-full">
+                <div className="text-sm font-medium mb-2">
+                    Matches ({matchCount})
+                </div>
+                <div className="bg-secondary p-3 rounded-md font-mono text-sm h-32 overflow-auto">
+                    {matches.length > 0 ? (
+                        matches.map((match, i) => (
+                            <div key={i} className="text-green-600 py-0.5">
                                 Match {i + 1}: &quot;{match}&quot;
                             </div>
-                        ))}
-                    </div>
+                        ))
+                    ) : (
+                        <span className="text-muted-foreground">Matches will appear here...</span>
+                    )}
                 </div>
-            )}
+            </div>
 
-            {replaced && (
-                <Field label="Replaced Result" htmlFor="replaced" className="w-full">
-                    <Textarea
-                        id="replaced"
-                        value={replaced}
-                        readOnly
-                        rows={3}
-                        className="font-mono bg-secondary"
-                    />
-                </Field>
-            )}
+            <Field label="Replaced Result" htmlFor="replaced" className="w-full">
+                <Textarea
+                    id="replaced"
+                    value={replaced}
+                    readOnly
+                    placeholder="Replaced result will appear here..."
+                    rows={3}
+                    className="font-mono bg-secondary"
+                />
+            </Field>
 
-            {(matches.length > 0 || error) && (
-                <Button onClick={handleClear} variant="outline" className="w-full">
+            {/* Action Buttons */}
+            <div className="flex gap-2">
+                <Button onClick={handleTest} className="flex-1">
+                    Test Regex
+                </Button>
+                <Button onClick={handleClear} variant="outline" className="flex-1">
                     Clear
                 </Button>
-            )}
+            </div>
         </div>
     );
 }

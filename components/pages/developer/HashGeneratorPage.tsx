@@ -55,7 +55,7 @@ export default function HashGeneratorPage() {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center gap-4 max-w-xl w-full m-auto">
+        <div className="flex flex-col gap-4 max-w-xl w-full m-auto">
             <Field label="Input Text" htmlFor="input" className="w-full">
                 <Textarea
                     id="input"
@@ -67,7 +67,7 @@ export default function HashGeneratorPage() {
                 />
             </Field>
 
-            <div className="grid grid-cols-2 gap-4 w-full">
+            <div className="grid grid-cols-2 gap-4">
                 <Field label="Algorithm" htmlFor="algorithm" className="w-full">
                     <Select value={algorithm} onValueChange={(value) => setAlgorithm(value as "SHA-256" | "SHA-384" | "SHA-512")}>
                         <SelectTrigger id="algorithm">
@@ -94,32 +94,31 @@ export default function HashGeneratorPage() {
                 </Field>
             </div>
 
+            {/* Output - Always visible */}
+            <Field label="Hash Output" htmlFor="output" className="w-full">
+                <Textarea
+                    id="output"
+                    value={output}
+                    readOnly
+                    placeholder="Hash will appear here..."
+                    rows={3}
+                    className="font-mono bg-secondary"
+                />
+            </Field>
+
+            {/* Action Buttons */}
+            <div className="flex gap-2">
+                <Button onClick={handleCopy} variant="outline" className="flex-1" disabled={!output}>
+                    Copy to Clipboard
+                </Button>
+                <Button onClick={handleClear} variant="outline" className="flex-1">
+                    Clear
+                </Button>
+            </div>
+
             <Button onClick={handleGenerate} className="w-full">
                 Generate Hash
             </Button>
-
-            {output && (
-                <Field label="Hash Output" htmlFor="output" className="w-full">
-                    <Textarea
-                        id="output"
-                        value={output}
-                        readOnly
-                        rows={3}
-                        className="font-mono bg-secondary"
-                    />
-                </Field>
-            )}
-
-            {output && (
-                <div className="w-full grid grid-cols-2 items-center gap-2">
-                    <Button onClick={handleCopy} variant="outline" className="w-full">
-                        Copy to Clipboard
-                    </Button>
-                    <Button onClick={handleClear} variant="outline" className="w-full">
-                        Clear
-                    </Button>
-                </div>
-            )}
         </div>
     );
 }
