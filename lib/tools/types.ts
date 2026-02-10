@@ -23,20 +23,25 @@ export type CategoryType = {
         keywords: string[]
         category: CategoriesWithoutAll
     }
+    extra: {
+        icon: ReactNode
+        lightBgColor: string
+        darkBgColor: string
+    }
 }
 
 export type ToolResult<T = Uint8Array> = {
-  success: boolean
-  data?: T
-  error?: string
-  metadata?: {
-    originalSize?: number
-    newSize?: number
-    format?: string
-    width?: number
-    height?: number
-    duration?: number
-    pageCount?: number
-    [key: string]: unknown
-  }
+    success: boolean
+    data?: T
+    error?: string
+    metadata?: {
+        originalSize?: number
+        newSize?: number
+        format?: string
+        width?: number
+        height?: number
+        duration?: number
+        pageCount?: number
+        [key: string]: unknown
+    }
 }

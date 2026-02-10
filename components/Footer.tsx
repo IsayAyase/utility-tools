@@ -21,7 +21,7 @@ export default function Footer() {
 
         const resize = () => {
             const parent = el.parentElement!;
-            const effectiveWidth = Math.min(parent.offsetWidth, 1280); // cap
+            const effectiveWidth = Math.min(parent.offsetWidth, 800); // cap
             const length = el.innerText.length || 1;
 
             const fontsize = (effectiveWidth / length) * 2;

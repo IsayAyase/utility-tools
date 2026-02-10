@@ -77,7 +77,8 @@ export default function HeroSection() {
                         <h1
                             className={`${racingSansOne.className} text-6xl md:text-7xl lg:text-9xl text-center cursor-default`}
                         >
-                            <HoverEffectText text={"BladeTools"} />
+                            <HoverEffectText text={"Blade"} />
+                            <span className="dark:text-red-500">Tools</span>
                         </h1>
                         <div className="absolute top-1/3 -translate-y-1/3 left-0 w-full h-12">
                             <div
@@ -150,7 +151,7 @@ export default function HeroSection() {
                     </div>
 
                     {/* cta button */}
-                    <div className="flex justify-center py-14">
+                    <div className="flex justify-center py-14 overflow-hidden">
                         <Link href={mainData.ctaBtn.url}>
                             <button
                                 className={`w-50 md:w-55 lg:w-60 py-2 relative hover:scale-[102%] transition-all duration-200 border bg-foreground font-medium text-background rounded-lg`}
