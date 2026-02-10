@@ -1,14 +1,14 @@
 
+import { BiData, BiTransfer } from 'react-icons/bi'
 import { BsFileEarmarkRichtext, BsFiletypeDocx } from 'react-icons/bs'
+import { FaCode, FaKey, FaLink, FaRegClock, FaShieldAlt } from 'react-icons/fa'
 import { IoDocumentTextOutline } from 'react-icons/io5'
 import { LuAudioLines } from 'react-icons/lu'
+import { MdDataObject, MdPassword } from 'react-icons/md'
 import { PiFilePdf, PiResize } from 'react-icons/pi'
 import { RxTransform } from 'react-icons/rx'
 import { TbArrowMerge, TbArrowsSplit2, TbFileInfo, TbVideo } from 'react-icons/tb'
-import { FaCode, FaKey, FaLink, FaRegClock, FaShieldAlt, FaTerminal } from 'react-icons/fa'
 import { VscRegex } from 'react-icons/vsc'
-import { BiData, BiTransfer } from 'react-icons/bi'
-import { MdPassword, MdDataObject } from 'react-icons/md'
 import type { CategoriesWithoutAll, CategoryType, Tool } from './types'
 
 const iconProp = {
@@ -207,15 +207,6 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 tags: ["uuid", "guid", "generate", "id", "identifier", "unique"],
                 keywords: ["UUID generator", "generate GUID", "BladeTools UUID", "random ID generator"],
                 icon: FaKey(iconProp)
-            },
-            "slug_generator": {
-                slug: "slug_generator",
-                name: "URL Slug Generator",
-                description: "Convert text to URL-friendly slugs. Perfect for blog posts, product names, and creating clean, readable URLs.",
-                category: "developer",
-                tags: ["slug", "url", "seo", "friendly", "permalink", "clean"],
-                keywords: ["URL slug generator", "create URL friendly strings", "BladeTools slug maker", "permalink generator"],
-                icon: FaTerminal(iconProp)
             },
             "lorem_ipsum_generator": {
                 slug: "lorem_ipsum_generator",
