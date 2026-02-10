@@ -75,12 +75,13 @@ export default function HeroSection() {
                     {/* center text */}
                     <div className="flex flex-col items-center justify-center my-14 md:my-12 lg:my-10 relative">
                         <h1
-                            className={`${racingSansOne.className} text-6xl md:text-7xl lg:text-9xl text-center cursor-default`}
+                            className={`${racingSansOne.className} text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-center cursor-default`}
                         >
                             <HoverEffectText text={"Blade"} />
                             <span className="dark:text-red-500">Tools</span>
                         </h1>
-                        <div className="absolute top-1/3 -translate-y-1/3 left-0 w-full h-12">
+                        {/* <div className="w-full h-0.5 md:h-1 lg:h-2 bg-background rounded-full absolute top-1/2 -translate-y-1/2" /> */}
+                        <div className="hidden bottom-0 left-0 w-full h-16 sm:h-18 md:h-26 lg:h-34">
                             <div
                                 className="absolute inset-0 pointer-events-none"
                                 style={{

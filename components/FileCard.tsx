@@ -89,7 +89,7 @@ export default function FileCard({
     const cardContent = (
         <motion.div
             className={cn(
-                "relative w-full h-full aspect-6/5 rounded-lg border bg-card overflow-hidden cursor-pointer hover:scale-[101%] hover:shadow-md transition-all duration-300",
+                "relative w-full h-full aspect-3/4 rounded-lg border bg-card overflow-hidden cursor-pointer hover:scale-[101%] hover:shadow-md transition-all duration-300",
                 className,
             )}
             onMouseMove={handleMouseMove}
@@ -118,7 +118,7 @@ export default function FileCard({
                 <div className="flex-1">
                     <h3 className="text-xl font-semibold mb-0.5">{title}</h3>
                     {description && (
-                        <p className="text-sm text-foreground/80 line-clamp-3">
+                        <p className="text-sm text-foreground/80 line-clamp-2 md:line-clamp-7">
                             {description}
                         </p>
                     )}
