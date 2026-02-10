@@ -73,12 +73,52 @@ export default function HeroSection() {
                     </div>
 
                     {/* center text */}
-                    <div className="flex flex-col items-center justify-center my-14 md:my-12 lg:my-10">
+                    <div className="flex flex-col items-center justify-center my-14 md:my-12 lg:my-10 relative">
                         <h1
                             className={`${racingSansOne.className} text-6xl md:text-7xl lg:text-9xl text-center cursor-default`}
                         >
                             <HoverEffectText text={"BladeTools"} />
                         </h1>
+                        <div className="absolute top-1/3 -translate-y-1/3 left-0 w-full h-12">
+                            <div
+                                className="absolute inset-0 pointer-events-none"
+                                style={{
+                                    background: `linear-gradient(180deg, 
+                                    transparent 0%, 
+                                    transparent 25%, 
+                                    color-mix(in oklab, var(--background) 40%, transparent) 45%, 
+                                    color-mix(in oklab, var(--background) 45%, transparent) 50%, 
+                                    color-mix(in oklab, var(--background) 60%, transparent) 70%, 
+                                    color-mix(in oklab, var(--background) 65%, transparent) 85%, 
+                                    color-mix(in oklab, var(--background) 75%, transparent) 100%
+                                )`,
+                                    backdropFilter: `blur(0px)`,
+                                }}
+                            />
+                            <div
+                                className="absolute inset-0 pointer-events-none"
+                                style={{
+                                    background: `linear-gradient(180deg, 
+                    transparent 0%, 
+                                    color-mix(in oklab, var(--background) 20%, transparent) 60%, 
+                                    color-mix(in oklab, var(--background) 30%, transparent) 70%, 
+                                    color-mix(in oklab, var(--background) 40%, transparent) 80%, 
+                                    color-mix(in oklab, var(--background) 50%, transparent) 90%, 
+                                    color-mix(in oklab, var(--background) 60%, transparent) 100%
+                                )`,
+                                    backdropFilter: `blur(8px)`,
+                                    maskImage: `linear-gradient(180deg, 
+                                    transparent 0%, 
+                                    transparent 10%, 
+                                    color-mix(in oklab, var(--foreground) 10%, transparent) 55%, 
+                                    color-mix(in oklab, var(--foreground) 20%, transparent) 65%, 
+                                    color-mix(in oklab, var(--foreground) 40%, transparent) 75%, 
+                                    color-mix(in oklab, var(--foreground) 60%, transparent) 85%, 
+                                    color-mix(in oklab, var(--foreground) 80%, transparent) 100%
+                                )`,
+                                }}
+                            />
+                        </div>
                     </div>
 
                     {/* bottom feature grid */}
