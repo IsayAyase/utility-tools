@@ -1,9 +1,9 @@
 
 import { BiData, BiTransfer } from 'react-icons/bi'
-import { BsFileEarmarkRichtext, BsFiletypeDocx } from 'react-icons/bs'
+import { BsFileEarmarkRichtext, BsFileEarmarkText, BsFiletypeDocx } from 'react-icons/bs'
 import { FaCode, FaKey, FaLink, FaRegClock, FaShieldAlt } from 'react-icons/fa'
 import { IoDocumentTextOutline } from 'react-icons/io5'
-import { LuAudioLines } from 'react-icons/lu'
+import { LuAudioLines, LuFileCode, LuImage } from 'react-icons/lu'
 import { MdDataObject, MdPassword } from 'react-icons/md'
 import { PiFilePdf, PiResize } from 'react-icons/pi'
 import { RxTransform } from 'react-icons/rx'
@@ -11,8 +11,12 @@ import { TbArrowMerge, TbArrowsSplit2, TbFileInfo, TbVideo } from 'react-icons/t
 import { VscRegex } from 'react-icons/vsc'
 import type { CategoriesWithoutAll, CategoryType, Tool } from './types'
 
-const iconProp = {
+const toolIconProp = {
     className: "size-7"
+}
+
+const categoryconProp = {
+    className: "size-10"
 }
 
 export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
@@ -23,6 +27,11 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
             keywords: ["BladeTools", "secure PDF tools", "private document processing", "browser-based PDF editor", "no upload PDF converter", "privacy first document tools"],
             category: "document"
         },
+        extra: {
+            icon: BsFileEarmarkText(categoryconProp),
+            lightBgColor: "#E3F2FD",
+            darkBgColor: "#1565C0"
+        },
         tools: {
             "word_to_pdf": {
                 slug: "word_to_pdf",
@@ -31,7 +40,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "document",
                 tags: ["docx", "word", "convert", "pdf", "document"],
                 keywords: ["BladeTools word to pdf", "convert docx to pdf locally", "secure word converter", "private pdf maker"],
-                icon: BsFiletypeDocx(iconProp),
+                icon: BsFiletypeDocx(toolIconProp),
                 lightBgColor: "#E3F2FD",
                 darkBgColor: "#1565C0"
             },
@@ -42,7 +51,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "document",
                 tags: ["merge", "combine", "join", "pdf", "pdfs", "concatenate", "document"],
                 keywords: ["merge pdf online", "combine pdf files", "BladeTools pdf joiner", "secure pdf merger"],
-                icon: TbArrowMerge(iconProp),
+                icon: TbArrowMerge(toolIconProp),
                 lightBgColor: "#F3E5F5",
                 darkBgColor: "#7B1FA2"
             },
@@ -53,7 +62,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "document",
                 tags: ["split", "extract", "divide", "separate", "break", "slice", "pdf", "document", "page"],
                 keywords: ["split pdf online", "extract pages from pdf", "pdf page cutter", "BladeTools splitter"],
-                icon: TbArrowsSplit2(iconProp),
+                icon: TbArrowsSplit2(toolIconProp),
                 lightBgColor: "#E8F5E9",
                 darkBgColor: "#388E3C"
             },
@@ -64,7 +73,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "document",
                 tags: ["document", "pdf", "watermark", "brand", "copyright", "text", "overlay"],
                 keywords: ["add watermark to pdf", "pdf text overlay", "document branding", "BladeTools security"],
-                icon: IoDocumentTextOutline(iconProp),
+                icon: IoDocumentTextOutline(toolIconProp),
                 lightBgColor: "#FFF3E0",
                 darkBgColor: "#F57C00"
             },
@@ -75,7 +84,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "document",
                 tags: ["document", "pdf", "watermark", "brand", "copyright", "image", "overlay"],
                 keywords: ["image watermark pdf", "logo to pdf", "stamp pdf online", "BladeTools image overlay"],
-                icon: BsFileEarmarkRichtext(iconProp),
+                icon: BsFileEarmarkRichtext(toolIconProp),
                 lightBgColor: "#E0F2F1",
                 darkBgColor: "#00796B"
             },
@@ -86,7 +95,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "document",
                 tags: ["metadata", "info", "properties", "document", "tags", "info", "details", "pdf"],
                 keywords: ["edit pdf metadata", "change pdf author", "pdf tag editor", "BladeTools metadata tool"],
-                icon: TbFileInfo(iconProp),
+                icon: TbFileInfo(toolIconProp),
                 lightBgColor: "#F5F5F5",
                 darkBgColor: "#616161"
             },
@@ -99,6 +108,11 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
             description: "Resize, convert, and edit images instantly with BladeTools. Your photos stay on your computer while you transform them for web or print.",
             keywords: ["BladeTools image tools", "private image editor", "browser image resizer", "convert photos online", "secure photo tools"],
         },
+        extra: {
+            icon: LuImage(categoryconProp),
+            lightBgColor: "#E8EAF6",
+            darkBgColor: "#3949AB"
+        },
         tools: {
             "image_resize_convert_format": {
                 slug: "image_resize_convert_format",
@@ -107,7 +121,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "image",
                 tags: ["resize", "scale", "convert", "jpg", "png", "webp", "jpeg", "image", "compress", "format"],
                 keywords: ["resize image online", "convert jpg to webp", "BladeTools image resizer", "png to jpg converter"],
-                icon: PiResize(iconProp),
+                icon: PiResize(toolIconProp),
                 lightBgColor: "#E1F5FE",
                 darkBgColor: "#0277BD"
             },
@@ -118,7 +132,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "image",
                 tags: ["pdf", "convert", "jpg", "png", "webp", "jpeg", "image", "compress", "document"],
                 keywords: ["jpg to pdf converter", "png to pdf", "convert images to pdf", "BladeTools photo to pdf"],
-                icon: PiFilePdf(iconProp),
+                icon: PiFilePdf(toolIconProp),
                 lightBgColor: "#FFEBEE",
                 darkBgColor: "#C62828"
             },
@@ -129,7 +143,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "image",
                 tags: ["crop", "rotate", "flip", "image", "transform", "jpg", "png", "webp", "jpeg"],
                 keywords: ["crop image online", "rotate photo", "image flip tool", "BladeTools transformation"],
-                icon: RxTransform(iconProp),
+                icon: RxTransform(toolIconProp),
                 lightBgColor: "#E8EAF6",
                 darkBgColor: "#3949AB"
             },
@@ -142,6 +156,11 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
             category: "audio",
             keywords: ["BladeTools audio", "private mp3 cutter", "online audio joiner", "browser audio converter", "secure audio tools"],
         },
+        extra: {
+            icon: LuAudioLines(categoryconProp),
+            lightBgColor: "#FCE4EC",
+            darkBgColor: "#AD1457"
+        },
         tools: {
             "audio_trim_convert": {
                 slug: "audio_trim_convert",
@@ -150,7 +169,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "audio",
                 tags: ["audio", "trim", "convert", "start", "end", "time", "wav", "mp3", "ogg"],
                 keywords: ["trim mp3 online", "audio cutter", "convert wav to mp3", "BladeTools audio trimmer"],
-                icon: LuAudioLines(iconProp),
+                icon: LuAudioLines(toolIconProp),
                 lightBgColor: "#FCE4EC",
                 darkBgColor: "#AD1457"
             },
@@ -161,7 +180,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "audio",
                 tags: ["audio", "merge", "combine", "join", "wav", "mp3", "ogg"],
                 keywords: ["merge audio files", "combine mp3s", "audio joiner online", "BladeTools audio merger"],
-                icon: TbArrowMerge(iconProp),
+                icon: TbArrowMerge(toolIconProp),
                 lightBgColor: "#D1C4E9",
                 darkBgColor: "#512DA8"
             }
@@ -174,6 +193,11 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
             category: "video",
             keywords: ["BladeTools video", "trim video online", "hardcode subtitles", "video converter no upload", "secure video editor"],
         },
+        extra: {
+            icon: TbVideo(categoryconProp),
+            lightBgColor: "#C5CAE9",
+            darkBgColor: "#303F9F"
+        },
         tools: {
             "video_trim_convert": {
                 slug: "video_trim_convert",
@@ -182,7 +206,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "video",
                 tags: ["video", "trim", "convert", "start", "end", "time", "mp4", "mkv", "webm"],
                 keywords: ["trim mp4 online", "video cutter", "convert video to webm", "BladeTools video trim"],
-                icon: TbVideo(iconProp),
+                icon: TbVideo(toolIconProp),
                 lightBgColor: "#C5CAE9",
                 darkBgColor: "#303F9F"
             },
@@ -193,7 +217,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
             //     category: "video",
             //     tags: ["video", "subtitle", "burn", "mp4", "mkv", "webm"],
             //     keywords: ["burn srt to video", "hardcode subtitles online", "add subtitles to mp4", "BladeTools subtitle tool"],
-            //     icon: PiSubtitles(iconProp)
+            //     icon: PiSubtitles(toolIconProp)
             // }
         }
     },
@@ -204,6 +228,11 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
             description: "Essential developer tools including encoders, hash generators, and format converters. Process code and data locally in your browser.",
             keywords: ["BladeTools developer tools", "code utilities", "URL encoder", "Base64 decoder", "UUID generator", "regex tester", "JWT decoder"],
         },
+        extra: {
+            icon: LuFileCode(categoryconProp),
+            lightBgColor: "#B3E5FC",
+            darkBgColor: "#0097A7"
+        },
         tools: {
             "url_encoder_decoder": {
                 slug: "url_encoder_decoder",
@@ -212,7 +241,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "developer",
                 tags: ["url", "encode", "decode", "uri", "percent-encoding", "web"],
                 keywords: ["URL encoder online", "decode URL parameters", "BladeTools URL tool", "percent encoding decoder"],
-                icon: FaLink(iconProp),
+                icon: FaLink(toolIconProp),
                 lightBgColor: "#B3E5FC",
                 darkBgColor: "#0097A7"
             },
@@ -223,7 +252,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "developer",
                 tags: ["base64", "encode", "decode", "binary", "text", "conversion"],
                 keywords: ["Base64 encoder", "Base64 decoder online", "BladeTools base64", "convert to base64"],
-                icon: BiTransfer(iconProp),
+                icon: BiTransfer(toolIconProp),
                 lightBgColor: "#DCEDC8",
                 darkBgColor: "#558B2F"
             },
@@ -234,7 +263,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "developer",
                 tags: ["uuid", "guid", "generate", "id", "identifier", "unique"],
                 keywords: ["UUID generator", "generate GUID", "BladeTools UUID", "random ID generator"],
-                icon: FaKey(iconProp),
+                icon: FaKey(toolIconProp),
                 lightBgColor: "#FFE0B2",
                 darkBgColor: "#E65100"
             },
@@ -245,7 +274,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "developer",
                 tags: ["lorem", "ipsum", "placeholder", "text", "dummy", "content"],
                 keywords: ["Lorem ipsum generator", "placeholder text", "BladeTools dummy text", "fake content generator"],
-                icon: FaCode(iconProp),
+                icon: FaCode(toolIconProp),
                 lightBgColor: "#F8BBD9",
                 darkBgColor: "#6A1B9A"
             },
@@ -256,7 +285,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "developer",
                 tags: ["json", "csv", "convert", "export", "data", "spreadsheet"],
                 keywords: ["JSON to CSV converter", "convert JSON to Excel", "BladeTools data converter", "export JSON as CSV"],
-                icon: BiData(iconProp),
+                icon: BiData(toolIconProp),
                 lightBgColor: "#B2DFDB",
                 darkBgColor: "#00695C"
             },
@@ -267,7 +296,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "developer",
                 tags: ["csv", "json", "convert", "import", "data", "parse"],
                 keywords: ["CSV to JSON converter", "convert Excel to JSON", "BladeTools CSV parser", "parse CSV data"],
-                icon: MdDataObject(iconProp),
+                icon: MdDataObject(toolIconProp),
                 lightBgColor: "#FFCCBC",
                 darkBgColor: "#BF360C"
             },
@@ -278,7 +307,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "developer",
                 tags: ["yaml", "json", "convert", "config", "docker", "kubernetes"],
                 keywords: ["YAML to JSON converter", "convert YAML online", "BladeTools config converter", "YAML parser"],
-                icon: FaCode(iconProp),
+                icon: FaCode(toolIconProp),
                 lightBgColor: "#C8E6C9",
                 darkBgColor: "#2E7D32"
             },
@@ -289,7 +318,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "developer",
                 tags: ["hash", "sha", "cryptography", "checksum", "security", "digest"],
                 keywords: ["SHA-256 generator", "hash calculator online", "BladeTools hash tool", "create checksum"],
-                icon: FaShieldAlt(iconProp),
+                icon: FaShieldAlt(toolIconProp),
                 lightBgColor: "#D7CCC8",
                 darkBgColor: "#4E342E"
             },
@@ -300,7 +329,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "developer",
                 tags: ["regex", "regular expression", "test", "pattern", "match", "validate"],
                 keywords: ["regex tester online", "test regular expressions", "BladeTools regex tool", "regex debugger"],
-                icon: VscRegex(iconProp),
+                icon: VscRegex(toolIconProp),
                 lightBgColor: "#B0BEC5",
                 darkBgColor: "#455A64"
             },
@@ -311,7 +340,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "developer",
                 tags: ["cron", "schedule", "expression", "parser", "job", "automation"],
                 keywords: ["cron expression parser", "understand cron syntax", "BladeTools cron tool", "schedule parser"],
-                icon: FaRegClock(iconProp),
+                icon: FaRegClock(toolIconProp),
                 lightBgColor: "#FFF9C4",
                 darkBgColor: "#F9A825"
             },
@@ -322,7 +351,7 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 category: "developer",
                 tags: ["jwt", "token", "decode", "auth", "authentication", "json"],
                 keywords: ["JWT decoder online", "decode JSON web token", "BladeTools JWT tool", "inspect JWT payload"],
-                icon: MdPassword(iconProp),
+                icon: MdPassword(toolIconProp),
                 lightBgColor: "#E1BEE7",
                 darkBgColor: "#8E24AA"
             },
