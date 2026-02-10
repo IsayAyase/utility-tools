@@ -1,6 +1,7 @@
 "use client";
 
 import { toolsArray } from "@/lib/tools";
+import { cn } from "@/lib/utils";
 import {
     motion,
     useMotionValue,
@@ -23,7 +24,7 @@ interface IconPosition {
     baseY: number;
 }
 
-export default function FloatingIcons() {
+export default function FloatingIcons({ className }: { className?: string }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
 
@@ -114,7 +115,10 @@ export default function FloatingIcons() {
         <div
             ref={containerRef}
             onMouseMove={handleMouseMove}
-            className="relative w-full h-full min-h-75 overflow-hidden rounded-lg bg-background"
+            className={cn(
+                "relative w-full h-full min-h-75 overflow-hidden rounded-lg bg-background",
+                className,
+            )}
         >
             {/* Faded border edges */}
             <div className="pointer-events-none absolute inset-0 rounded-lg z-10">
