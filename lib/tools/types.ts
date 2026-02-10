@@ -11,6 +11,8 @@ export type Tool = {
     keywords: string[]
     tags: string[]
     icon: ReactNode
+    lightBgColor: string
+    darkBgColor: string
 }
 
 export type CategoryType = {
