@@ -12,6 +12,7 @@ export default function OfflineToolFallback({
 
     useEffect(() => {
         if (isOnline) {
+            console.log("retrying....")
             onRetry();
         }
     }, [isOnline, onRetry]);
