@@ -1,5 +1,5 @@
 import LayoutWrapper from "@/components/LayoutWrapper";
-import ToolsPage from "@/components/pages/ToolsPage";
+import ToolsPage from "@/components/tools/ToolsPage";
 
 export default function page() {
     return (
