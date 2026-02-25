@@ -4,6 +4,7 @@ import { mainData } from "@/contents/mainData";
 import type { Metadata } from "next";
 import { ubuntu } from "./fonts";
 import "./globals.css";
+import ServiceWorkRegister from "./sw-register";
 
 export const metadata: Metadata = {
     title: mainData.title,
@@ -76,6 +77,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className={`${ubuntu.className} antialiased`}>
+                <ServiceWorkRegister />
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"
