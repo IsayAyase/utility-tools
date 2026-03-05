@@ -28,7 +28,7 @@ export default function PdfPreview({
         return () => {
             URL.revokeObjectURL(blobUrl);
         };
-    }, [buffer]);
+    }, [buffer, setUrl]);
 
     if (!url) {
         return (

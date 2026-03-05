@@ -33,7 +33,7 @@ async function getFeedback(d: IGetFeedbackInput) {
         const skip = (d.page || 1) * limit - limit;
 
         // Build match condition
-        const matchConditions: any[] = [];
+        const matchConditions = [];
         if (d.id) matchConditions.push({ _id: { $eq: d.id } });
         if (d.type) matchConditions.push({ type: { $eq: d.type } });
         matchConditions.push({ markAsRead: { $eq: d.markAsRead || false } });

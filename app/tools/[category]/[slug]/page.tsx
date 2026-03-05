@@ -1,5 +1,5 @@
 import LayoutWrapper from "@/components/LayoutWrapper";
-import ToolPageRenderer from "@/components/pages/ToolPageRenderer";
+import ToolPageRenderer from "@/components/tools/ToolPageRenderer";
 import { isCategory, objectOfTools, toolsArray } from "@/lib/tools";
 import { getRelatedToolsByKeywords } from "@/lib/tools/helper";
 import { notFound } from "next/navigation";

@@ -1,5 +1,5 @@
 import LayoutWrapper from "@/components/LayoutWrapper";
-import LoadingPage from "@/components/pages/LoadingPage";
+import LoadingPage from "@/components/LoadingPage";
 import { getAllBlogs } from "@/lib/blogs";
 import { Suspense } from "react";
 import BlogsPage from "./_components/BlogsPage";

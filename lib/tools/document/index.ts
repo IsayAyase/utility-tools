@@ -1,6 +1,6 @@
+import { imageConvertResizeReduce } from "@/lib/tools/image";
 import { ToolResult } from "@/lib/tools/types";
 import { degrees, PDFDocument, rgb, StandardFonts, type Color } from 'pdf-lib';
-import { imageConvertResizeReduce } from "@/lib/tools/image";
 import type {
     GetPdfInfoInput,
     GetPdfInfoOutput,
@@ -47,6 +47,7 @@ export async function getPdfInfo(
         }
 
         // Fonts (best-effort)
+        /* eslint-disable no-unused-vars */
         const fontSet = new Set<string>()
         pages.forEach(page => {
             const resources = (page as any).node.Resources?.Font
@@ -57,6 +58,7 @@ export async function getPdfInfo(
                 })
             }
         })
+        /* eslint-enable no-unused-vars */
 
         return {
             success: true,
@@ -574,14 +576,14 @@ export async function pdfAddImageWatermark(input: PdfAddImageWatermarkInput): Pr
                 buffer: input.watermarkBuffer,
                 format: 'png'
             })
-            
+
             if (!conversionResult.success || !conversionResult.data) {
                 return {
                     success: false,
                     error: `Unsupported image type and conversion failed: ${conversionResult.error || 'Unknown error'}`
                 }
             }
-            
+
             watermarkBuffer = conversionResult.data
             embeddedImage = await pdfDoc.embedPng(watermarkBuffer)
         }
