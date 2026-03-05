@@ -59,7 +59,7 @@ export default function LoadFFmpeg() {
 
     useEffect(() => {
         if (error) {
-            toast.error(error, { id: toastId.current || undefined });
+            toast.error("Error loading ffmpeg", { id: toastId.current || undefined });
             toastId.current = null;
         }
     }, [error]);
