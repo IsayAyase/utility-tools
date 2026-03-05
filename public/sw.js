@@ -1,6 +1,5 @@
 const CACHE_VERSION = "v1";
 const CACHE_NAME = `bladetools-cache-${CACHE_VERSION}`;
-
 const STATIC_ASSETS = /\.(js|css|woff2|woff|ttf|svg|png|ico|webp)$/;
 
 self.addEventListener("install", (event) => {
@@ -23,14 +22,16 @@ self.addEventListener("fetch", (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // don't cache non-GET or external requests
-  if (request.method !== "GET" || url.origin !== self.location.origin) {
-    return;
-  }
+  if (request.method !== "GET" || url.origin !== self.location.origin) return;
 
   event.respondWith(
     caches.match(request).then((cached) => {
-      // serve from cache, but also update cache in background (stale-while-revalidate)
+      // cache-first for static assets, they're hashed and immutable
+      if (STATIC_ASSETS.test(url.pathname) && cached) {
+        return cached;
+      }
+
+      // stale-while-revalidate for HTML pages
       const fetchPromise = fetch(request).then((response) => {
         if (response.ok) {
           caches.open(CACHE_NAME).then((cache) => cache.put(request, response.clone()));
