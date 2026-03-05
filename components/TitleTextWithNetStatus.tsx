@@ -7,7 +7,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export default function TitleTextWithNetStatus() {
     const isOnline = useOnlineStatus();
-    console.log(isOnline);
+    
     return (
         <Link href="/" className="flex items-center gap-2">
             <Tooltip>

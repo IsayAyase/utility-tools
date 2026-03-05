@@ -1,128 +1,68 @@
-import LoadingPage from "@/components/LoadingPage";
 import type { CategoriesWithoutAll } from "@/lib/tools/types";
-import dynamic from "next/dynamic";
-import type { ComponentType, JSX } from "react";
+import type { JSX } from "react";
+import AudioMergePage from "./audio/AudioMergePage";
+import AudioTrimConvertPage from "./audio/AudioTrimConvertPage";
+import Base64EncoderDecoderPage from "./developer/Base64EncoderDecoderPage";
+import CronExpressionBuilderPage from "./developer/CronExpressionBuilderPage";
+import CsvToJsonPage from "./developer/CsvToJsonPage";
+import HashGeneratorPage from "./developer/HashGeneratorPage";
+import JsonToCsvPage from "./developer/JsonToCsvPage";
+import JwtDecoderPage from "./developer/JwtDecoderPage";
+import LoremIpsumGeneratorPage from "./developer/LoremIpsumGeneratorPage";
+import RegexTesterPage from "./developer/RegexTesterPage";
+import UrlEncoderDecoderPage from "./developer/UrlEncoderDecoderPage";
+import UuidGeneratorPage from "./developer/UuidGeneratorPage";
+import YamlToJsonPage from "./developer/YamlToJsonPage";
+import PdfImageWatermarkPage from "./document/PdfImageWatermarkPage";
+import PdfMergePage from "./document/PdfMergePage";
+import PdfMetadataUpdaterPage from "./document/PdfMetadataUpdaterPage";
+import PdfSplitPage from "./document/PdfSplitPage";
+import PdfTextWaterMarkPage from "./document/PdfTextWaterMarkPage";
+import WordToPdfPage from "./document/WordToPdfPage";
+import ImageResizeConvertFormatPage from "./image/ImageResizeConvertFormatPage";
+import ImageToPdfPage from "./image/ImageToPdfPage";
+import ImageTransformPage from "./image/ImageTransformPage";
+import AddSubtitleInVideo from "./video/AddSubtitleInVideo";
+import VideoTrimConvertPage from "./video/VideoTrimConvertPage";
 
-type ToolComponentPage = ComponentType<JSX.IntrinsicElements["div"]>;
+type ToolComponentPage = JSX.Element;
 
 export const toolsPageCompObj: Record<
     CategoriesWithoutAll,
     Record<string, ToolComponentPage>
 > = {
     developer: {
-        url_encoder_decoder: dynamic(
-            () => import("./developer/UrlEncoderDecoderPage"),
-            { ssr: false, loading: () => <LoadingPage /> },
-        ),
-        base64_encoder_decoder: dynamic(
-            () => import("./developer/Base64EncoderDecoderPage"),
-            { ssr: false, loading: () => <LoadingPage /> },
-        ),
-        uuid_generator: dynamic(() => import("./developer/UuidGeneratorPage"), {
-            ssr: false,
-            loading: () => <LoadingPage />,
-        }),
-        lorem_ipsum_generator: dynamic(
-            () => import("./developer/LoremIpsumGeneratorPage"),
-            { ssr: false, loading: () => <LoadingPage /> },
-        ),
-        json_to_csv: dynamic(() => import("./developer/JsonToCsvPage"), {
-            ssr: false,
-            loading: () => <LoadingPage />,
-        }),
-        csv_to_json: dynamic(() => import("./developer/CsvToJsonPage"), {
-            ssr: false,
-            loading: () => <LoadingPage />,
-        }),
-        yaml_to_json: dynamic(() => import("./developer/YamlToJsonPage"), {
-            ssr: false,
-            loading: () => <LoadingPage />,
-        }),
-        hash_generator: dynamic(() => import("./developer/HashGeneratorPage"), {
-            ssr: false,
-            loading: () => <LoadingPage />,
-        }),
-        regex_tester: dynamic(() => import("./developer/RegexTesterPage"), {
-            ssr: false,
-            loading: () => <LoadingPage />,
-        }),
-        cron_expression_builder: dynamic(
-            () => import("./developer/CronExpressionBuilderPage"),
-            { ssr: false, loading: () => <LoadingPage /> },
-        ),
-        jwt_decoder: dynamic(() => import("./developer/JwtDecoderPage"), {
-            ssr: false,
-            loading: () => <LoadingPage />,
-        }),
+        url_encoder_decoder: <UrlEncoderDecoderPage />,
+        base64_encoder_decoder: <Base64EncoderDecoderPage />,
+        uuid_generator: <UuidGeneratorPage />,
+        lorem_ipsum_generator: <LoremIpsumGeneratorPage />,
+        json_to_csv: <JsonToCsvPage />,
+        csv_to_json: <CsvToJsonPage />,
+        yaml_to_json: <YamlToJsonPage />,
+        hash_generator: <HashGeneratorPage />,
+        regex_tester: <RegexTesterPage />,
+        cron_expression_builder: <CronExpressionBuilderPage />,
+        jwt_decoder: <JwtDecoderPage />,
     },
     document: {
-        word_to_pdf: dynamic(() => import("./document/WordToPdfPage"), {
-            ssr: false,
-            loading: () => <LoadingPage />,
-        }),
-        pdf_merge: dynamic(() => import("./document/PdfMergePage"), {
-            ssr: false,
-            loading: () => <LoadingPage />,
-        }),
-        pdf_split: dynamic(() => import("./document/PdfSplitPage"), {
-            ssr: false,
-            loading: () => <LoadingPage />,
-        }),
-        pdf_add_text_watermark: dynamic(
-            () => import("./document/PdfTextWaterMarkPage"),
-            { ssr: false, loading: () => <LoadingPage /> },
-        ),
-        pdf_add_image_watermark: dynamic(
-            () => import("./document/PdfImageWatermarkPage"),
-            { ssr: false, loading: () => <LoadingPage /> },
-        ),
-        pdf_metadata_updater: dynamic(
-            () => import("./document/PdfMetadataUpdaterPage"),
-            { ssr: false, loading: () => <LoadingPage /> },
-        ),
+        word_to_pdf: <WordToPdfPage />,
+        pdf_merge: <PdfMergePage />,
+        pdf_split: <PdfSplitPage />,
+        pdf_add_text_watermark: <PdfTextWaterMarkPage />,
+        pdf_add_image_watermark: <PdfImageWatermarkPage />,
+        pdf_metadata_updater: <PdfMetadataUpdaterPage />,
     },
     image: {
-        image_resize_convert_format: dynamic(
-            () => import("./image/ImageResizeConvertFormatPage"),
-            { ssr: false, loading: () => <LoadingPage /> },
-        ),
-        image_to_pdf: dynamic(() => import("./image/ImageToPdfPage"), {
-            ssr: false,
-            loading: () => <LoadingPage />,
-        }),
-
-        image_transform: dynamic(() => import("./image/ImageTransformPage"), {
-            ssr: false,
-            loading: () => <LoadingPage />,
-        }),
+        image_resize_convert_format: <ImageResizeConvertFormatPage />,
+        image_to_pdf: <ImageToPdfPage />,
+        image_transform: <ImageTransformPage />,
     },
     audio: {
-        audio_trim_convert: dynamic(
-            () => import("./audio/AudioTrimConvertPage"),
-            {
-                ssr: false,
-                loading: () => <LoadingPage />,
-            },
-        ),
-        audio_merge: dynamic(() => import("./audio/AudioMergePage"), {
-            ssr: false,
-            loading: () => <LoadingPage />,
-        }),
+        audio_trim_convert: <AudioTrimConvertPage />,
+        audio_merge: <AudioMergePage />,
     },
     video: {
-        video_trim_convert: dynamic(
-            () => import("./video/VideoTrimConvertPage"),
-            {
-                ssr: false,
-                loading: () => <LoadingPage />,
-            },
-        ),
-        add_subtitle_in_video: dynamic(
-            () => import("./video/AddSubtitleInVideo"),
-            {
-                ssr: false,
-                loading: () => <LoadingPage />,
-            },
-        ),
+        video_trim_convert: <VideoTrimConvertPage />,
+        add_subtitle_in_video: <AddSubtitleInVideo />,
     },
 };

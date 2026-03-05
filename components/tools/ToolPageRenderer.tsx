@@ -3,10 +3,7 @@
 import { type Tool } from "@/lib/tools/types";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { useState } from "react";
 import LoadFFmpeg from "../LoadFFmpeg";
-import ToolErrorBoundary from "./ErrorBountry";
-import OfflineToolFallback from "./OfflineToolFallback";
 import { toolsPageCompObj } from "./tool-dynamic-import";
 
 const ToolPageRenderer = ({
@@ -16,12 +13,6 @@ const ToolPageRenderer = ({
     toolInfo: Tool;
     relatedTools: Tool[];
 }) => {
-    // state change -> trigger re-render -> remount component -> re run dynamic import
-    const [_, setRetryKey] = useState(0);
-    function onRetry() {
-        setRetryKey((p) => p + 1);
-    }
-
     // toolPageCompObj uses dynamic import, ssr: false, client side only
     const Page = toolsPageCompObj[toolInfo.category]?.[toolInfo.slug];
     if (!Page) return notFound();
@@ -58,11 +49,7 @@ const ToolPageRenderer = ({
             </div>
 
             <div className="relative min-h-96 h-full flex items-center justify-center">
-                <ToolErrorBoundary
-                    fallback={<OfflineToolFallback onRetry={onRetry} />}
-                >
-                    <Page />
-                </ToolErrorBoundary>
+                {Page}
             </div>
 
             {/* loading ffmpeg wasm */}
