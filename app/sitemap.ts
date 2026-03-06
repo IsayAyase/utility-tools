@@ -4,17 +4,17 @@ import { MetadataRoute } from "next";
 const BASE_URL = "https://bladetools.prabhatlabs.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const now = new Date();
+    const lastModified = new Date("2026-02-01")
 
     // Static pages
     const staticPages: MetadataRoute.Sitemap = [
         {
             url: BASE_URL,
-            lastModified: now,
+            lastModified,
         },
         {
             url: `${BASE_URL}/tools`,
-            lastModified: now,
+            lastModified,
         },
     ];
 
@@ -22,7 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const categoryPages: MetadataRoute.Sitemap = Object.keys(objectOfTools).map(
         (category) => ({
             url: `${BASE_URL}/tools/${category}`,
-            lastModified: now,
+            lastModified,
         })
     );
 
@@ -31,7 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ([category, data]) =>
             Object.keys(data.tools).map((slug) => ({
                 url: `${BASE_URL}/tools/${category}/${slug}`,
-                lastModified: now,
+                lastModified,
             }))
     );
 
