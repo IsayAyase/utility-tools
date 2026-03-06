@@ -1,6 +1,6 @@
 {
     "documents": {
-        "word_to_pdf": {
+        "word-to-pdf": {
             "priority": 1,
             "status": "DONE",
             "description": "Convert Word document (DOCX) to PDF format - Client-side",
@@ -24,9 +24,9 @@
             },
             "notes": "Limited formatting preservation. Converts DOCX to HTML via Mammoth, then renders to PDF via jsPDF"
         },
-        "pdf_to_word": {
+        "pdf-to-word": {
             "priority": 2,
-            "status": "ON_HOLD",
+            "status": "ON-HOLD",
             "description": "Extract text from PDF to create a basic Word document - Client-side",
             "clientSide": true,
             "dependencies": [
@@ -47,7 +47,7 @@
             },
             "notes": "Text extraction only, no formatting preservation. Creates new DOCX with extracted text"
         },
-        "pdf_merge": {
+        "pdf-merge": {
             "priority": 3,
             "status": "DONE",
             "description": "Merge multiple PDF documents into a single PDF",
@@ -70,7 +70,7 @@
             },
             "notes": "Maintains order of input files. Uses pdf-lib for browser-based merging"
         },
-        "pdf_split": {
+        "pdf-split": {
             "priority": 4,
             "status": "DONE",
             "description": "Split PDF document into individual pages or ranges",
@@ -95,7 +95,7 @@
             },
             "notes": "Can extract specific pages or all pages as separate files. Returns single page PDF"
         },
-        "pdf_add_text_watermark": {
+        "pdf-add-text-watermark": {
             "priority": 5,
             "status": "DONE",
             "description": "Add text watermark to PDF document",
@@ -125,7 +125,7 @@
             },
             "notes": "Customizable text, font, color, opacity, and position using pdf-lib"
         },
-        "pdf_add_image_watermark": {
+        "pdf-add-image-watermark": {
             "priority": 6,
             "status": "DONE",
             "description": "Add image watermark to PDF document",
@@ -154,9 +154,9 @@
             },
             "notes": "Supports PNG, JPEG, WebP watermarks. Embeds image into PDF pages"
         },
-        "pdf_metadata_updater": {
+        "pdf-metadata-updater": {
             "priority": 7,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Updates metadata of a PDF document",
             "clientSide": true,
             "dependencies": [
@@ -176,9 +176,9 @@
             },
             "notes": "Removes author, title, subject, keywords, creator, producer, creation date, modification date"
         },
-        "pdf_compress": {
+        "pdf-compress": {
             "priority": 8,
-            "status": "ON_HOLD",
+            "status": "ON-HOLD",
             "description": "Compress PDF document to reduce file size",
             "clientSide": true,
             "dependencies": [
@@ -204,9 +204,9 @@
         }
     },
     "images": {
-        "image_format_convert": {
+        "image-format-convert": {
             "priority": 1,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Convert image between different formats using Canvas API",
             "clientSide": true,
             "dependencies": [
@@ -231,9 +231,9 @@
             },
             "notes": "Browser Canvas API. Supports JPEG, PNG, WebP, ICO. ICO creates favicon with optional size (16, 32, 48, 64)."
         },
-        "image_compress": {
+        "image-compress": {
             "priority": 2,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Compress image to reduce file size",
             "clientSide": true,
             "dependencies": [
@@ -257,9 +257,9 @@
             },
             "notes": "Uses Canvas API to compress by reducing quality. Simple and lightweight."
         },
-        "image_resize": {
+        "image-resize": {
             "priority": 3,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Resize image to specified dimensions",
             "clientSide": true,
             "dependencies": [
@@ -285,9 +285,9 @@
             },
             "notes": "Uses Canvas API to resize. Maintains aspect ratio by default."
         },
-        "image_transform": {
+        "image-transform": {
             "priority": 4,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Apply crop, rotate, and/or flip transformations to image",
             "clientSide": true,
             "dependencies": [
@@ -312,9 +312,9 @@
             },
             "notes": "Unified function for crop, rotate, and flip. Apply multiple transformations in sequence: crop → rotate → flip. Uses Canvas API"
         },
-        "image_strip_exif": {
+        "image-strip-exif": {
             "priority": 5,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Remove EXIF metadata from image",
             "clientSide": true,
             "dependencies": [
@@ -334,9 +334,9 @@
             },
             "notes": "Removes EXIF by re-encoding image. PNG/WebP naturally strip metadata."
         },
-        "image_dominant_color": {
+        "image-dominant-color": {
             "priority": 6,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Extract dominant color from image",
             "clientSide": true,
             "dependencies": [
@@ -358,9 +358,9 @@
         }
     },
     "audio": {
-        "audio_trim": {
+        "audio-trim": {
             "priority": 1,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Trim audio to specified start and end times - Client-side",
             "clientSide": true,
             "dependencies": [
@@ -382,9 +382,9 @@
             },
             "notes": "Uses Web Audio API. Limited to WAV output in browser. Time in seconds."
         },
-        "audio_merge": {
+        "audio-merge": {
             "priority": 2,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Merge multiple audio files into one - Client-side",
             "clientSide": true,
             "dependencies": [
@@ -404,9 +404,9 @@
             },
             "notes": "Uses Web Audio API to concatenate audio buffers. WAV output only."
         },
-        "audio_format_convert": {
+        "audio-format-convert": {
             "priority": 3,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Convert audio to WAV format - Client-side",
             "clientSide": true,
             "dependencies": [
@@ -426,9 +426,9 @@
             },
             "notes": "Uses Web Audio API to decode and re-encode as WAV. Browser limitation: WAV output only."
         },
-        "audio_volume_boost": {
+        "audio-volume-boost": {
             "priority": 4,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Adjust audio volume",
             "clientSide": true,
             "dependencies": [
@@ -452,9 +452,9 @@
             },
             "notes": "volume: 0-10 multiplier. Uses Web Audio API GainNode."
         },
-        "audio_fade_in_out": {
+        "audio-fade-in-out": {
             "priority": 5,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Add fade in and/or fade out effects to audio",
             "clientSide": true,
             "dependencies": [
@@ -478,9 +478,9 @@
             },
             "notes": "Duration in seconds. Uses Web Audio API gain automation."
         },
-        "audio_speed_change": {
+        "audio-speed-change": {
             "priority": 6,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Change audio playback speed - Client-side",
             "clientSide": true,
             "dependencies": [
@@ -504,9 +504,9 @@
             },
             "notes": "speed: 0.25-4.0 multiplier. Uses playbackRate. preservePitch changes duration only."
         },
-        "audio_reverse": {
+        "audio-reverse": {
             "priority": 7,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Reverse audio playback - Client-side",
             "clientSide": true,
             "dependencies": [
@@ -526,9 +526,9 @@
             },
             "notes": "Reverses audio buffer. Uses Web Audio API."
         },
-        "audio_normalize": {
+        "audio-normalize": {
             "priority": 8,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Normalize audio levels - Client-side",
             "clientSide": true,
             "dependencies": [
@@ -553,9 +553,9 @@
         }
     },
     "video": {
-        "video_trim": {
+        "video-trim": {
             "priority": 1,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Trim video to specified start and end times - Client-side",
             "clientSide": true,
             "dependencies": [
@@ -577,9 +577,9 @@
             },
             "notes": "Uses ffmpeg.wasm (~25MB download). Heavy but powerful. Supports all formats ffmpeg does."
         },
-        "video_format_convert": {
+        "video-format-convert": {
             "priority": 2,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Convert video between different formats - Client-side",
             "clientSide": true,
             "dependencies": [
@@ -606,9 +606,9 @@
         }
     },
     "developer": {
-        "url_encoder_decoder": {
+        "url-encoder-decoder": {
             "priority": 1,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Encode or decode URL strings",
             "clientSide": true,
             "dependencies": [
@@ -631,9 +631,9 @@
             },
             "notes": "mode: 'encode' | 'decode'. Native JS encodeURIComponent/decodeURIComponent"
         },
-        "base64_encoder_decoder": {
+        "base64-encoder-decoder": {
             "priority": 2,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Encode or decode base64 strings",
             "clientSide": true,
             "dependencies": [
@@ -656,9 +656,9 @@
             },
             "notes": "mode: 'encode' | 'decode'. Native btoa/atob with ArrayBuffer support"
         },
-        "uuid_generator": {
+        "uuid-generator": {
             "priority": 3,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Generate UUID (v4) strings",
             "clientSide": true,
             "dependencies": [
@@ -676,9 +676,9 @@
             },
             "notes": "Uses browser crypto.randomUUID() for RFC 4122 compliant UUID v4."
         },
-        "slug_generator": {
+        "slug-generator": {
             "priority": 4,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Generate URL-friendly slugs from text",
             "clientSide": true,
             "dependencies": [
@@ -703,9 +703,9 @@
             },
             "notes": "Converts to lowercase, removes special chars. Native JS regex."
         },
-        "lorem_ipsum_generator": {
+        "lorem-ipsum-generator": {
             "priority": 5,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Generate lorem ipsum dummy text",
             "clientSide": true,
             "dependencies": [
@@ -728,9 +728,9 @@
             },
             "notes": "units: 'words' | 'sentences' | 'paragraphs'. Native JS string manipulation."
         },
-        "json_to_csv": {
+        "json-to-csv": {
             "priority": 6,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Convert JSON data to CSV format",
             "clientSide": true,
             "dependencies": [
@@ -754,9 +754,9 @@
             },
             "notes": "Auto-detects headers from object keys. Native JS string manipulation."
         },
-        "csv_to_json": {
+        "csv-to-json": {
             "priority": 7,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Convert CSV data to JSON format",
             "clientSide": true,
             "dependencies": [
@@ -781,9 +781,9 @@
             },
             "notes": "First row as header by default. Native JS string splitting."
         },
-        "yaml_to_json": {
+        "yaml-to-json": {
             "priority": 8,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Convert YAML data to JSON format",
             "clientSide": true,
             "dependencies": [
@@ -806,9 +806,9 @@
             },
             "notes": "js-yaml works in browser. Safe load by default."
         },
-        "hash_generator_sha256": {
+        "hash-generator-sha256": {
             "priority": 9,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Generate SHA256 hash from string or buffer",
             "clientSide": true,
             "dependencies": [
@@ -831,9 +831,9 @@
             },
             "notes": "Uses SubtleCrypto API. Native browser crypto.subtle.digest."
         },
-        "regex_tester": {
+        "regex-tester": {
             "priority": 10,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Test regex patterns against input strings",
             "clientSide": true,
             "dependencies": [
@@ -858,9 +858,9 @@
             },
             "notes": "Returns matches, groups, and match positions. Native RegExp."
         },
-        "cron_expression_builder": {
+        "cron-expression-builder": {
             "priority": 11,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Build and validate cron expressions",
             "clientSide": true,
             "dependencies": [
@@ -883,9 +883,9 @@
             },
             "notes": "Custom implementation. Returns next execution times and human-readable description."
         },
-        "jwt_decoder": {
+        "jwt-decoder": {
             "priority": 12,
-            "status": "TESTING_LEFT",
+            "status": "TESTING-LEFT",
             "description": "Decode JWT tokens (payload only, no verify)",
             "clientSide": true,
             "dependencies": [

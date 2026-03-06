@@ -33,8 +33,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
             darkBgColor: "#1565C0"
         },
         tools: {
-            "word_to_pdf": {
-                slug: "word_to_pdf",
+            "word-to-pdf": {
+                slug: "word-to-pdf",
                 name: "Word to PDF Converter",
                 description: "Seamlessly convert DOCX and Word documents to PDF with BladeTools. High-quality conversion with built-in compression for optimized file sizes.",
                 category: "document",
@@ -44,8 +44,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#E3F2FD",
                 darkBgColor: "#1565C0"
             },
-            "pdf_merge": {
-                slug: "pdf_merge",
+            "pdf-merge": {
+                slug: "pdf-merge",
                 name: "PDF Merge & Combine",
                 description: "Combine multiple PDF files into one. Arrange, reorder, and merge your documents instantly without them ever leaving your device.",
                 category: "document",
@@ -55,8 +55,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#F3E5F5",
                 darkBgColor: "#7B1FA2"
             },
-            "pdf_split": {
-                slug: "pdf_split",
+            "pdf-split": {
+                slug: "pdf-split",
                 name: "PDF Splitter & Page Extractor",
                 description: "Break large PDFs into smaller files or extract specific pages. BladeTools gives you precise control over your document structure locally.",
                 category: "document",
@@ -66,8 +66,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#E8F5E9",
                 darkBgColor: "#388E3C"
             },
-            "pdf_add_text_watermark": {
-                slug: "pdf_add_text_watermark",
+            "pdf-add-text-watermark": {
+                slug: "pdf-add-text-watermark",
                 name: "Add Text Watermark to PDF",
                 description: "Secure your documents by overlaying custom text watermarks. Ideal for copyrighting, branding, or marking files as 'Confidential'.",
                 category: "document",
@@ -77,8 +77,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#FFF3E0",
                 darkBgColor: "#F57C00"
             },
-            "pdf_add_image_watermark": {
-                slug: "pdf_add_image_watermark",
+            "pdf-add-image-watermark": {
+                slug: "pdf-add-image-watermark",
                 name: "Add Image Watermark to PDF",
                 description: "Apply company logos or transparent stamps to all pages of your PDF. Professional branding processed safely in your browser.",
                 category: "document",
@@ -88,8 +88,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#E0F2F1",
                 darkBgColor: "#00796B"
             },
-            "pdf_metadata_updater": {
-                slug: "pdf_metadata_updater",
+            "pdf-metadata-updater": {
+                slug: "pdf-metadata-updater",
                 name: "PDF Metadata Editor",
                 description: "Clean or update document properties. Edit titles, authors, and keywords to improve your document's professional presentation and SEO.",
                 category: "document",
@@ -114,8 +114,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
             darkBgColor: "#3949AB"
         },
         tools: {
-            "image_resize_convert_format": {
-                slug: "image_resize_convert_format",
+            "image-resize-convert-format": {
+                slug: "image-resize-convert-format",
                 name: "Image Resize & Format Converter",
                 description: "Batch resize images and switch between JPG, PNG, WebP, and ICO formats without losing quality. Fast, local, and secure.",
                 category: "image",
@@ -125,8 +125,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#E1F5FE",
                 darkBgColor: "#0277BD"
             },
-            "image_to_pdf": {
-                slug: "image_to_pdf",
+            "image-to-pdf": {
+                slug: "image-to-pdf",
                 name: "Image to PDF Converter",
                 description: "Convert your gallery into a professional PDF document. Perfect for portfolios, receipts, and multi-page document creation.",
                 category: "image",
@@ -136,8 +136,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#FFEBEE",
                 darkBgColor: "#C62828"
             },
-            "image_transform": {
-                slug: "image_transform",
+            "image-transform": {
+                slug: "image-transform",
                 name: "Image Transform & Edit Tool",
                 description: "Crop to specific ratios, rotate, or flip your images with BladeTools' high-precision browser-based editing suite.",
                 category: "image",
@@ -162,8 +162,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
             darkBgColor: "#AD1457"
         },
         tools: {
-            "audio_trim_convert": {
-                slug: "audio_trim_convert",
+            "audio-trim-convert": {
+                slug: "audio-trim-convert",
                 name: "Audio Trim & Convert",
                 description: "Create ringtones or clips. Trim audio files with millisecond precision and convert to any format including MP3, WAV, and OGG.",
                 category: "audio",
@@ -173,8 +173,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#FCE4EC",
                 darkBgColor: "#AD1457"
             },
-            "audio_merge": {
-                slug: "audio_merge",
+            "audio-merge": {
+                slug: "audio-merge",
                 name: "Audio Merge & Combine",
                 description: "Stitch multiple audio tracks together. Seamlessly combine files into a single high-quality export for podcasts or music.",
                 category: "audio",
@@ -199,8 +199,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
             darkBgColor: "#303F9F"
         },
         tools: {
-            "video_trim_convert": {
-                slug: "video_trim_convert",
+            "video-trim-convert": {
+                slug: "video-trim-convert",
                 name: "Video Trim & Convert",
                 description: "Quickly cut unwanted parts from your videos. Convert between MP4, MKV, and WebM formats with optimized speed.",
                 category: "video",
@@ -210,8 +210,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#C5CAE9",
                 darkBgColor: "#303F9F"
             },
-            // "add_subtitle_in_video": {
-            //     slug: "add_subtitle_in_video",
+            // "add-subtitle-in-video": {
+            //     slug: "add-subtitle-in-video",
             //     name: "Add Subtitle In Video",
             //     description: "Hardcode subtitles directly into your video files so they play on any device. Fast, local, and permanent subtitle embedding.",
             //     category: "video",
@@ -234,8 +234,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
             darkBgColor: "#0097A7"
         },
         tools: {
-            "url_encoder_decoder": {
-                slug: "url_encoder_decoder",
+            "url-encoder-decoder": {
+                slug: "url-encoder-decoder",
                 name: "URL Encoder/Decoder",
                 description: "Encode or decode URLs and query parameters. Handle special characters safely with this essential web development tool.",
                 category: "developer",
@@ -245,8 +245,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#B3E5FC",
                 darkBgColor: "#0097A7"
             },
-            "base64_encoder_decoder": {
-                slug: "base64_encoder_decoder",
+            "base64-encoder-decoder": {
+                slug: "base64-encoder-decoder",
                 name: "Base64 Encoder/Decoder",
                 description: "Convert text to Base64 and back. Essential for encoding binary data for transmission over text-based protocols.",
                 category: "developer",
@@ -256,8 +256,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#DCEDC8",
                 darkBgColor: "#558B2F"
             },
-            "uuid_generator": {
-                slug: "uuid_generator",
+            "uuid-generator": {
+                slug: "uuid-generator",
                 name: "UUID Generator",
                 description: "Generate version 4 UUIDs (Universally Unique Identifiers) instantly. Perfect for database keys, session IDs, and unique identifiers.",
                 category: "developer",
@@ -267,8 +267,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#FFE0B2",
                 darkBgColor: "#E65100"
             },
-            "lorem_ipsum_generator": {
-                slug: "lorem_ipsum_generator",
+            "lorem-ipsum-generator": {
+                slug: "lorem-ipsum-generator",
                 name: "Lorem Ipsum Generator",
                 description: "Generate placeholder text for your designs and layouts. Choose between words, sentences, or paragraphs.",
                 category: "developer",
@@ -278,8 +278,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#F8BBD9",
                 darkBgColor: "#6A1B9A"
             },
-            "json_to_csv": {
-                slug: "json_to_csv",
+            "json-to-csv": {
+                slug: "json-to-csv",
                 name: "JSON to CSV Converter",
                 description: "Convert JSON arrays to CSV format with customizable delimiters. Perfect for data export and spreadsheet integration.",
                 category: "developer",
@@ -289,8 +289,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#B2DFDB",
                 darkBgColor: "#00695C"
             },
-            "csv_to_json": {
-                slug: "csv_to_json",
+            "csv-to-json": {
+                slug: "csv-to-json",
                 name: "CSV to JSON Converter",
                 description: "Transform CSV data into JSON format. Supports headers, custom delimiters, and automatic number parsing.",
                 category: "developer",
@@ -300,8 +300,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#FFCCBC",
                 darkBgColor: "#BF360C"
             },
-            "yaml_to_json": {
-                slug: "yaml_to_json",
+            "yaml-to-json": {
+                slug: "yaml-to-json",
                 name: "YAML to JSON Converter",
                 description: "Convert YAML configuration files to JSON format. Useful for DevOps, Docker Compose, and Kubernetes configurations.",
                 category: "developer",
@@ -311,8 +311,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#C8E6C9",
                 darkBgColor: "#2E7D32"
             },
-            "hash_generator": {
-                slug: "hash_generator",
+            "hash-generator": {
+                slug: "hash-generator",
                 name: "Hash Generator (SHA)",
                 description: "Generate cryptographic hashes using SHA-256, SHA-384, or SHA-512. Verify file integrity and create secure checksums.",
                 category: "developer",
@@ -322,8 +322,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#D7CCC8",
                 darkBgColor: "#4E342E"
             },
-            "regex_tester": {
-                slug: "regex_tester",
+            "regex-tester": {
+                slug: "regex-tester",
                 name: "Regex Tester",
                 description: "Test and debug regular expressions with real-time matching. Supports flags, groups, and replacement operations.",
                 category: "developer",
@@ -333,8 +333,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#B0BEC5",
                 darkBgColor: "#455A64"
             },
-            "cron_expression_builder": {
-                slug: "cron_expression_builder",
+            "cron-expression-builder": {
+                slug: "cron-expression-builder",
                 name: "Cron Expression Parser",
                 description: "Parse and understand cron expressions. See human-readable descriptions and upcoming execution times.",
                 category: "developer",
@@ -344,8 +344,8 @@ export const objectOfTools: Record<CategoriesWithoutAll, CategoryType> = {
                 lightBgColor: "#FFF9C4",
                 darkBgColor: "#F9A825"
             },
-            "jwt_decoder": {
-                slug: "jwt_decoder",
+            "jwt-decoder": {
+                slug: "jwt-decoder",
                 name: "JWT Decoder",
                 description: "Decode JSON Web Tokens to inspect headers and payloads. Useful for debugging authentication and API tokens.",
                 category: "developer",
