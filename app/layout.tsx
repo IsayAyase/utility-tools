@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@/components/ThemeProviders";
 import { Toaster } from "@/components/ui/sonner";
 import { mainData } from "@/contents/mainData";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { ubuntu } from "./fonts";
 import "./globals.css";
@@ -78,6 +79,7 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
             <body className={`${ubuntu.className} antialiased`}>
                 <ServiceWorkRegister />
+                <Analytics />
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"
