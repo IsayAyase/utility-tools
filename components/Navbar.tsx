@@ -31,7 +31,7 @@ export default function Navbar() {
                         </Button>
                     </Link>
 
-                    <Link target="_blank" href={"https://github.com/IsayAyase"}>
+                    <Link target="_blank" href={"https://github.com/IsayAyase/utility-tools"}>
                         <Button size={"icon-sm"} variant="outline">
                             <FaGithub />
                         </Button>
