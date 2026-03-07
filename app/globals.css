@@ -148,6 +148,21 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Global scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--muted);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--muted-foreground);
+    border-radius: var(--radius-md);
+  }
 }
 
 .animate-move-l-r {
@@ -165,24 +180,8 @@ body {
 }
 
 .thin-scroll-bar {
-  /* width */
+  /* Override global styles for specific cases */
   &::-webkit-scrollbar {
-    width: 2px;
-  }
-
-  /* Track */
-  &::-webkit-scrollbar-track {
-    background: var(--color-background);
-  }
-
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    background: var(--color-primary);
-    border-radius: var(--radius-md);
-  }
-
-  /* Handle on hover */
-  &::-webkit-scrollbar-thumb:hover {
-    background: var(--color-primary-foreground);
+    width: 4px;
   }
 }
