@@ -5,7 +5,7 @@ export default function CategorySection() {
     const categories = Object.entries(objectOfTools);
 
     return (
-        <section className="my-10 md:mt-20 md:mb-25">
+        <section className="my-12 md:mt-25 md:mb-30">
             <h2 className="text-2xl font-light mb-6">Categories</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 {categories.map(([slug, category], index) => (

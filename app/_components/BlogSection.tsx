@@ -6,9 +6,9 @@ import BlogItemCard from "../blogs/_components/BlogItemCard";
 export default function BlogSection() {
     const blogs = getAllBlogs(3);
     return (
-        <div className="my-10 md:my-20 grid grid-cols-1">
+        <div className="my-12 md:mt-25 md:mb-6 grid grid-cols-1 gap-6">
             <h3 className="text-2xl font-light">Blogs</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {blogs.map((post, index) => (
                     <BlogItemCard
                         key={post.slug}
@@ -21,7 +21,7 @@ export default function BlogSection() {
                     />
                 ))}
             </div>
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center my-6">
                 <Link href="/blogs">
                     <Button variant={"outline"}>More Blogs</Button>
                 </Link>
