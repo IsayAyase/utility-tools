@@ -1,6 +1,6 @@
 import { mainData } from "@/contents/mainData";
-import Link from "next/link";
 import { racingSansOne } from "../fonts";
+import CTAButton from "./CTAButton";
 import HoverEffectText from "./HowerEffectText";
 
 export default function HeroSection() {
@@ -78,7 +78,7 @@ export default function HeroSection() {
                             className={`${racingSansOne.className} text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-center cursor-default`}
                         >
                             <HoverEffectText text={"Blade"} />
-                            <span className="dark:text-red-500">Tools</span>
+                            <span className="text-red-500">Tools</span>
                         </h1>
                         {/* <div className="w-full h-0.5 md:h-1 lg:h-2 bg-background rounded-full absolute top-1/2 -translate-y-1/2" /> */}
                         <div className="hidden bottom-0 left-0 w-full h-16 sm:h-18 md:h-26 lg:h-34">
@@ -153,16 +153,7 @@ export default function HeroSection() {
 
                     {/* cta button */}
                     <div className="flex justify-center py-14 overflow-hidden">
-                        <Link href={mainData.ctaBtn.url}>
-                            <button
-                                className={`w-50 md:w-55 lg:w-60 py-2 relative hover:scale-[102%] transition-all duration-200 border bg-foreground font-medium text-background rounded-lg`}
-                            >
-                                <span className="">{mainData.ctaBtn.text}</span>
-
-                                <span className="h-4 w-15 bg-background/20 absolute rotate-125 -left-60 animate-move-l-r" />
-                                <span className="h-4 w-15 bg-background/10 absolute rotate-125 -left-60 animate-move-l-r translate-x-6" />
-                            </button>
-                        </Link>
+                        <CTAButton />
                     </div>
 
                     {/* more tools alert style card */}
