@@ -40,10 +40,10 @@ export default function FAQSection() {
         <section className="my-12 md:my-25">
             <div className="grid grid-cols-1 lg:grid-cols-2 sm:gap-8 lg:gap-12">
                 <div className="flex flex-col justify-center">
-                    <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center mb-6">
+                    <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center mb-4">
                         <MdHelpOutline className="w-10 h-10 text-red-500" />
                     </div>
-                    <h2 className="text-3xl font-light mb-4">Got Questions?</h2>
+                    <h2 className="text-2xl font-light mb-2">Got Questions?</h2>
                     <p className="text-muted-foreground mb-6">
                         {`We're here to help. Find answers to the most common
                         questions about BladeTools and our privacy-first
