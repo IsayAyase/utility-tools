@@ -109,7 +109,7 @@ export function formatDuration(seconds: number): string {
   return `${m}:${s.toString().padStart(2, '0')}`
 }
 
-export function getRelatedToolsByKeywords(Kws: string[], slugToSkip: string | null = null, maxPosts: number = 4): Tool[] {
+export function getRelatedToolsByKeywords(Kws: string[], slugToSkip: string | null = null, max: number = 4): Tool[] {
   const tools = toolsArray
   type ListOfToolsItemWithScore = Tool & { score: number };
 
@@ -138,7 +138,7 @@ export function getRelatedToolsByKeywords(Kws: string[], slugToSkip: string | nu
 
   for (const post of toolWithScore) {
     matchings.push(post);
-    if (matchings.length === maxPosts) break;
+    if (matchings.length === max) break;
   }
   return matchings;
 }

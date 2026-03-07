@@ -6,7 +6,7 @@ import type { ListOfBlogPostsItem } from "@/lib/blogs/types";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BlogItemCard from "./BlogItemCard";
 
 const PAGE_SIZE = 10;
@@ -22,10 +22,27 @@ export default function BlogsPage({
     const router = useRouter();
 
     const [selectedTag, setSelectedTag] = useState<string | null>(null);
+    const [showAllTags, setShowAllTags] = useState(false);
+    const tagsRef = useRef<HTMLDivElement>(null);
+    const [hasOverflow, setHasOverflow] = useState(false);
     const [blogsToRender, setBlogsToRender] =
         useState<ListOfBlogPostsItem[]>(blogs);
     const [filteredBlogs, setFilteredBlogs] =
         useState<ListOfBlogPostsItem[]>(blogs);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (tagsRef.current) {
+                const el = tagsRef.current;
+                const originalMaxHeight = el.style.maxHeight;
+                el.style.maxHeight = "none";
+                const hasOverflow = el.scrollHeight > 78;
+                el.style.maxHeight = originalMaxHeight;
+                setHasOverflow(hasOverflow);
+            }
+        }, 0);
+        return () => clearTimeout(timer);
+    }, [tags]);
 
     const currentPage = Number(searchParams.get("page")) || 1;
     const totalPages = Math.ceil(filteredBlogs.length / PAGE_SIZE);
@@ -80,20 +97,37 @@ export default function BlogsPage({
                     about the development of the service, new features, and
                     guides on how to use the tools.
                 </p>
-                <div className="flex items-center gap-2 flex-wrap text-xs mb-8">
+                <div className="flex items-center gap-1.5 flex-wrap text-xs mb-8">
                     <h5 className="text-muted-foreground text-sm italic mb-1">
                         Tags:
                     </h5>
-                    {tags.map((t, i) => (
-                        <Link key={i} href={`?tag=${t}`}>
-                            <Badge
-                                className="cursor-pointer"
-                                variant={"outline"}
-                            >
-                                {t}
-                            </Badge>
-                        </Link>
-                    ))}
+                    <div
+                        ref={tagsRef}
+                        className="flex items-center gap-1.5 flex-wrap transition-all duration-300 overflow-hidden"
+                        style={{
+                            maxHeight: showAllTags ? "500px" : "78px",
+                        }}
+                    >
+                        {tags.map((t, i) => (
+                            <Link key={i} href={`?tag=${t}`}>
+                                <Badge
+                                    className="cursor-pointer"
+                                    variant={"outline"}
+                                >
+                                    {t}
+                                </Badge>
+                            </Link>
+                        ))}
+                    </div>
+                    {hasOverflow && (
+                        <Button
+                            variant={"link"}
+                            className="text-xs h-auto p-0 text-muted-foreground ml-2.5"
+                            onClick={() => setShowAllTags(!showAllTags)}
+                        >
+                            {showAllTags ? "Show less" : "Show all"}
+                        </Button>
+                    )}
                 </div>
             </div>
 

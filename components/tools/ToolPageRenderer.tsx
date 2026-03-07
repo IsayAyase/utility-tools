@@ -4,6 +4,7 @@ import { type Tool } from "@/lib/tools/types";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import LoadFFmpeg from "../LoadFFmpeg";
+import { Badge } from "../ui/badge";
 import { toolsPageCompObj } from "./tool-dynamic-import";
 
 const ToolPageRenderer = ({
@@ -33,22 +34,20 @@ const ToolPageRenderer = ({
                 </p>
             </div>
 
-            <div className="flex items-center gap-2 flex-wrap text-xs mb-8">
-                <h5 className="text-muted-foreground text-sm italic mb-1">
+            <div className="flex items-center gap-1.5 overflow-x-auto py-2">
+                <span className="text-muted-foreground text-sm italic shrink-0">
                     Related tools:
-                </h5>
+                </span>
                 {relatedTools.map((t, i) => (
-                    <Link
-                        key={i}
-                        href={`/tools/${t.category}/${t.slug}`}
-                        className="px-2 rounded-full bg-secondary hover:bg-background transition-colors duration-150 border"
-                    >
-                        {t.name}
+                    <Link key={i} href={`/tools/${t.category}/${t.slug}`} className="">
+                        <Badge className="cursor-pointer whitespace-nowrap" variant={"outline"}>
+                            {t.name}
+                        </Badge>
                     </Link>
                 ))}
             </div>
 
-            <div className="relative min-h-96 h-full flex items-center justify-center">
+            <div className="relative min-h-96 h-full flex items-center justify-center mt-6">
                 {Page}
             </div>
 

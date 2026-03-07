@@ -38,7 +38,7 @@ export default function BlogItemCard({
                             </span>
                         )}
                     </CardDescription>
-                    <CardDescription className="flex items-center gap-1 text-muted-foreground text-sm">
+                    <CardDescription className="flex flex-wrap items-center gap-1 text-muted-foreground text-sm">
                         <span>
                             {post.metadata.date
                                 ? new Date(
