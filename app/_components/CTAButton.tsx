@@ -155,11 +155,12 @@ export default function CTAButton() {
     return (
         <Link href={mainData.ctaBtn.url}>
             <motion.button
-                className="relative w-50 md:w-55 lg:w-60 py-3 rounded-lg bg-background text-foreground overflow-hidden cursor-pointer border"
+                className="relative w-50 md:w-55 lg:w-60 h-15 py-3 rounded-lg bg-background text-foreground overflow-hidden cursor-pointer border group"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 whileTap={{ scale: 0.97 }}
+                whileHover="hovered"
             >
                 {darkBlobs.map((blob, i) => (
                     <motion.div
@@ -173,7 +174,6 @@ export default function CTAButton() {
                             right: "right" in blob ? blob.right : undefined,
                             borderRadius: "50%",
                             filter: `blur(${blob.blur}px)`,
-                            // dark: use original color, light: use pastel via CSS variable trick
                             background: `radial-gradient(circle, var(--blob-color-${i}) 0%, transparent 70%)`,
                         }}
                         animate={{
@@ -189,7 +189,6 @@ export default function CTAButton() {
                     />
                 ))}
 
-                {/* Inline style block for per-theme blob colors */}
                 <style>{`
                     :root {
                         ${darkBlobs.map((b, i) => `--blob-color-${i}: ${b.light};`).join("\n")}
@@ -199,13 +198,13 @@ export default function CTAButton() {
                     }
                 `}</style>
 
-                {/* Light mode: soft white overlay to pastelify */}
+                {/* Light mode overlay */}
                 <div
                     className="absolute inset-0 rounded-lg pointer-events-none block dark:hidden"
                     style={{ background: "rgba(255,255,255,0.45)" }}
                 />
 
-                {/* Fade mask — keeps top clean */}
+                {/* Fade mask */}
                 <div
                     className="absolute inset-0 rounded-lg pointer-events-none"
                     style={{
@@ -214,22 +213,29 @@ export default function CTAButton() {
                     }}
                 />
 
-                {/* Shimmer on hover */}
+                {/* Shimmer — parent hover driven */}
                 <motion.div
                     className="absolute inset-0 rounded-lg pointer-events-none"
                     initial={{ x: "-100%", opacity: 0 }}
-                    whileHover={{ x: "100%", opacity: 1 }}
-                    transition={{ duration: 0.55, ease: "easeInOut" }}
+                    variants={{
+                        hovered: {
+                            x: ["-100%", "200%", "-100%"],
+                            opacity: 1,
+                            transition: {
+                                duration: 1.5,
+                                ease: "easeInOut",
+                                delay: 0.1,
+                            },
+                        },
+                    }}
                     style={{
                         background:
-                            "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.07) 50%, transparent 60%)",
+                            "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.18) 45%, rgba(255,255,255,0.28) 50%, rgba(255,255,255,0.18) 55%, transparent 65%)",
                     }}
                 />
 
                 <motion.span
-                    className="relative z-10 font-medium tracking-wide"
-                    style={{ fontSize: "14px" }}
-                    whileHover={{ fontSize: "15px" }}
+                    className="relative z-10 font-medium tracking-wide text-sm group-hover:text-base transition-all duration-300"
                     transition={{ duration: 0.2, ease: "easeOut" }}
                 >
                     {mainData.ctaBtn.text}

@@ -15,7 +15,7 @@ export default function LayoutWrapper({
         <div className="w-full">
             <div className="min-h-dvh">
                 <Navbar />
-                <div className={cn("h-full max-w-7xl mx-auto px-4 md:px-6 2xl:px-0 py-4", className)}>
+                <div className={cn(" mt-22 h-full max-w-7xl mx-auto px-4 md:px-6 2xl:px-0 py-4", className)}>
                     {children}
                 </div>
             </div>

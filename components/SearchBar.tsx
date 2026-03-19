@@ -45,7 +45,7 @@ export default function SearchBar({ toolsData }: { toolsData: Tool[] }) {
             >
                 <ComboboxInput
                     ref={inputRef}
-                    className={"h-7.5"}
+                    className={"h-7.5 bg-transparent dark:bg-transparent"}
                     placeholder="Search Tools (Ctrl + K)"
                 />
                 <ComboboxContent className={"border"}>

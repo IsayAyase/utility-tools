@@ -89,7 +89,7 @@ export default function FileCard({
     const cardContent = (
         <motion.div
             className={cn(
-                "relative w-full h-full aspect-3/4 rounded-lg border bg-card overflow-hidden cursor-pointer hover:scale-[101%] hover:shadow-md transition-all duration-300",
+                "relative w-full h-full aspect-3/4 rounded-lg border bg-transparent backdrop-blur-[2px] overflow-hidden cursor-pointer hover:scale-[101%] hover:shadow-md transition-all duration-300",
                 className,
             )}
             onMouseMove={handleMouseMove}

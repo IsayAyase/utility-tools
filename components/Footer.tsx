@@ -10,12 +10,12 @@ import { SiBuymeacoffee } from "react-icons/si";
 
 export default function Footer() {
     return (
-        <footer className="px-6 md:px-8 xl:px-20 py-8 md:py-12 mt-12 md:mt-20 relative border-t bg-background">
+        <footer className="px-6 md:px-8 xl:px-20 py-8 md:py-12 mt-12 md:mt-20 relative bg-background mask-t-from-0%">
             <div className="max-w-7xl mx-auto">
                 <div className="flex justify-between items-center">
                     <h1
                         className={`${racingSansOne.className}
-                        text-muted-foreground
+                        text-foreground/80
                         whitespace-nowrap
                         tracking-tighter
                         leading-none
