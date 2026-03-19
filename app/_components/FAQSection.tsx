@@ -38,7 +38,7 @@ const faqs = [
 export default function FAQSection() {
     return (
         <section className="my-12 md:my-25">
-            <div className="grid grid-cols-1 lg:grid-cols-2 sm:gap-8 lg:gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
                 <div className="flex flex-col justify-center">
                     <div className="w-20 h-20 rounded-full bg-red-500/10 backdrop-blur-[2px] flex items-center justify-center mb-4">
                         <MdHelpOutline className="w-10 h-10 text-red-500" />

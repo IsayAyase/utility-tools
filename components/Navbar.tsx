@@ -12,7 +12,7 @@ import TitleTextWithNetStatus from "./TitleTextWithNetStatus";
 import ToogleMode from "./ToogleMode";
 import { Button } from "./ui/button";
 
-const SCROLL_THRESHOLD = 500;
+const SCROLL_THRESHOLD = 200;
 
 export default function Navbar() {
     const [progress, setProgress] = useState(0); // 0 = top, 1 = fully scrolled
@@ -31,7 +31,7 @@ export default function Navbar() {
     const lerp = (start: number, end: number) =>
         start + (end - start) * progress;
 
-    const maxWidth = lerp(1920, 768); // ~max-w-9xl -> ~max-w-3xl
+    const maxWidth = lerp(1500, 768); // ~max-w-9xl -> ~max-w-3xl
     const shadowOpacity = lerp(0, 0.15);
 
     return (
@@ -50,8 +50,11 @@ export default function Navbar() {
                     <SearchBar toolsData={toolsArray} />
 
                     <Link href={"/tools"}>
-                        <Button size={"sm"} variant="outline" className="bg-transparent">
+                        <Button size={"sm"} variant="outline" className="bg-transparent hidden md:block">
                             <span>Tools</span>
+                            <Wrench />
+                        </Button>
+                        <Button size={"icon-sm"} variant="outline" className="bg-transparent md:hidden">
                             <Wrench />
                         </Button>
                     </Link>
@@ -65,6 +68,7 @@ export default function Navbar() {
                     <Link
                         target="_blank"
                         href={"https://github.com/IsayAyase/utility-tools"}
+                        className="hidden md:block"
                     >
                         <Button size={"icon-sm"} variant="outline" className="bg-transparent">
                             <FaGithub />

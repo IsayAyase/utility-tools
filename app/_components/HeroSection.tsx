@@ -10,7 +10,7 @@ export default function HeroSection() {
                 <div>
                     {/* top text */}
                     <div className="flex flex-col items-center justify-center sm:gap-1 md:gap-2 lg:gap-4">
-                        <h2 className="font-semibold text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl cursor-default">
+                        <h2 className="font-semibold text-center text-xl sm:text-2xl md:text-4xl lg:text-5xl cursor-default">
                             <HoverEffectText text="Your files" />
                             <span className="text-red-500">.</span>{" "}
                             <HoverEffectText text="Your device" />
@@ -18,7 +18,7 @@ export default function HeroSection() {
                             <HoverEffectText text="Period" />
                             <span className="text-red-500">.</span>
                         </h2>
-                        <p className="text-center text-sm sm:text-base md:text-lg lg:text-xl">
+                        <p className="text-center text-xs sm:text-sm md:text-lg lg:text-xl">
                             {mainData.subHeroLine}
                         </p>
                     </div>
