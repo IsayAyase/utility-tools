@@ -18,7 +18,7 @@ export default function BlogSection() {
                                 ? "md:col-span-2 md:h-full lg:col-span-1"
                                 : ""
                         }
-                        className="backdrop-blur-[2px] bg-transparent"
+                        className="backdrop-blur-xs bg-transparent"
                     />
                 ))}
             </div>

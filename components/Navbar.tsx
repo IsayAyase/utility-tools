@@ -12,7 +12,7 @@ import TitleTextWithNetStatus from "./TitleTextWithNetStatus";
 import ToogleMode from "./ToogleMode";
 import { Button } from "./ui/button";
 
-const SCROLL_THRESHOLD = 200;
+const SCROLL_THRESHOLD = 500;
 
 export default function Navbar() {
     const [progress, setProgress] = useState(0); // 0 = top, 1 = fully scrolled
@@ -31,7 +31,7 @@ export default function Navbar() {
     const lerp = (start: number, end: number) =>
         start + (end - start) * progress;
 
-    const maxWidth = lerp(1500, 768); // ~max-w-9xl -> ~max-w-3xl
+    const maxWidth = lerp(1280, 768);
     const shadowOpacity = lerp(0, 0.15);
 
     return (
@@ -42,7 +42,7 @@ export default function Navbar() {
                     boxShadow: `0 4px 24px rgba(0,0,0,${shadowOpacity})`,
                     width: "100%",
                 }}
-                className="backdrop-blur-xs bg-white/15 dark:bg-white/10 border rounded-lg p-4 pl-6 flex items-center justify-between transition-none"
+                className="backdrop-blur-lg bg-white/10 dark:bg-white/5 border rounded-lg p-4 pl-6 flex items-center justify-between transition-none"
             >
                 <TitleTextWithNetStatus />
 
@@ -50,7 +50,7 @@ export default function Navbar() {
                     <SearchBar toolsData={toolsArray} />
 
                     <Link href={"/tools"}>
-                        <Button size={"sm"} variant="outline" className="bg-transparent hidden md:block">
+                        <Button size={"sm"} variant="outline" className="bg-transparent hidden md:flex">
                             <span>Tools</span>
                             <Wrench />
                         </Button>

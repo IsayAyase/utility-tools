@@ -130,7 +130,7 @@ export default function ToolCard({
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
-                <Card className="h-full hover:scale-[101%] shadow-md transition-all duration-300 justify-between relative overflow-hidden bg-card/5 backdrop-blur-[2px] gap-0">
+                <Card className="h-full hover:scale-[101%] shadow-md transition-all duration-300 justify-between relative overflow-hidden bg-card/5 backdrop-blur-xs gap-0">
                     {/* Light mode background overlay */}
                     <div
                         className="absolute inset-0 pointer-events-none dark:hidden"

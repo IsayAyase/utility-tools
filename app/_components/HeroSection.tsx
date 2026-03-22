@@ -34,7 +34,7 @@ export default function HeroSection() {
 
                     {/* bottom feature grid */}
                     <div className="py-4 relative"> 
-                        <div className="grid grid-cols-1 md:grid-cols-3 mask-l-from-90% mask-r-from-90% backdrop-blur-[2px]">
+                        <div className="grid grid-cols-1 md:grid-cols-3 mask-l-from-90% mask-r-from-90% backdrop-blur-xs">
                             {mainData.features.map((feature, index) => (
                                 <div
                                     key={index}

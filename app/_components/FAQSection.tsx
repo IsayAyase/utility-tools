@@ -40,7 +40,7 @@ export default function FAQSection() {
         <section className="my-12 md:my-25">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
                 <div className="flex flex-col justify-center">
-                    <div className="w-20 h-20 rounded-full bg-red-500/10 backdrop-blur-[2px] flex items-center justify-center mb-4">
+                    <div className="w-20 h-20 rounded-full bg-red-500/10 backdrop-blur-xs flex items-center justify-center mb-4">
                         <MdHelpOutline className="w-10 h-10 text-red-500" />
                     </div>
                     <h2 className="text-2xl font-light mb-2">Got Questions?</h2>
@@ -50,7 +50,7 @@ export default function FAQSection() {
                         approach to file processing.`}
                     </p>
                     <div className="grid grid-cols-2 gap-4">
-                        <div className="p-4 rounded-lg backdrop-blur-[2px] border">
+                        <div className="p-4 rounded-lg backdrop-blur-xs border">
                             <div className="text-2xl font-semibold text-red-500">
                                 100%
                             </div>
@@ -58,7 +58,7 @@ export default function FAQSection() {
                                 Client-Side
                             </div>
                         </div>
-                        <div className="p-4 rounded-lg backdrop-blur-[2px] border">
+                        <div className="p-4 rounded-lg backdrop-blur-xs border">
                             <div className="text-2xl font-semibold text-red-500">
                                 0
                             </div>
@@ -68,7 +68,7 @@ export default function FAQSection() {
                         </div>
                     </div>
                 </div>
-                <div className="px-6 py-4 border backdrop-blur-[2px] rounded-lg">
+                <div className="px-6 py-4 border backdrop-blur-xs rounded-lg">
                     <Accordion type="single" collapsible className="w-full">
                         {faqs.map((faq, index) => (
                             <AccordionItem key={index} value={`item-${index}`}>
