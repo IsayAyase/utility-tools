@@ -23,60 +23,60 @@ BladeTools is a web application providing a comprehensive suite of tools for pro
 
 | Tool | Description | Status |
 |------|-------------|--------|
-| Word to PDF | Convert DOCX to PDF via Mammoth + jsPDF | ✅ Done |
-| PDF Merge | Combine multiple PDFs using pdf-lib | ✅ Done |
-| PDF Split | Extract specific pages from PDFs | ✅ Done |
-| PDF Text Watermark | Add customizable text watermarks | ✅ Done |
-| PDF Image Watermark | Add image watermarks (PNG, JPEG, WebP) | ✅ Done |
-| PDF Metadata Editor | Edit/remove document metadata | 🧪 Testing |
-| PDF to Word | Extract text to DOCX | ⏸ On Hold |
-| PDF Compress | Reduce PDF file size | ⏸ On Hold |
+| Word to PDF | Convert DOCX to PDF via Mammoth + jsPDF | Done |
+| PDF Merge | Combine multiple PDFs using pdf-lib | Done |
+| PDF Split | Extract specific pages from PDFs | Done |
+| PDF Text Watermark | Add customizable text watermarks | Done |
+| PDF Image Watermark | Add image watermarks (PNG, JPEG, WebP) | Done |
+| PDF Metadata Editor | Edit/remove document metadata | Testing |
+| PDF to Word | Extract text to DOCX | On Hold |
+| PDF Compress | Reduce PDF file size | On Hold |
 
 ### Images
 
 | Tool | Description | Status |
 |------|-------------|--------|
-| Image Resize & Format Convert | Resize and convert between JPG, PNG, WebP, ICO | 🧪 Testing |
-| Image to PDF | Convert images to multi-page PDF | 🧪 Testing |
-| Image Transform | Crop, rotate, flip using Canvas API | 🧪 Testing |
-| Image Compress | Reduce image file size | 🧪 Testing |
-| Image Strip EXIF | Remove metadata from images | 🧪 Testing |
-| Image Dominant Color | Extract color palette from images | 🧪 Testing |
+| Image Resize & Format Convert | Resize and convert between JPG, PNG, WebP, ICO | Testing |
+| Image to PDF | Convert images to multi-page PDF | Testing |
+| Image Transform | Crop, rotate, flip using Canvas API | Testing |
+| Image Compress | Reduce image file size | Testing |
+| Image Strip EXIF | Remove metadata from images | Testing |
+| Image Dominant Color | Extract color palette from images | Testing |
 
 ### Audio
 
 | Tool | Description | Status |
 |------|-------------|--------|
-| Audio Trim & Convert | Cut audio with precision, convert formats | 🧪 Testing |
-| Audio Merge | Combine multiple audio files | 🧪 Testing |
-| Audio Format Convert | Convert to WAV using Web Audio API | 🧪 Testing |
-| Audio Volume Boost | Adjust volume levels | 🧪 Testing |
-| Audio Fade In/Out | Add fade effects | 🧪 Testing |
-| Audio Speed Change | Adjust playback speed | 🧪 Testing |
-| Audio Reverse | Reverse audio playback | 🧪 Testing |
-| Audio Normalize | Normalize audio levels | 🧪 Testing |
+| Audio Trim & Convert | Cut audio with precision, convert formats | Testing |
+| Audio Merge | Combine multiple audio files | Testing |
+| Audio Format Convert | Convert to WAV using Web Audio API | Testing |
+| Audio Volume Boost | Adjust volume levels | Testing |
+| Audio Fade In/Out | Add fade effects | Testing |
+| Audio Speed Change | Adjust playback speed | Testing |
+| Audio Reverse | Reverse audio playback | Testing |
+| Audio Normalize | Normalize audio levels | Testing |
 
 ### Video
 
 | Tool | Description | Status |
 |------|-------------|--------|
-| Video Trim & Convert | Trim and convert video via ffmpeg.wasm | 🧪 Testing |
-| Video Format Convert | Convert between MP4, WebM | 🧪 Testing |
+| Video Trim & Convert | Trim and convert video via ffmpeg.wasm | Testing |
+| Video Format Convert | Convert between MP4, WebM | Testing |
 
 ### Developer Utilities
 
 | Tool | Description | Status |
 |------|-------------|--------|
-| URL Encoder/Decoder | Encode/decode URL strings | 🧪 Testing |
-| Base64 Encoder/Decoder | Encode/decode Base64 strings | 🧪 Testing |
-| UUID Generator | Generate v4 UUIDs | 🧪 Testing |
-| Lorem Ipsum Generator | Generate placeholder text | 🧪 Testing |
-| JSON ↔ CSV Converter | Convert between JSON and CSV | 🧪 Testing |
-| YAML to JSON | Convert YAML to JSON using js-yaml | 🧪 Testing |
-| Hash Generator | Generate SHA-256/384/512 hashes | 🧪 Testing |
-| Regex Tester | Test regex patterns with real-time matching | 🧪 Testing |
-| Cron Expression Parser | Parse and explain cron expressions | 🧪 Testing |
-| JWT Decoder | Decode JWT token headers and payloads | 🧪 Testing |
+| URL Encoder/Decoder | Encode/decode URL strings | Testing |
+| Base64 Encoder/Decoder | Encode/decode Base64 strings | Testing |
+| UUID Generator | Generate v4 UUIDs | Testing |
+| Lorem Ipsum Generator | Generate placeholder text | Testing |
+| JSON to CSV Converter | Convert between JSON and CSV | Testing |
+| YAML to JSON | Convert YAML to JSON using js-yaml | Testing |
+| Hash Generator | Generate SHA-256/384/512 hashes | Testing |
+| Regex Tester | Test regex patterns with real-time matching | Testing |
+| Cron Expression Parser | Parse and explain cron expressions | Testing |
+| JWT Decoder | Decode JWT token headers and payloads | Testing |
 
 ## Architecture
 
