@@ -36,7 +36,7 @@ export default function Footer() {
 
                         <Link
                             target="_blank"
-                            href={"https://github.com/IsayAyase/utility-tools"}
+                            href={"https://github.com/prabhatlabs/utility-tools"}
                         >
                             <Button size={"icon-sm"} variant="outline">
                                 <FaGithub />
@@ -67,12 +67,12 @@ export default function Footer() {
                         <span>
                             {"Build by"}{" "}
                             <Link
-                                href="https://github.com/IsayAyase"
+                                href="https://github.com/prabhatlabs"
                                 target="_blank"
                                 rel="noreferrer"
                                 className="underline"
                             >
-                                IsayAyase
+                                prabhatlabs
                             </Link>
                         </span>{" "}
                         <span className="hidden sm:inline-block">{`• bladetools.prabhatlabs.dev © 2025 • All rights reserved.`}</span>

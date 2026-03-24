@@ -107,7 +107,7 @@ const footer = {
                 },
                 {
                     title: "GitHub",
-                    url: "https://github.com/IsayAyase",
+                    url: "https://github.com/prabhatlabs",
                     target: "_blank"
                 },
                 {

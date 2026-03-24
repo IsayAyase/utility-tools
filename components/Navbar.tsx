@@ -67,7 +67,7 @@ export default function Navbar() {
 
                     <Link
                         target="_blank"
-                        href={"https://github.com/IsayAyase/utility-tools"}
+                        href={"https://github.com/prabhatlabs/utility-tools"}
                         className="hidden md:block"
                     >
                         <Button size={"icon-sm"} variant="outline" className="bg-transparent">

@@ -186,7 +186,7 @@ garlic-tools/
 
 ```bash
 # Clone the repository
-git clone https://github.com/IsayAyase/garlic-tools.git
+git clone https://github.com/prabhatlabs/garlic-tools.git
 cd garlic-tools
 
 # Install dependencies
