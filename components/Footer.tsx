@@ -36,22 +36,21 @@ export default function Footer() {
 
                         <Link
                             target="_blank"
-                            href={"https://github.com/prabhatlabs/utility-tools"}
+                            href={
+                                "https://github.com/prabhatlabs/utility-tools"
+                            }
                         >
                             <Button size={"icon-sm"} variant="outline">
                                 <FaGithub />
                             </Button>
                         </Link>
-                        
-                        <Link
-                            target="_blank"
-                            href={"https://prabhatlabs.dev"}
-                        >
+
+                        <Link target="_blank" href={"https://prabhatlabs.dev"}>
                             <Button size={"icon-sm"} variant="outline">
                                 <BiWorld />
                             </Button>
                         </Link>
-                        
+
                         <Link
                             target="_blank"
                             href={"https://www.buymeacoffee.com/prabhatlabs"}
@@ -75,8 +74,8 @@ export default function Footer() {
                                 prabhatlabs
                             </Link>
                         </span>{" "}
-                        <span className="hidden sm:inline-block">{`• bladetools.prabhatlabs.dev © 2025 • All rights reserved.`}</span>
-                        <span className="inline-block sm:hidden">{`• bladetools.prabhatlabs.dev © 2025`}</span>
+                        <span className="hidden sm:inline-block">{`• bladetools.prabhatlabs.dev © 2026 • All rights reserved.`}</span>
+                        <span className="inline-block sm:hidden">{`• bladetools.prabhatlabs.dev © 2026`}</span>
                     </p>
                     <p className="text-muted-foreground text-xs lg:text-sm">
                         <span className="block sm:hidden">
